@@ -3,12 +3,11 @@ RIS Bundesrecht Österreich
 
 Diese Applikation befindet sich in Entwicklung. Aktueller Funktionsumfang:
 
-* Volltextsuche mit fixer Resultatsanzahl (Proof of Concept Funktionalität)
-* Anzeige eines Suchtreffers im Internet Explorer (Gesetzestext)
+* Volltextsuche mit inkrementellem Nachladen der Suchtreffer (+50)
+* Bei Anklicken eines Suchtreffers erfolgt Anzeige des Gesetzestexts im Internet Explorer
 
 Featureideen:
 
-* Paging über das volle Resultset
 * Abfragen speichern (History)
 * Dokumente downloaden und für Offline-Verwendung cachen
 * Suchformulare für die gebräuchlichsten Suchparameter
