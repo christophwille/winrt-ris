@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://ogd.bka.gv.at/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://ogd.bka.gv.at/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://ogd.bka.gv.at/">
+      <s:element name="request">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="application" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="query" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="requestResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="requestResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getDocument">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="application" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="docId" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getDocumentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getDocumentResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="version">
+        <s:complexType />
+      </s:element>
+      <s:element name="versionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="versionResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="requestSoapIn">
+    <wsdl:part name="parameters" element="tns:request" />
+  </wsdl:message>
+  <wsdl:message name="requestSoapOut">
+    <wsdl:part name="parameters" element="tns:requestResponse" />
+  </wsdl:message>
+  <wsdl:message name="getDocumentSoapIn">
+    <wsdl:part name="parameters" element="tns:getDocument" />
+  </wsdl:message>
+  <wsdl:message name="getDocumentSoapOut">
+    <wsdl:part name="parameters" element="tns:getDocumentResponse" />
+  </wsdl:message>
+  <wsdl:message name="versionSoapIn">
+    <wsdl:part name="parameters" element="tns:version" />
+  </wsdl:message>
+  <wsdl:message name="versionSoapOut">
+    <wsdl:part name="parameters" element="tns:versionResponse" />
+  </wsdl:message>
+  <wsdl:portType name="OGDServiceSoap">
+    <wsdl:operation name="request">
+      <wsdl:input message="tns:requestSoapIn" />
+      <wsdl:output message="tns:requestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getDocument">
+      <wsdl:input message="tns:getDocumentSoapIn" />
+      <wsdl:output message="tns:getDocumentSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="version">
+      <wsdl:input message="tns:versionSoapIn" />
+      <wsdl:output message="tns:versionSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="OGDServiceSoap" type="tns:OGDServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="request">
+      <soap:operation soapAction="http://ogd.bka.gv.at/request" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDocument">
+      <soap:operation soapAction="http://ogd.bka.gv.at/getDocument" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="version">
+      <soap:operation soapAction="http://ogd.bka.gv.at/version" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="OGDServiceSoap12" type="tns:OGDServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="request">
+      <soap12:operation soapAction="http://ogd.bka.gv.at/request" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDocument">
+      <soap12:operation soapAction="http://ogd.bka.gv.at/getDocument" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="version">
+      <soap12:operation soapAction="http://ogd.bka.gv.at/version" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="OGDService">
+    <wsdl:port name="OGDServiceSoap" binding="tns:OGDServiceSoap">
+      <soap:address location="http://10.202.17.36/ris/OGDService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="OGDServiceSoap12" binding="tns:OGDServiceSoap12">
+      <soap12:address location="http://10.202.17.36/ris/OGDService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

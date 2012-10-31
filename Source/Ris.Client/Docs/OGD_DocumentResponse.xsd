@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+============================================================================
+	ResultDocument Schema (Abfrage für Bundestrecht konolidiert - BR) für OGD
+============================================================================
+Ziel:			Diese Spezialvariante der OGD-Abfrage basiert auf dem Schema BrLr_DocumentResponse.xsd, v1.3 (13.03.2012).
+					Es beschreibt das Ergebnis einer BR-Abfrage für OGD-Anwender (Open Government Data).
+					Es wird nur die verarbeitbare XML-Version eines Dokuments geliefert. 
+					Referenzierte Binärdaten wie z.B. Bilder werden Base64 kodiert eingebettet.
+Autor:		BKA, TSA
+Version:	1.3
+Erzeugt:	15.03.2012
+Datei:		OGDDocumentResponse.xsd
+
+Anmerkungen:
+=======================================================================
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<!-- /////////////////////////////////////////////-->
+	<!-- Das eingebundene RIS-Dokument-Schema beschreibt den erlaubten Aufbau eines RIS-Dokuments (Nutzdaten, Layoutdaten). -->
+	<xs:include schemaLocation="RISDok.xsd"/>
+	<!-- /////////////////////////////////////////////-->
+	<xs:element name="DocumentResult">
+		<xs:annotation>
+			<xs:documentation>Basiert auf BrLr_DocumentResponse.xsd . Die XML URLs sind allerdings als "risdok" aufgelöst und alle Binärdaten sind BASE64 eingebettet.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:annotation>
+					<xs:documentation>XOR</xs:documentation>
+				</xs:annotation>
+				<xs:element name="Error" type="T_Error">
+					<xs:annotation>
+						<xs:documentation>Fehlerbeschreibung, falls Abfrage nicht korrekt durchgeführt werden konnte</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="OGDDocumentMetadata" type="T_OGDWebDocument">
+					<xs:annotation>
+						<xs:documentation>Metadaten des angeforderten Dokuments (enthält auch den Content).</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:attribute name="status" use="required">
+				<xs:annotation>
+					<xs:documentation>ok | error</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="ok"/>
+						<xs:enumeration value="error"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="T_OGDWebDocument">
+		<xs:sequence>
+			<xs:element name="Applikation" type="T_Applikation" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Quelle aus der das Dokument stammt (immer Bundesrecht)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Dokumentnummer" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Angabe zur nichtamtlichen Dokumentnummer, die zur eindeutigen Identifikation eines Dokuments dient</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Kurztitel" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Kurztitel der Rechtsvorschrift</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Kundmachungsorgan" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Hinweis auf das Kundmachungsorgan z.B. BGBl. I Nr..</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Typ" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Typ der Rechtsvorschrift z.B. Bundesgesetz, Verordnung, Kundmachung</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ArtikelParagraphAnlage" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Gliederungsart der Rechtsvorschrift z.B § 5, Art. 10, Anl 8</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Inkrafttretedatum" type="xs:date" nillable="true" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Datum des Inkrafttretens der Rechtsvorschrift</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Ausserkrafttretedatum" type="xs:date" nillable="true" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Datum des Ausserkrafttretens der Rechtsvorschrift</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Abkuerzung" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Abkürzung der Rechtsvorschrift z.B. StVO, ABGB, StGB, B-VG</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Unterzeichnungsdatum" type="xs:date" nillable="true" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Unterzeichnungsdatum eines Staatsvertrages</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Indizes" type="T_ArrayOfString" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Index des österreichischen Bundesrechts z.B.16/02 Rundfunk</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Uebergangsrecht" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Hinweis, dass es sich bei dieser Rechtsvorschrift um ein Übergangsrecht handelt</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BeachteZurGanzenRechtsvorschrift" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Wichtige Hinweise gelten für alle Dokumente (= §/Art/Anlage) einer Rechtsnorm</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Beachte" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Wichtige Hinweise (zB zum Zeitpunkt des Inkrafttretens einer Rechtsvorschrift) - gelten nur für ein konkretes Dokument, nicht für die ganze Rechtsnorm</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Aenderung" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Angabe der BGBl. Nr., welche die konkrete Rechtsnorm novelliert haben</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Langtitel" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Langtitel der Rechtsvorschrift</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Sprachen" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Angabe der authentischen Sprachen, in denen ein Staatsvertrag abgeschlossen wurde</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Staaten" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Angabe der Staaten, die dem Staatsvertrag beigetreten sind</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AnmerkungZurGanzenRechtsvorschrift" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Anmerkung gilt für alle Dokumente (= §/Art./Anlage) einer Rechtsnorm</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Anmerkung" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Anmerkung (zB Hinweis auf eine englische Überseztung) - gilt nur für ein konkretes Dokument, nicht für die ganze Rechtsnorm</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Schlagworte" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Schlagworte für die konkrete Rechtsvorschrift</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Veroeffentlichungsdatum" type="xs:date" nillable="true" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Datum, an dem das Dokument in das RIS erstmalig aufgenommen wurde</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Aenderungsdatum" type="xs:date" nillable="true" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Datum, an dem das Dokument im RIS zuletzt aktualisiert wurde</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Gesetzesnummer" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Angabe zur nichtamtlichen Gesetzesnummer einer Rechtsnorm, wobei alle Dokumente, die Teil dieser Rechtsnorm sind, die gleiche Gesetzesnummer haben</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AlteDokumentnummer" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Hinweis auf eine frühere interne Dokumentnummer</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Dokumentinhalt" type="T_ArrayOfWebDocumentContentReference" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Hauptdokument: Es wird immer nur die XML-Version geliefert. Attachment: Original-Daten Base64 kodiert.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="T_ArrayOfString">
+		<xs:sequence>
+			<xs:element name="item" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="T_ArrayOfWebDocumentContentReference">
+		<xs:sequence>
+			<xs:element name="ContentReference" type="T_WebDocumentContentReference" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Pro Dokument (Hauptdokument oder Anlage) existiert ein Eintrag.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="T_WebDocumentContentReference">
+		<xs:sequence>
+			<xs:element name="ContentType" type="T_WebDocumentContentType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Enum: MainDocument | Attachment</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Name" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>z.B. "Hauptdokument" oder "Anlage 1"</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<!-- Statt der URL-Referenz werden die Daten direkt verwendet-->
+			<!--xs:element name="Urls" type="T_ArrayOfWebDocumentContentUrl" minOccurs="0" maxOccurs="1"/-->
+			<xs:element name="DataType" type="T_WebDocumentDataType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Enum:  Xml | Pdf | Gif | Jpg | Tiff | Png</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>XOR</xs:documentation>
+				</xs:annotation>
+				<xs:element ref="risdok" maxOccurs="1"/>
+				<xs:element ref="base64" maxOccurs="1"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="T_WebDocumentContentType">
+		<xs:annotation>
+			<xs:documentation>Art des Dokuments: Hauptdokument, Anlage</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="MainDocument"/>
+			<xs:enumeration value="Attachment"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="T_ArrayOfWebDocumentContentUrl">
+		<xs:sequence>
+			<xs:element name="ContentUrl" type="T_WebDocumentContentUrl" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="T_WebDocumentContentUrl">
+		<xs:sequence>
+			<xs:element name="DataType" type="T_WebDocumentDataType" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Url" type="xs:string" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="T_WebDocumentDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Xml"/>
+			<xs:enumeration value="Pdf"/>
+			<xs:enumeration value="Gif"/>
+			<xs:enumeration value="Jpg"/>
+			<xs:enumeration value="Tiff"/>
+			<xs:enumeration value="Png"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="T_Error">
+		<xs:sequence>
+			<xs:element name="Applikation" type="T_Applikation" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Quelle aus der das Dokument stammt (immer Bundesrecht)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Message" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Beschreibung des Fehlers</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="errorType" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					1 = incorrect request
+					2 = database unavailable
+					3 = other error
+				</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="3"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:simpleType name="T_Applikation">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Bundesrecht"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

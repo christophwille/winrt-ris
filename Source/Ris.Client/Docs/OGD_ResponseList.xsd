@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+=======================================================================
+                                 ResponseList Schema (Abfrage für Bundestrecht konolidiert - BR) für OGD
+=======================================================================
+Ziel::			Beschreibt das Ergebnis einer Abfrage gegen das RIS-OGDService
+Autor:			BKA
+Version:		1.3
+Erzeugt:		13.03.2012
+Datei:			OGD_ResponseList.xsd
+-->
+<xsd:schema xmlns:tns="http://ris.bka.gv.at/Search/1.3/OGD" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:import namespace="http://ris.bka.gv.at/Search/1.3/OGD" schemaLocation="OGD_ResponseList_Type.xsd"/>
+	<xsd:element name="OGDSearchResult" type="T_OGDSearchResult"/>
+	<xsd:complexType name="T_OGDSearchResult">
+		<xsd:choice>
+			<xsd:element name="Error" type="tns:T_Error">
+				<xsd:annotation>
+					<xsd:documentation>Fehlerbeschreibung, falls Abfrage nicht korrekt durchgeführt werden konnte</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="SearchDocumentsResult">
+				<xsd:annotation>
+					<xsd:documentation>Ergebnis einer Succhabfrage</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element ref="tns:Hits"/>
+						<xsd:element ref="tns:DocumentReferences"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:choice>
+		<xsd:attribute name="status" use="required">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="ok"/>
+					<xsd:enumeration value="error"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+</xsd:schema>

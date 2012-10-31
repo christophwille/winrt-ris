@@ -1,0 +1,10 @@
+xsd ../Docs/OGD_Request.xsd /c /n:Ris.Client.Messages.Request
+
+xsd ../Docs/OGD_ResponseList.xsd ../Docs/OGD_ResponseList_Type.xsd /c /n:Ris.Client.Messages.Response
+
+//
+// *_customized.xsd is necessary because xsd.exe does not "like" the zeichenformate circular reference
+// all changes are annotated via <!-- CW comments
+//
+xsd ../Docs/OGD_DocumentResponse_customized.xsd ../Docs/RISDok_customized.xsd /c /n:Ris.Client.Messages.Document
+

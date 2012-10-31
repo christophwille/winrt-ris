@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+======================================================================
+                                 ResponseList Schema Typdeklarationen (Abfrage für Bundestrecht konolidiert - BR) für OGD
+=======================================================================
+Ziel:			Beschreibt den Typ ResponseOGD_Type für OpenGovernmentData (OGD)
+Autor:			BKA
+Version:		1.3
+Erzeugt:		13.03.2012
+Datei:			OGD_ResponseList_Type.xsd
+
+Anmerkungen: Bei fünf Ländern ist die Datenstruktur gleich. Das sind  Burgenland, Kärnten, Oberösterreich, Salzburg und Tirol. Diese Länder werden in den Kommentaren als Landesrecht_5 zusammengefasst.
+-->
+<xsd:schema xmlns:tns="http://ris.bka.gv.at/Search/1.3/OGD" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ris.bka.gv.at/Search/1.3/OGD">
+	<xsd:element name="Applikation" type="tns:T_Applikation">
+		<xsd:annotation>
+			<xsd:documentation>Applikation immer Bundesrecht</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="Dokumentnummer" type="xsd:string">
+		<xsd:annotation>
+			<xsd:documentation>Eindeutige Nummer des Dokuments</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="DokumentUrl" type="xsd:anyURI"/>
+	<xsd:element name="DocumentReferences" type="tns:T_DocumentReferences"/>
+	<xsd:element name="OGDDocumentReference" type="tns:T_OGDDocumentReference">
+		<xsd:annotation>
+			<xsd:documentation>Beschreibt ein gefundenes Dokument</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="ArtikelParagraphAnlage" type="xsd:string" nillable="true"/>
+	<xsd:complexType name="T_DocumentReferences">
+		<xsd:sequence>
+			<xsd:element ref="tns:OGDDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="T_OGDDocumentReference">
+		<xsd:sequence>
+			<xsd:element ref="tns:Applikation"/>
+			<xsd:element ref="tns:Dokumentnummer" minOccurs="1" maxOccurs="1"/>
+			<xsd:element ref="tns:ArtikelParagraphAnlage" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Nummer von Paragraph, Artikel, Anlage</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="tns:Kurzinformation" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Kurztitel der Rechtsvorschrift</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="tns:DokumentUrl" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Url zum Dokument im RIS</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="T_Error">
+		<xsd:sequence>
+			<xsd:element name="Applikation" type="tns:T_Applikation">
+				<xsd:annotation>
+					<xsd:documentation>Applikation immer Bundesrecht</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Message" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>Beschreibung des Fehlers</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="errorType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>Art des Fehlers:
+			1 = incorrect request
+			2 = database unavailable
+			3 = other error
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:int">
+					<xsd:minInclusive value="1"/>
+					<xsd:maxInclusive value="3"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:simpleType name="T_Applikation">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Bundesrecht"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:element name="Kurzinformation" type="xsd:string"/>
+	<xsd:element name="Hits">
+		<xsd:annotation>
+			<xsd:documentation>Anzahl der gefundenen Dokumente</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:simpleContent>
+				<xsd:extension base="xsd:integer">
+					<xsd:attribute name="pageNumber" type="xsd:integer" use="required">
+						<xsd:annotation>
+							<xsd:documentation>Aktuelle Seite der Trefferliste</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+					<xsd:attribute name="pageSize" type="xsd:integer" use="required">
+						<xsd:annotation>
+							<xsd:documentation>Anzahl der angezeigten Treffer pro Seite</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+				</xsd:extension>
+			</xsd:simpleContent>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

@@ -1,0 +1,92 @@
+<DocumentResult status="ok">
+  <OGDDocumentMetadata>
+    <Applikation>Bundesrecht</Applikation>
+    <Dokumentnummer>NOR12110323</Dokumentnummer>
+    <Kurztitel>2. Ergänzungszulagenverordnung 1995</Kurztitel>
+    <Kundmachungsorgan>BGBl. Nr. 276/1995 aufgehoben durch BGBl. Nr. 797/1995 </Kundmachungsorgan>
+    <Typ>V</Typ>
+    <ArtikelParagraphAnlage>§ 1</ArtikelParagraphAnlage>
+    <Inkrafttretedatum>1995-05-01</Inkrafttretedatum>
+    <Ausserkrafttretedatum>1995-12-31</Ausserkrafttretedatum>
+    <Abkuerzung>2. ErgZV 1995</Abkuerzung>
+    <Unterzeichnungsdatum xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+    <Indizes>
+      <item>64/03 Landeslehrer</item>
+      <item>65/01 Allgemeines Pensionsrecht</item>
+    </Indizes>
+    <Beachte>materiell derogiert durch BGBl. Nr. 797/1995</Beachte>
+    <Veroeffentlichungsdatum xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+    <Aenderungsdatum xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+    <Gesetzesnummer>10008959</Gesetzesnummer>
+    <AlteDokumentnummer>N6199547486J</AlteDokumentnummer>
+    <Dokumentinhalt>
+      <ContentReference>
+        <ContentType>MainDocument</ContentType>
+        <Name>Hauptdokument</Name>
+        <DataType>Xml</DataType>
+        <risdok>
+          <metadaten />
+          <nutzdaten>
+            <abschnitt nr="1" typ="ns" paperf="h" endnhier="true">
+              <kzinhalt typ="p">
+                <absatz typ="kz" halign="j">
+                  <tab align="z" position="212,65" leader="o" /><tab align="r" position="425,25" leader="o" />Bundesrecht
+                </absatz>
+              </kzinhalt>
+              <kzinhalt typ="f">
+                <absatz typ="kz" halign="j">
+                  <tab align="z" position="212,65" leader="o" /><tab align="r" position="425,25" leader="o" />Bundesrecht
+                </absatz>
+              </kzinhalt>
+              <fzinhalt typ="p">
+                <absatz typ="fz" halign="j">
+                  www.ris.bka.gv.at<tab align="z" position="212,65" leader="o" /><tab align="r" position="425,25" leader="o" />Seite <feld code="+PAGE++%5C%2A+MERGEFORMAT+">1</feld> von <feld code="+NUMPAGES++%5C%2A+MERGEFORMAT+">1</feld>
+                </absatz>
+              </fzinhalt>
+              <fzinhalt typ="f">
+                <absatz typ="fz" halign="j">
+                  www.ris.bka.gv.at<tab align="z" position="212,65" leader="o" /><tab align="r" position="425,25" leader="o" />Seite <feld code="+PAGE++%5C%2A+MERGEFORMAT+">1</feld> von <feld code="+NUMPAGES++%5C%2A+MERGEFORMAT+">1</feld>
+                </absatz>
+              </fzinhalt>
+              <ueberschrift typ="titel" halign="j">Kurztitel</ueberschrift>
+              <absatz typ="erltext" ct="kurztitel" halign="j">2. Ergänzungszulagenverordnung 1995</absatz>
+              <ueberschrift typ="titel" halign="j">Kundmachungsorgan</ueberschrift>
+              <absatz typ="erltext" ct="kundmachungsorgan" halign="j">BGBl. Nr. 276/1995 aufgehoben durch BGBl. Nr. 797/1995</absatz>
+              <ueberschrift typ="titel" halign="j">§/Artikel/Anlage</ueberschrift>
+              <absatz typ="erltext" ct="artikel_anlage" halign="j">§ 1</absatz>
+              <ueberschrift typ="titel" halign="j">Inkrafttretensdatum</ueberschrift>
+              <absatz typ="erltext" halign="j">01.05.1995</absatz>
+              <ueberschrift typ="titel" halign="j">Außerkrafttretensdatum</ueberschrift>
+              <absatz typ="erltext" halign="j">31.12.1995</absatz>
+              <ueberschrift typ="titel" halign="j">Beachte</ueberschrift>
+              <abstand ct="beachte" halign="j" />
+              <absatz typ="erltext" ct="beachte" halign="j">materiell derogiert durch BGBl. Nr. 797/1995</absatz>
+              <ueberschrift typ="titel" halign="j">Text</ueberschrift>
+              <absatz typ="erltext" ct="text" halign="j">  § 1. Der Mindestsatz im Sinne des § 26 Abs. 5 des Pensionsgesetzes 1965 beträgt</absatz>
+              <liste>
+                <ziffernliste ebene="1">
+                  <listelem ct="text">
+                    <symbol stellen="2">1.</symbol>für den Beamten 7 710 S und erhöht sich für den verheirateten Beamten oder für den Beamten, dessen Ehe geschieden, aufgehoben oder für nichtig erklärt worden ist, wenn er verpflichtet ist, für den Unterhalt seines früheren Ehegatten aufzukommen oder dazu beizutragen, um 3 290S und für jedes Kind, für das dem Beamten eine Kinderzulage gebührt, um 821 S;
+                  </listelem>
+                  <listelem ct="text">
+                    <symbol stellen="2">2.</symbol>für den überlebenden Ehegatten 7 710 S und erhöht sich für jedes Kind, für das dem überlebenden Ehegatten eine Kinderzulage gebührt, um 821 S;
+                  </listelem>
+                  <listelem ct="text">
+                    <symbol stellen="2">3.</symbol>für eine Halbwaise bis zur Vollendung des 24. Lebensjahres 2 879 S und nach diesem Zeitpunkt 5 115 S;
+                  </listelem>
+                  <listelem ct="text">
+                    <symbol stellen="2">4.</symbol>für eine Vollwaise bis zur Vollendung des 24. Lebensjahres 4 324 S und nach diesem Zeitpunkt 7 710 S;
+                  </listelem>
+                  <listelem ct="text">
+                    <symbol stellen="2">5.</symbol>für einen früheren Ehegatten 7 710 S.
+                  </listelem>
+                </ziffernliste>
+              </liste>
+            </abschnitt>
+          </nutzdaten>
+          <layoutdaten paperf="7" paperh="841.9" paperw="595.3" margl="70.9" margr="70.9" margt="70.9" margb="56.7" headerd="35.45" footerd="35.45" gutter="0" gutterpos="0" deftab="35.4" />
+        </risdok>
+      </ContentReference>
+    </Dokumentinhalt>
+  </OGDDocumentMetadata>
+</DocumentResult>

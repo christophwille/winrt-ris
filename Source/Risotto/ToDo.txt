@@ -1,0 +1,29 @@
+﻿Blocking Issues
+	xslt transform for details page
+
+
+Search Contract (for simple full text search) [done]
+
+Advanced Search (separate page)
+
+Search Results -> Detail -> Search Results transition: restore scroll position in GridView
+
+Settings
+	Purge search history [done, todo: refresh mainpage if currently shown]
+	Purge all downloads
+
+Store each search in a SQLite database
+	Keep only ten latest searches (auto purge)
+	Keep copies of documents in local storage
+
+Share contract
+	from List of Search Results
+	from Details of Document (doable once XSLT is in place)
+
+Details page
+	AppBar for "keep local" / "remove local"
+
+SearchResults page
+	??? when in Snapped Mode use IE instead of our detail page ???
+
+OnSuggestions implementation

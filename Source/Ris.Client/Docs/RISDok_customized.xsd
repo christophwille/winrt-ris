@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- 
+=======================================================================
+                        RIS Judikatur Dokument
+=======================================================================
+Autor:			TSA
+Version:		7.0.9
+Erzeugt:		20.01.2010
+Modifiziert:		
+Datei:			RISDok.xsd
+Inhalt:
+XML Schema Definition (XSD) für RIS-Dokumente, in denen die Nutzdaten gehalten
+werden. Im Gegensatz dazu beschreibt RISDokument.xsd die ehemaligen
+"RIS-Dokumente", in denen seit Schema 7.0.0 keine Nutzdaten mehr gehalten werden.
+======================================================================= -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<!-- //////////////////////////////////////////////////////////////////////////// -->
+	<!-- CW removed xs:include -->
+  <!-- <xs:include schemaLocation="RISJudikaturNutzdaten.xsd"/> -->
+	<!-- //////////////////////////////////////////////////////////////////////////// -->
+	<xs:element name="risdok">
+		<xs:annotation>
+			<xs:documentation>Wurzelelement eines RIS-Dokuments.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="metadaten"/>
+        <!-- CW changed from ref to name -->
+				<xs:element ref="nutzdaten"/>
+				<xs:element ref="layoutdaten" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="stylesheet" type="xs:anyURI" use="optional">
+				<xs:annotation>
+					<xs:documentation>Gibt den XSLT-Namen ohne Pfad an. Zweck: Versionierung des Transformationsstylesheets.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="h-version">
+				<xs:annotation>
+					<xs:documentation>Hilfsattribut: Mit welcher Version des Konverters wurde dieses Dokument erzeugt.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="h-creator">
+				<xs:annotation>
+					<xs:documentation>Hilfsattribut: Welches Konverter-Objekt (ID) hat das Dokument erzeugt.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="h-created">
+				<xs:annotation>
+					<xs:documentation>Hilfsattribut: Wann (Datum, Uhrzeit) wurde das Dokument erzeugt.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+  <!-- CW copied from RISJudikaturNutzdaten.xsd -->
+  <xs:element name="layoutdaten">
+    <xs:annotation>
+      <xs:documentation>Word Dokumenteinstellungen (Properties). Alle Angaben in pt (Punkt).</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence minOccurs="0">
+        <xs:element name="classes" type="xs:string"/>
+      </xs:sequence>
+      <xs:attribute name="paperf"/>
+      <xs:attribute name="paperw"/>
+      <xs:attribute name="paperh"/>
+      <xs:attribute name="margl"/>
+      <xs:attribute name="margr"/>
+      <xs:attribute name="margt"/>
+      <xs:attribute name="margb"/>
+      <xs:attribute name="headerd"/>
+      <xs:attribute name="footerd"/>
+      <xs:attribute name="gutter"/>
+      <xs:attribute name="gutterpos"/>
+      <xs:attribute name="deftab"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- CW we need an empty shell to fill, see class nutzdaten -->
+  <xs:element name="nutzdaten">
+  </xs:element>
+  
+  <!-- CW copied from RISJudikaturNutzdaten.xsd -->
+  <xs:element name="base64" type="xs:base64Binary">
+    <xs:annotation>
+      <xs:documentation>Base64-Kodierte Binärdateien.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+</xs:schema>

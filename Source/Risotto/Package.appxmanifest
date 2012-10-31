@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
+  <Identity Name="ChristophWille.RISBundesrechtsterreich" Publisher="CN=C7672E4A-2AFC-41B8-87FD-CBC3978C49C6" Version="1.0.0.1" />
+  <Properties>
+    <DisplayName>RIS Bundesrecht Österreich</DisplayName>
+    <PublisherDisplayName>Christoph Wille</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+  <Prerequisites>
+    <OSMinVersion>6.2.1</OSMinVersion>
+    <OSMaxVersionTested>6.2.1</OSMaxVersionTested>
+  </Prerequisites>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Risotto.App">
+      <VisualElements DisplayName="RIS Bundesrecht Österreich" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Suche über die konsolidierte Fassung des österreichischen Bundesrechts (RIS Bundeskanzleramt). In der vorliegenden Version kann im Volltext gesucht werden, und der Gesetzestext des Treffers angesehen werden." ForegroundText="light" BackgroundColor="#464646">
+        <DefaultTile ShowName="allLogos" />
+        <SplashScreen Image="Assets\SplashScreen.png" />
+      </VisualElements>
+      <Extensions>
+        <Extension Category="windows.search" />
+      </Extensions>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="internetClient" />
+  </Capabilities>
+</Package>

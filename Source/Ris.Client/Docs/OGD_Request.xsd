@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+=======================================================================
+                                 Request Schema (Abfrage für Bundestrecht konolidiert - BR) für OGD
+=======================================================================
+Ziel:				Dieses Schema definiert den Aufbau einer Query gegen das RIS-OGDService
+Autor:			BKA
+Version:		1.3
+Erzeugt:		13.03.2012
+Datei:			OGD_Request.xsd
+-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://ris.bka.gv.at/Search/1.3/OGD" targetNamespace="http://ris.bka.gv.at/Search/1.3/OGD" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:element name="OGDSearchRequest" type="tns:T_OGDSearchRequest">
+		<xsd:annotation>
+			<xsd:documentation>Beschreibt eine Suchanfrage an das RIS-OGDService</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:complexType name="T_OGDSearchRequest">
+		<xsd:sequence>
+			<xsd:element name="Suchworte" type="tns:SearchExpression" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Suchworte</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Titel" type="tns:SearchExpression" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Titel der Rechtnorm</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Index" type="tns:SearchExpression" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Index des österreichischen Bundesrechts z.B.16/02</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Abschnitt" type="tns:NormabschnittSucheinschraenkung" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Abschnitt: §/Artikel/Anlage</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="FassungVom" type="xsd:date" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Fassung Vom: Datum der gültigen Fassung. Wenn keine Angabe erfolgt, wird das aktuelle Tagesdatum verwendet.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Kundmachungsorgan" type="tns:PhraseSearchExpression" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Kundmachungsorgan z.B. BGBl. I Nr..</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Kundmachungsorgannummer" type="tns:PhraseSearchExpression" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Nummer des Kundmachungsorgans</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ImRisSeit" type="tns:ChangeSetInterval" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Im Ris Seit: Enumeration für zuletzt im RIS veröffentlichte Dokumente</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="DokumenteProSeite" type="tns:PageSize" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Dokumente Pro Seite: Enumeration für Anzahl der pro Seite zurückgegebenen Dokumente.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Seitennummer" type="xsd:int" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Seitennummer: Nummer der aufzurufenden Seite</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Sortierung" type="tns:BundesnormenSortExpression" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Sortierung</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SearchExpression" abstract="true"/>
+	<xsd:complexType name="PhraseSearchExpression" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="tns:SearchExpression">
+				<xsd:sequence>
+					<xsd:element name="Value" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="NotSearchExpression" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="tns:SearchExpression">
+				<xsd:sequence>
+					<xsd:element name="Expression" type="tns:SearchExpression" minOccurs="0" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="TermSearchExpression" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="tns:SearchExpression">
+				<xsd:sequence>
+					<xsd:element name="Value" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="BooleanSearchExpression" abstract="true" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="tns:SearchExpression">
+				<xsd:sequence>
+					<xsd:element name="Expressions" type="tns:ArrayOfSearchExpression" minOccurs="0" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="ArrayOfSearchExpression">
+		<xsd:sequence>
+			<xsd:element name="SearchExpression" type="tns:SearchExpression" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="OrSearchExpression" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="tns:BooleanSearchExpression"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="AndSearchExpression" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="tns:BooleanSearchExpression"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="NormabschnittSucheinschraenkung">
+		<xsd:sequence>
+			<xsd:element name="NummerVon" type="xsd:string" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Nummer Von: Es ein Wert vom Typ Integer erwartet. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="BuchstabeVon" type="xsd:string" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Buchstabe Von</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="NummerBis" type="xsd:int" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Nummer Bis: Es ein Wert vom Typ Integer erwartet. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="BuchstabeBis" type="xsd:string" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Buchstabe Bis</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Typ" type="tns:NormabschnittTyp" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Normabschnitt Typ: Nur für Bundesrecht und Landesrecht_5. Für die restlichen vier Länder wird ein hier eingetragener Wert ignoriert.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="NormabschnittTyp">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Alle"/>
+			<xsd:enumeration value="Artikel"/>
+			<xsd:enumeration value="Paragraph"/>
+			<xsd:enumeration value="Anlage"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ChangeSetInterval">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Undefined"/>
+			<xsd:enumeration value="EinerWoche"/>
+			<xsd:enumeration value="ZweiWochen"/>
+			<xsd:enumeration value="EinemMonat"/>
+			<xsd:enumeration value="DreiMonaten"/>
+			<xsd:enumeration value="SechsMonaten"/>
+			<xsd:enumeration value="EinemJahr"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PageSize">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Ten"/>
+			<xsd:enumeration value="Twenty"/>
+			<xsd:enumeration value="Fifty"/>
+			<xsd:enumeration value="OneHundred"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="BundesnormenSortExpression">
+		<xsd:sequence>
+			<xsd:element name="SortDirection" type="tns:WebSortDirection" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Sort Direction: Ascending, Descending</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="SortedByColumn" type="tns:BundesnormenSortableColumn" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Sorted By Column: Artikel/Paragraph/Anlage, Kurzinformation</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="WebSortDirection">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Ascending"/>
+			<xsd:enumeration value="Descending"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="BundesnormenSortableColumn">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ArtikelParagraphAnlage"/>
+			<xsd:enumeration value="Kurzinformation"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>
