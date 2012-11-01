@@ -36,6 +36,13 @@
         
         <WebView x:Name="webView" Grid.Row="1" />
 
+        <StackPanel x:Name="snappedInfoMessage" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
+            <TextBlock Style="{StaticResource SnappedPageHeaderTextStyle}" HorizontalAlignment="Center" 
+                       TextWrapping="Wrap" 
+                       VerticalAlignment="Center" 
+                       TextAlignment="Center">Gesetzestextanzeige ist in der aktuellen Ansicht nicht möglich</TextBlock>
+        </StackPanel>
+
         <VisualStateManager.VisualStateGroups>
 
             <!-- Visual states reflect the application's view state -->
@@ -61,6 +68,14 @@
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="pageTitle" Storyboard.TargetProperty="Style">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SnappedPageHeaderTextStyle}"/>
                         </ObjectAnimationUsingKeyFrames>
+
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="webView" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="snappedInfoMessage" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        
                     </Storyboard>
                 </VisualState>
             </VisualStateGroup>
