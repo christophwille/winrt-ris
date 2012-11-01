@@ -52,6 +52,8 @@ namespace Risotto
         /// session.  This will be null the first time a page is visited.</param>
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
+            App.SearchHistoryChanged += AppOnSearchHistoryChanged;
+
             ViewModel.LoadSearchHistoryAsync(); // intentionally no await
 
             if (pageState != null && pageState.ContainsKey(Constants.MainPageState))
@@ -63,6 +65,11 @@ namespace Risotto
             }
         }
 
+        private void AppOnSearchHistoryChanged(object sender, EventArgs eventArgs)
+        {
+            ViewModel.LoadSearchHistoryAsync();
+        }
+
         /// <summary>
         /// Preserves state associated with this page in case the application is suspended or the
         /// page is discarded from the navigation cache.  Values must conform to the serialization
@@ -71,6 +78,8 @@ namespace Risotto
         /// <param name="pageState">An empty dictionary to be populated with serializable state.</param>
         protected override void SaveState(Dictionary<String, Object> pageState)
         {
+            App.SearchHistoryChanged -= AppOnSearchHistoryChanged;
+
             string serializedState = SerializationHelper.SerializeToString(ViewModel.SaveState());
             pageState[Constants.MainPageState] = serializedState;
         }

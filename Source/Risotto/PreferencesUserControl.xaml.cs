@@ -30,6 +30,8 @@ namespace Risotto
 
             var ctx = new RisDbContext();
             await ctx.DeleteSearchHistory();
+
+            App.RaiseSearchHistoryChangedEvent();
         }
     }
 }

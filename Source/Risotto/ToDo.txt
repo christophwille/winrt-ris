@@ -9,7 +9,7 @@ Advanced Search (separate page)
 Search Results -> Detail -> Search Results transition: restore scroll position in GridView
 
 Settings
-	Purge search history [done, todo: refresh mainpage if currently shown]
+	Purge search history [done]
 	Purge all downloads
 
 Store each search in a SQLite database
