@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.ApplicationModel.Search;
+using System.Threading.Tasks;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
@@ -41,13 +42,7 @@ namespace Risotto
             this.Resuming += OnResuming;
         }
 
-        /// <summary>
-        /// Invoked when the application is launched normally by the end user.  Other entry points
-        /// will be used when the application is launched to open a specific file, to display
-        /// search results, and so forth.
-        /// </summary>
-        /// <param name="args">Details about the launch request and process.</param>
-        protected async override void OnLaunched(LaunchActivatedEventArgs args)
+        private async Task CommonInitialize()
         {
             // Register handler for CommandsRequested events from the settings pane
             SettingsPane.GetForCurrentView().CommandsRequested += OnCommandsRequested;
@@ -56,6 +51,17 @@ namespace Risotto
             SearchPane.GetForCurrentView().SuggestionsRequested += OnSuggestionsRequested;
 
             await RisDbContext.InitializeDatabaseAsync();
+        }
+
+        /// <summary>
+        /// Invoked when the application is launched normally by the end user.  Other entry points
+        /// will be used when the application is launched to open a specific file, to display
+        /// search results, and so forth.
+        /// </summary>
+        /// <param name="args">Details about the launch request and process.</param>
+        protected async override void OnLaunched(LaunchActivatedEventArgs args)
+        {
+            await CommonInitialize();
 
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -179,6 +185,14 @@ namespace Risotto
         /// <param name="args">Details about the activation request.</param>
         protected async override void OnSearchActivated(Windows.ApplicationModel.Activation.SearchActivatedEventArgs args)
         {
+            // Reinitialize the app if a new instance was launched for search
+            if (args.PreviousExecutionState == ApplicationExecutionState.NotRunning ||
+                args.PreviousExecutionState == ApplicationExecutionState.ClosedByUser ||
+                args.PreviousExecutionState == ApplicationExecutionState.Terminated)
+            {
+                await CommonInitialize();
+            }
+
             // TODO: Register the Windows.ApplicationModel.Search.SearchPane.GetForCurrentView().QuerySubmitted
             // event in OnWindowCreated to speed up searches once the application is already running
 
@@ -194,16 +208,17 @@ namespace Risotto
                 // Create a Frame to act as the navigation context and associate it with
                 // a SuspensionManager key
                 frame = new Frame();
-                Risotto.Common.SuspensionManager.RegisterFrame(frame, "AppFrame");
+                NavigationService.Initialize(frame);
+                SuspensionManager.RegisterFrame(frame, "AppFrame");
 
                 if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     // Restore the saved session state only when appropriate
                     try
                     {
-                        await Risotto.Common.SuspensionManager.RestoreAsync();
+                        await SuspensionManager.RestoreAsync();
                     }
-                    catch (Risotto.Common.SuspensionManagerException)
+                    catch (SuspensionManagerException)
                     {
                         //Something went wrong restoring state.
                         //Assume there is no state and continue
