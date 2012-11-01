@@ -28,8 +28,9 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0" Margin="10,0,0,0">
-                    <TextBlock Text="{Binding RisQueryParameter.DisplayString}" Style="{StaticResource ItemTextStyle}" MaxHeight="40"/>
+                <StackPanel Grid.Column="0" Margin="0,0,0,0">
+                    <TextBlock Text="{Binding RisQueryParameter.DisplayString}" Style="{StaticResource ItemTextStyle}" />
+                    <TextBlock Text="{Binding SearchInformation}" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>

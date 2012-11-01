@@ -48,6 +48,11 @@ namespace Ris.Data.Models
             }
         }
 
+        [Ignore]
+        public string SearchInformation
+        {
+            get { return String.Format("{0} Resultate am {1:d}", Hits, Executed); }
+        }
 
         // Advanced Search
 
