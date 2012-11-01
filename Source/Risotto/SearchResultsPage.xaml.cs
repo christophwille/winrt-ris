@@ -11,6 +11,7 @@ using Risotto.ViewModels;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -68,13 +69,23 @@ namespace Risotto
 
         private void ItemsControl_OnItemClick(object sender, ItemClickEventArgs e)
         {
+            string currentVisualState = DetermineVisualState(ApplicationView.Value);
             var item = e.ClickedItem as DocumentReference;
-            var title = String.Format("{0} {1}", item.ArtikelParagraphAnlage, item.Kurzinformation);
 
-            var action = DocumentDetailNavigationParameter
-                .CreateNavigationParameter(title, NavigationAction.LoadFromUrl, item.DokumentUrl);
+            if (0 == String.Compare("Snapped", currentVisualState, StringComparison.CurrentCultureIgnoreCase))
+            {
+                // If we are in Snapped View, always open the browser side-by-side (more efficient for reading)
+                Windows.System.Launcher.LaunchUriAsync(new Uri(item.DokumentUrl));
+            }
+            else
+            {
+                var title = String.Format("{0} {1}", item.ArtikelParagraphAnlage, item.Kurzinformation);
 
-            NavigationService.Navigate<DocumentDetailPage>(action);
+                var action = DocumentDetailNavigationParameter
+                    .CreateNavigationParameter(title, NavigationAction.LoadFromUrl, item.DokumentUrl);
+
+                NavigationService.Navigate<DocumentDetailPage>(action);
+            }
         }
     }
 }

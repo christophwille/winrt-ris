@@ -24,6 +24,10 @@ Details page
 	AppBar for "keep local" / "remove local"
 
 SearchResults page
-	??? when in Snapped Mode use IE instead of our detail page ???
+	When in Snapped Mode use IE instead of our detail page [done]
 
 OnSuggestions implementation
+
+App Bar (Top)
+	Add Home button (Search Results, Details Page)
+
