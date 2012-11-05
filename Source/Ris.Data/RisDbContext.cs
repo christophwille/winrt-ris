@@ -42,6 +42,16 @@ namespace Ris.Data
             return history;
         }
 
+        public async Task<List<string>> GetHistoryEntriesStartingWith(string startsWith)
+        {
+            var query = _connection.Table<DbRisQueryParameter>()
+                .Where(rqp => rqp.FulltextSearchString.StartsWith(startsWith));
+
+            var matched = await query.ToListAsync();
+
+            return matched.Select(rqp => rqp.FulltextSearchString).Distinct().ToList();
+        }
+
         public async Task DeleteSearchHistory()
         {
             var result = await _connection.ExecuteAsync("DELETE FROM DbRisQueryParameter");

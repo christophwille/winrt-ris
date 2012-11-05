@@ -172,18 +172,26 @@ namespace Risotto
             args.Request.ApplicationCommands.Add(preferences);
         }
 
-        void OnSuggestionsRequested(SearchPane sender, SearchPaneSuggestionsRequestedEventArgs args)
+        //
+        // http://blog.falafel.com/Blogs/john-waters/2012/10/10/doing-an-asynchronous-search-in-windows-8
+        //
+        async void OnSuggestionsRequested(SearchPane sender, SearchPaneSuggestionsRequestedEventArgs args)
         {
-            // TODO: Once the database is in place, load previous simple searches from there
+            string query = args.QueryText.ToLower();
 
-            //string query = args.QueryText.ToLower();
-            //string[] terms = { "salt", "pepper", "water", "egg", "vinegar", "flour", "rice", "sugar", "oil" };
+            var deferral = args.Request.GetDeferral();
 
-            //foreach (var term in terms)
-            //{
-            //    if (term.StartsWith(query))
-            //        args.Request.SearchSuggestionCollection.AppendQuerySuggestion(term);
-            //}
+            try
+            {
+                var ctx = new RisDbContext();
+                var matches = await ctx.GetHistoryEntriesStartingWith(query);
+
+                args.Request.SearchSuggestionCollection.AppendQuerySuggestions(matches);
+            }
+            finally
+            {
+                deferral.Complete();
+            }
         }
 
         /// <summary>
