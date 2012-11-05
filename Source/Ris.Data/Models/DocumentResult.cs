@@ -19,5 +19,6 @@ namespace Ris.Data.Models
         }
 
         public Document Document { get; set; }
+        public List<DocumentContent> DocumentContents { get; set; }
     }
 }
