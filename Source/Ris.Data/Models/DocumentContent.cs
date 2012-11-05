@@ -10,14 +10,14 @@ namespace Ris.Data.Models
     {
         public string Name { get; set; }
 
-        public string ContentType { get; set; }
-        public string DataType { get; set; }
+        public DocumentContentTypeEnum ContentType { get; set; }
+        public DocumentContentDataTypeEnum DataType { get; set; }
 
         public string Nutzdaten { get; set; }
 
         public bool IsHauptdokument()
         {
-            return (0 == String.Compare(ContentType, "MainDocument", StringComparison.OrdinalIgnoreCase));
+            return ContentType == DocumentContentTypeEnum.MainDocument;
         }
     }
 }

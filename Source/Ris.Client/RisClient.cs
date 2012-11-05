@@ -145,11 +145,17 @@ namespace Ris.Client
                     var documentsResult = (Doc.T_OGDWebDocument)documentResult.Item;
 
                     // TODO: Transform to Document
+                    var transformedDocument = new Data.Models.Document()
+                                                  {
+
+                                                  };
+
+                    var transformedContentItems = new List<Data.Models.DocumentContent>();
 
                     foreach (Doc.T_WebDocumentContentReference content in documentsResult.Dokumentinhalt)
                     {
-                        // .Item could be: risdok or base64 (eg attachments)
-                        string ct = content.ContentType.ToString();
+                        DocumentContentTypeEnum ctype = ContentTypeToContentTypeEnum(content.ContentType);
+                        DocumentContentDataTypeEnum dtype = DataTypeToDataTypeEnum(content.DataType);
 
                         if (content.Item is Doc.risdok)
                         {
@@ -157,17 +163,25 @@ namespace Ris.Client
 
                             if (null != risdok.nutzdaten)
                             {
-                                // var forXsltProcessing = risdok.nutzdaten.Text;
+                                var transformedContent = new Data.Models.DocumentContent()
+                                                             {
+                                                                 Name = content.Name,
+                                                                 ContentType = ctype,
+                                                                 DataType = dtype,
+                                                                 Nutzdaten = risdok.nutzdaten.Text,  // for Xslt processing
+                                                             };
+
+                                transformedContentItems.Add(transformedContent);
                             }
                         }
                         else
                         {
-                            
+                            // TODO: Transform base64 item
+                            string type = content.Item.ToString();
                         }
-
-                        // TODO: Transform to DocumentContent
                     }
 
+                    // TODO: Return the DocumentResult
                     return new DocumentResult("not implemented");
                 }
             }
@@ -175,6 +189,43 @@ namespace Ris.Client
             {
                 return new DocumentResult(ex.ToString());
             }
+        }
+
+        private DocumentContentDataTypeEnum DataTypeToDataTypeEnum(Doc.T_WebDocumentDataType orig)
+        {
+            DocumentContentDataTypeEnum outVar;
+
+            switch (orig)
+            {
+                case Doc.T_WebDocumentDataType.Gif:
+                    outVar = DocumentContentDataTypeEnum.Gif;
+                    break;
+                case Doc.T_WebDocumentDataType.Jpg:
+                    outVar = DocumentContentDataTypeEnum.Jpg;
+                    break;
+                case Doc.T_WebDocumentDataType.Pdf:
+                    outVar = DocumentContentDataTypeEnum.Pdf;
+                    break;
+                case Doc.T_WebDocumentDataType.Png:
+                    outVar = DocumentContentDataTypeEnum.Png;
+                    break;
+                case Doc.T_WebDocumentDataType.Tiff:
+                    outVar = DocumentContentDataTypeEnum.Tiff;
+                    break;
+                default:
+                    outVar = DocumentContentDataTypeEnum.Xml;
+                    break;
+            }
+
+            return outVar;
+        }
+
+        private DocumentContentTypeEnum ContentTypeToContentTypeEnum(Doc.T_WebDocumentContentType orig)
+        {
+            if (Doc.T_WebDocumentContentType.MainDocument == orig)
+                return DocumentContentTypeEnum.MainDocument;
+
+            return DocumentContentTypeEnum.Attachment;
         }
     }
 }

@@ -104,12 +104,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BindableBase.cs" />
+    <Compile Include="Models\ChangedWithinEnum.cs" />
     <Compile Include="Models\DbRisQueryParameter.cs" />
     <Compile Include="Models\Document.cs" />
     <Compile Include="Models\DocumentContent.cs" />
+    <Compile Include="Models\DocumentContentDataTypeEnum.cs" />
+    <Compile Include="Models\DocumentContentTypeEnum.cs" />
     <Compile Include="Models\DocumentReference.cs" />
     <Compile Include="Models\DocumentResult.cs" />
     <Compile Include="Models\Download.cs" />
+    <Compile Include="Models\HitsPerPageEnum.cs" />
     <Compile Include="Models\ResultBase.cs" />
     <Compile Include="Models\RisQueryParameter.cs" />
     <Compile Include="Models\SearchResult.cs" />

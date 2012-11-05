@@ -5,6 +5,7 @@
 Search Contract (for simple full text search) [done]
 
 Advanced Search (separate page)
+	see http://www.ris.bka.gv.at/bundesrecht
 
 Search Results -> Detail -> Search Results transition: restore scroll position in GridView
 
@@ -13,7 +14,7 @@ Settings
 	Purge all downloads
 
 Store each search in a SQLite database
-	Keep only ten latest searches (auto purge)
+	Keep only ten latest searches (auto purge a good idea?)
 	Keep copies of documents in local storage
 
 Share contract
@@ -26,7 +27,7 @@ Details page
 SearchResults page
 	When in Snapped Mode use IE instead of our detail page [done]
 
-OnSuggestions implementation
+OnSuggestions implementation [done]
 
 App Bar (Top)
 	Add Home button (Search Results, Details Page)
