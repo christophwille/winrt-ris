@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Risotto.Models;
 
 namespace Risotto.ViewModels
 {
@@ -36,6 +37,21 @@ namespace Risotto.ViewModels
             set
             {
                 Set(PageTitlePropertyName, ref _pageTitle, value);
+            }
+        }
+
+        public const string NavigationActionPropertyName = "NavigationAction";
+        private NavigationAction _navigationAction = NavigationAction.LoadFromUrl;
+
+        public NavigationAction NavigationAction
+        {
+            get
+            {
+                return _navigationAction;
+            }
+            set
+            {
+                Set(NavigationActionPropertyName, ref _navigationAction, value);
             }
         }
     }

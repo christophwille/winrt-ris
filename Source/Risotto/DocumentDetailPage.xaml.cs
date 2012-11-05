@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -48,9 +49,13 @@ namespace Risotto
         /// session.  This will be null the first time a page is visited.</param>
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
+            //var dataTransferManager = DataTransferManager.GetForCurrentView();
+            //dataTransferManager.DataRequested += DataTransferManager_DataRequested;
+
             var navParam = DocumentDetailNavigationParameter.FromNavigationParameter((string) navigationParameter);
 
             ViewModel.PageTitle = navParam.DokumentTitel;
+            ViewModel.NavigationAction = navParam.Action;
 
             if (navParam.Action == NavigationAction.LoadFromUrl)
             {
@@ -66,6 +71,34 @@ namespace Risotto
         /// <param name="pageState">An empty dictionary to be populated with serializable state.</param>
         protected override void SaveState(Dictionary<String, Object> pageState)
         {
+            //var dataTransferManager = DataTransferManager.GetForCurrentView();
+            //dataTransferManager.DataRequested -= DataTransferManager_DataRequested;
         }
+
+        void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        {
+            DataRequest request = args.Request;
+
+            // TODO: The code below always returns nothing, thus the docs / sdk sample looks wrong
+            // http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.controls.webview.datatransferpackage
+            //
+            if (NavigationAction.LoadFromUrl == ViewModel.NavigationAction)
+            {
+                DataPackage p = webView.DataTransferPackage;
+
+                
+                if (p.GetView().Contains(StandardDataFormats.Text))
+                {
+                    p.Properties.Title = ViewModel.PageTitle;
+                    p.Properties.Description = "This is a snippet from the content hosted in the WebView control";
+                    request.Data = p;
+                }
+                else
+                {
+                    request.FailWithDisplayText("Es gibt keine Inhalte die geteilt werden können");
+                }
+            }
+        }
+
     }
 }
