@@ -18,7 +18,7 @@ namespace Ris.Client
     public class RisClient
     {
         public const string ErrorOnVersionRequest = "Versionsabfrage RIS OGD Service fehlgeschlagen";
-        public Func<OGDServiceSoapClient> CreateServiceClient { get; set; } 
+        public Func<OGDServiceSoapClient> CreateServiceClient { get; set; }
 
         public RisClient()
         {
@@ -113,9 +113,9 @@ namespace Ris.Client
                                         })
                                         .ToList();
 
-                    return new SearchResult(mappedDocumentReferences, 
+                    return new SearchResult(mappedDocumentReferences,
                                                 documentsResult.Hits.pageNumber,
-                                                documentsResult.Hits.pageSize, 
+                                                documentsResult.Hits.pageSize,
                                                 documentsResult.Hits.Value);
                 }
             }
@@ -144,10 +144,35 @@ namespace Ris.Client
                 {
                     var documentsResult = (Doc.T_OGDWebDocument)documentResult.Item;
 
-                    // TODO: Transform to Document
                     var transformedDocument = new Data.Models.Document()
                                                   {
+                                                      Abkuerzung = documentsResult.Abkuerzung,
+                                                      Aenderung = documentsResult.Aenderung,
+                                                      Aenderungsdatum = documentsResult.Aenderungsdatum,
+                                                      AlteDokumentnummer = documentsResult.AlteDokumentnummer,
+                                                      Anmerkung = documentsResult.Anmerkung,
+                                                      AnmerkungZurGanzenRechtsvorschrift = documentsResult.AnmerkungZurGanzenRechtsvorschrift,
+                                                      ArtikelParagraphAnlage = documentsResult.ArtikelParagraphAnlage,
+                                                      Ausserkrafttretedatum = documentsResult.Ausserkrafttretedatum,
+                                                      Beachte = documentsResult.Beachte,
+                                                      BeachteZurGanzenRechtsvorschrift = documentsResult.BeachteZurGanzenRechtsvorschrift,
+                                                      Dokumentnummer = documentsResult.Dokumentnummer,
+                                                      Gesetzesnummer = documentsResult.Gesetzesnummer,
 
+                                                      Indizes = documentsResult.Indizes != null ? 
+                                                                   new List<string>(documentsResult.Indizes) : new List<string>(),
+
+                                                      Inkrafttretedatum = documentsResult.Inkrafttretedatum,
+                                                      Kundmachungsorgan = documentsResult.Kundmachungsorgan,
+                                                      Kurztitel = documentsResult.Kurztitel,
+                                                      Langtitel = documentsResult.Langtitel,
+                                                      Schlagworte = documentsResult.Schlagworte,
+                                                      Sprachen = documentsResult.Sprachen,
+                                                      Staaten = documentsResult.Staaten,
+                                                      Typ = documentsResult.Typ,
+                                                      Uebergangsrecht = documentsResult.Uebergangsrecht,
+                                                      Unterzeichnungsdatum = documentsResult.Unterzeichnungsdatum,
+                                                      Veroeffentlichungsdatum = documentsResult.Veroeffentlichungsdatum,
                                                   };
 
                     var transformedContentItems = new List<Data.Models.DocumentContent>();
@@ -181,8 +206,12 @@ namespace Ris.Client
                         }
                     }
 
-                    // TODO: Return the DocumentResult
-                    return new DocumentResult("not implemented");
+                    return new DocumentResult()
+                               {
+                                   Succeeded = true,
+                                   Document = transformedDocument,
+                                   DocumentContents = transformedContentItems
+                               };
                 }
             }
             catch (Exception ex)
