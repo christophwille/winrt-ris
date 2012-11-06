@@ -22,11 +22,19 @@ namespace Ris.Data.Models
         // RisFulltextQueryParameter
         public string FulltextSearchString { get; set; }
 
-        public DbRisQueryParameter(string searchText, int? hits)
+        public DbRisQueryParameter(RisQueryParameter qp, int? hits)
         {
-            FulltextSearchString = searchText;
-            Hits = hits;
+            if (qp is RisFulltextQueryParameter)
+            {
+                FulltextSearchString = ((RisFulltextQueryParameter)qp).SearchText;
+            }
+            else
+            {
+                // TODO Storing logic for advanced query parameter
+                throw new NotImplementedException();
+            }
 
+            Hits = hits;
             Executed = DateTime.Now;
         }
 

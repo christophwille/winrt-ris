@@ -48,8 +48,8 @@ namespace Risotto.Models
 
             _downloads.Add(dl);
 
-            _history.Add(new DbRisQueryParameter("Ehe", 8787));
-            _history.Add(new DbRisQueryParameter("Gesellschaftsrecht", 46));
+            _history.Add(new DbRisQueryParameter(new RisFulltextQueryParameter("Ehe"), 8787));
+            _history.Add(new DbRisQueryParameter(new RisFulltextQueryParameter("Gesellschaftsrecht"), 46));
         }
     }
 }

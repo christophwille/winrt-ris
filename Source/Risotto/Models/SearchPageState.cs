@@ -9,7 +9,7 @@ namespace Risotto.Models
 {
     public class SearchPageState
     {
-        public string SearchText { get; set; }
+        public RisQueryParameter QueryParameter { get; set; }
         public string SearchResultInfo { get; set; }
 
         public int? Hits { get; set; }

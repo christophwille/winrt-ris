@@ -45,7 +45,7 @@ namespace Risotto
 
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
-            var searchText = navigationParameter as String;
+            ViewModel.QueryParameter = NavigationParameterToSearchParameter(navigationParameter as String);
 
             // Do we return from a detail page?
             if (pageState != null && pageState.ContainsKey(Constants.SearchResultsPageState))
@@ -57,7 +57,24 @@ namespace Risotto
             }
             else
             {
-                ViewModel.SearchRisAsync(searchText);
+                ViewModel.SearchRisAsync();
+            }
+        }
+
+        //
+        // This conversion is necessary because we could be called from the Search charm
+        //
+        private RisQueryParameter NavigationParameterToSearchParameter(string s)
+        {
+            try
+            {
+                var p = SerializationHelper.DeserializeFromString<RisQueryParameter>(s);
+                return p;
+            }
+            catch (Exception)
+            {
+                // If it cannot be deserialized, we assume it to be a fulltext search
+                return new RisFulltextQueryParameter(s);
             }
         }
 

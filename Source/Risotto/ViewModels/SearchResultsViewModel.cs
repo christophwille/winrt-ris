@@ -41,27 +41,27 @@ namespace Risotto.ViewModels
             }
         }
 
-        public async Task SearchRisAsync(string queryText)
+        public async Task SearchRisAsync()
         {
             UpdateInProgress = true;
 
-            SearchText = queryText;
             DocumentReferences = null;
             UpdateSearchResultInfo();
 
-            var queryParam = new RisFulltextQueryParameter(SearchText);
-            var result = await RisQueryWithIncrementalLoading.LoadPage(queryParam, 1);
+            var localQueryParam = QueryParameter;
+
+            var result = await RisQueryWithIncrementalLoading.LoadPage(localQueryParam, 1);
 
             UpdateInProgress = false;
 
             if (result.Succeeded)
             {
-                DocumentReferences = new RisQueryWithIncrementalLoading(queryParam, result,
+                DocumentReferences = new RisQueryWithIncrementalLoading(localQueryParam, result,
                     IncrementalLoadingStarted, IncrementalLoadingCompleted, IncrementalLoadingFailed);
                 UpdateSearchResultInfo();
 
                 var ctx = new RisDbContext();
-                ctx.InsertSearchHistoryEntry(new DbRisQueryParameter(queryText, DocumentReferences.Hits));
+                ctx.InsertSearchHistoryEntry(new DbRisQueryParameter(localQueryParam, DocumentReferences.Hits));
             }
             else
             {
@@ -90,30 +90,30 @@ namespace Risotto.ViewModels
         {
             if (message != null)
             {
-                SearchResultInfo = String.Format("{0}: {1}", SearchText, message);
+                SearchResultInfo = String.Format("{0}: {1}", QueryParameter.DisplayString, message);
             }
             else if (null == DocumentReferences)
             {
-                SearchResultInfo = SearchText;
+                SearchResultInfo = QueryParameter.DisplayString;
             }
             else
             {
-                SearchResultInfo = String.Format("{0} ({1} von {2} geladen)", SearchText, DocumentReferences.Count, DocumentReferences.Hits);
+                SearchResultInfo = String.Format("{0} ({1} von {2} geladen)", QueryParameter.DisplayString, DocumentReferences.Count, DocumentReferences.Hits);
             }
         }
 
-        public const string SearchTextPropertyName = "SearchText";
-        private string _searchText = "";
+        public const string QueryParameterPropertyName = "QueryParameter";
+        private RisQueryParameter _queryParameter = null;
 
-        public string SearchText
+        public RisQueryParameter QueryParameter
         {
             get
             {
-                return _searchText;
+                return _queryParameter;
             }
             set
             {
-                Set(SearchTextPropertyName, ref _searchText, value);
+                Set(QueryParameterPropertyName, ref _queryParameter, value);
             }
         }
 
@@ -134,9 +134,9 @@ namespace Risotto.ViewModels
 
         public void LoadState(SearchPageState state)
         {
-            if (!String.IsNullOrWhiteSpace(state.SearchText))
+            if (null != state.QueryParameter)
             {
-                SearchText = state.SearchText;
+                QueryParameter = state.QueryParameter;
             }
 
             if (!String.IsNullOrWhiteSpace(state.SearchResultInfo))
@@ -155,7 +155,7 @@ namespace Risotto.ViewModels
                                      };
 
                 DocumentReferences = new RisQueryWithIncrementalLoading(
-                                                new RisFulltextQueryParameter(SearchText), 
+                                                QueryParameter, 
                                                 resultTemp,
                                                 IncrementalLoadingStarted, IncrementalLoadingCompleted, IncrementalLoadingFailed);
 
@@ -167,9 +167,13 @@ namespace Risotto.ViewModels
         {
             var state = new SearchPageState()
             {
-                SearchText = this.SearchText,
                 SearchResultInfo = this.SearchResultInfo
             };
+
+            if (null != QueryParameter)
+            {
+                state.QueryParameter = QueryParameter;
+            }
 
             if (null != DocumentReferences)
             {

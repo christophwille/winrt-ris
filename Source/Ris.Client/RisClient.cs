@@ -62,6 +62,10 @@ namespace Ris.Client
             {
                 request = PrepareFulltextSearch((RisFulltextQueryParameter)param);
             }
+            else if (param is RisAdvancedQueryParameter)
+            {
+                throw new NotImplementedException();
+            }
 
             if (null == request)
                 return new SearchResult("Kein Query Processor gefunden");
@@ -78,9 +82,11 @@ namespace Ris.Client
                 SortedByColumn = Req.BundesnormenSortableColumn.Kurzinformation
             };
 
+            // We do continuous loading in the UI, thus the user cannot specify the page size
             request.DokumenteProSeiteSpecified = true;
             request.DokumenteProSeite = Req.PageSize.Fifty;
 
+            // TODO Read from query parameter (needs to be set in calling method)
             request.ImRisSeitSpecified = true;
             request.ImRisSeit = Req.ChangeSetInterval.Undefined;
 
