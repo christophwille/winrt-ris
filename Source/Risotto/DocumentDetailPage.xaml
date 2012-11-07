@@ -33,8 +33,9 @@
             <Button x:Name="backButton" Click="GoBack" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" Style="{StaticResource BackButtonStyle}"/>
             <TextBlock x:Name="pageTitle" Grid.Column="1" Text="{Binding PageTitle}" Style="{StaticResource PageHeaderTextStyle}"/>
         </Grid>
-        
-        <WebView x:Name="webView" Grid.Row="1" />
+
+        <WebView x:Name="webView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <Rectangle x:Name="webViewRect" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
         <StackPanel x:Name="snappedInfoMessage" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
             <TextBlock Style="{StaticResource SnappedPageHeaderTextStyle}" HorizontalAlignment="Center" 

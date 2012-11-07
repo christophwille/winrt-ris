@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System.Threading.Tasks;
+using GalaSoft.MvvmLight;
 using Risotto.Models;
 using Risotto.ViewModels;
 using System;
@@ -23,7 +24,7 @@ namespace Risotto
     /// <summary>
     /// A basic page that provides characteristics common to most applications.
     /// </summary>
-    public sealed partial class DocumentDetailPage : Risotto.Common.LayoutAwarePage
+    public sealed partial class DocumentDetailPage : Risotto.Common.LayoutAwarePage, IWebViewFlyoutFixes
     {
         public DocumentDetailViewModel ViewModel { get; set; }
 
@@ -100,5 +101,14 @@ namespace Risotto
             }
         }
 
+        public async Task OnFlyoutOpen()
+        {
+            await WebViewFlyoutFixes.FlyoutOpenAsync(webViewRect, webView);
+        }
+
+        public void OnFlyoutClose()
+        {
+            WebViewFlyoutFixes.FlyoutClose(webViewRect, webView);
+        }
     }
 }

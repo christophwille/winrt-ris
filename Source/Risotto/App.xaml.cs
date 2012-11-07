@@ -148,12 +148,13 @@ namespace Risotto
                 "Über",
                 (handler) =>
                 {
-                    var settings = new SettingsFlyout();
-                    settings.Content = new AboutControl();
+                    var aboutFlyout = new SettingsFlyout();
+                    aboutFlyout.Content = new AboutControl();
 
-                    settings.ContentBackgroundBrush = new SolidColorBrush(c);
-                    settings.HeaderText = "Über";
-                    settings.IsOpen = true;
+                    aboutFlyout.ContentBackgroundBrush = new SolidColorBrush(c);
+                    aboutFlyout.HeaderText = "Über";
+
+                    WebViewFlyoutFixes.ShowFlyout(aboutFlyout);
                 });
 
             args.Request.ApplicationCommands.Add(about);
@@ -166,7 +167,8 @@ namespace Risotto
 
                 settings.ContentBackgroundBrush = new SolidColorBrush(c);
                 settings.HeaderText = "Einstellungen";
-                settings.IsOpen = true;
+
+                WebViewFlyoutFixes.ShowFlyout(settings);
             });
 
             args.Request.ApplicationCommands.Add(preferences);
