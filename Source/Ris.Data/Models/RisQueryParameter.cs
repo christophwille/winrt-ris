@@ -4,11 +4,12 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Ris.Data.Models
 {
-    [KnownType(typeof(RisFulltextQueryParameter))]
-    [KnownType(typeof(RisAdvancedQueryParameter))]
+    [XmlInclude(typeof(RisFulltextQueryParameter))]
+    [XmlInclude(typeof(RisAdvancedQueryParameter))]
     public class RisQueryParameter
     {
         public RisQueryParameter()
@@ -31,6 +32,12 @@ namespace Ris.Data.Models
     {
         public string SearchText { get; set; }
 
+        // For serialization
+        public RisFulltextQueryParameter()
+            : base()
+        {
+        }
+
         public RisFulltextQueryParameter(string searchText)
             : base()
         {
@@ -45,6 +52,7 @@ namespace Ris.Data.Models
 
     public class RisAdvancedQueryParameter : RisQueryParameter
     {
+        // For serialization
         public RisAdvancedQueryParameter()
             : base()
         {

@@ -32,3 +32,8 @@ OnSuggestions implementation [done]
 App Bar (Top)
 	Add Home button (Search Results, Details Page)
 
+Custom Url Scheme
+	ris://NORxxxxx for sharing
+
+MainPage Search History & Downloads
+	enabled item selection + appbar for deleting
