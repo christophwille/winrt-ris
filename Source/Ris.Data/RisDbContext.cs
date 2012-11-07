@@ -34,6 +34,11 @@ namespace Ris.Data
             int result = await _connection.InsertAsync(rqp);
         }
 
+        public async Task DeleteSearchHistoryEntry(DbRisQueryParameter rqp)
+        {
+            int result = await _connection.DeleteAsync(rqp);
+        }
+
         public async Task<List<DbRisQueryParameter>> GetTenMostRecentSearchHistoryEntries()
         {
             var query = _connection.Table<DbRisQueryParameter>().OrderByDescending(dqp => dqp.Executed);

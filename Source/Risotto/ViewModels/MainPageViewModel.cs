@@ -43,11 +43,46 @@ namespace Risotto.ViewModels
             }
         }
 
+
+        public const string SelectedSearchHistoryPropertyName = "SelectedSearchHistory";
+        private DbRisQueryParameter _selectedHistoryItem = null;
+        public DbRisQueryParameter SelectedSearchHistory
+        {
+            get { return _selectedHistoryItem; }
+            set
+            {
+                Set(SelectedSearchHistoryPropertyName, ref _selectedHistoryItem, value);
+                DeleteSelectedSearchHistoryItemCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        
+        private RelayCommand _deleteSelectedSearchHistoryItemCommand;
+        public RelayCommand DeleteSelectedSearchHistoryItemCommand
+        {
+            get
+            {
+                return _deleteSelectedSearchHistoryItemCommand
+                    ?? (_deleteSelectedSearchHistoryItemCommand = new RelayCommand(
+                        async () => await DeleteSelectedSearchHistoryItemAsync(),
+                        () => SelectedSearchHistory != null));
+            }
+        }
+
+        public async Task DeleteSelectedSearchHistoryItemAsync()
+        {
+            var ctx = new RisDbContext();
+
+            await ctx.DeleteSearchHistoryEntry(SelectedSearchHistory);
+            await LoadSearchHistoryAsync();
+        }
+
         public async Task LoadSearchHistoryAsync()
         {
             var ctx = new RisDbContext();
             var history = await ctx.GetTenMostRecentSearchHistoryEntries();
 
+            SelectedSearchHistory = null;
             SearchHistory = history;
         }
 
