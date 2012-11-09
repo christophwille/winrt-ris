@@ -60,6 +60,28 @@ namespace Risotto
             await RisDbContext.InitializeDatabaseAsync();
         }
 
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            if (args.Kind == ActivationKind.Protocol)
+            {
+                OnProtocolActivated((ProtocolActivatedEventArgs)args);
+            }
+        }
+
+        //
+        // http://tozon.info/blog/post/2011/10/06/Windows-8-Metro-declarations-Protocol.aspx
+        //
+        private void OnProtocolActivated(ProtocolActivatedEventArgs args)
+        {
+            // Format:  risdok://NOR12110323
+
+            string dokumentNummer = args.Uri.Host;
+
+            // TODO: Laden von Dokumentnummer (aktuell nicht möglich, aktuell geht nur laden von DokumentUrl)
+            Window.Current.Content = new MainPage();
+            Window.Current.Activate();
+        }
+
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used when the application is launched to open a specific file, to display
