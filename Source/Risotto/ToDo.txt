@@ -25,7 +25,7 @@ Custom Url Scheme (Protocol Activation)
 	ris://NORxxxxx for sharing [partially done, missing is navigation to detail page]
 
 MainPage Search History & Downloads
-	enabled item selection + appbar for deleting
+	enabled item selection + appbar for deleting (todo: show appbar automatically when selecting item)
 
 OnQuerySubmitted
 	Store last value to page state to be able to go back to correct search result page
