@@ -5,13 +5,13 @@ Diese Applikation befindet sich in Entwicklung. Aktueller Funktionsumfang:
 
 * Volltextsuche mit inkrementellem Nachladen der Suchtreffer (+50)
 * Bei Anklicken eines Suchtreffers erfolgt Anzeige des Gesetzestexts im Internet Explorer
+* History der Suchabfragen
 
 Featureideen:
 
-* Abfragen speichern (History)
 * Dokumente downloaden und für Offline-Verwendung cachen
 * Suchformulare für die gebräuchlichsten Suchparameter
-* Sharing / Search Contract Implementierung
+* Sharing Contract Implementierung
 
 Screenshot
 
