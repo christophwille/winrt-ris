@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Risotto.ViewModels
 {
-    public class AdvancedSearchViewModel : ViewModelBase
+    public class AdvancedSearchViewModel : RisViewModelBase
     {
     }
 }

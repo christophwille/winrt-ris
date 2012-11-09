@@ -12,7 +12,7 @@ using Ris.Data;
 
 namespace Risotto.ViewModels
 {
-    public class SearchResultsViewModel : ViewModelBase
+    public class SearchResultsViewModel : RisViewModelBase
     {
         public const string UpdateInProgressPropertyName = "UpdateInProgress";
         private bool _updateInProgress = false;

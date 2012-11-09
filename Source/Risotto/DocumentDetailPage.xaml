@@ -10,6 +10,16 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <Page.TopAppBar>
+        <AppBar>
+            <Button AutomationProperties.Name="Home"  
+                            x:Name="Home" 
+                            Style="{StaticResource HomeAppBarButtonStyle}" 
+                            Tag="Home" 
+                            Command="{Binding HomeCommand, Mode=OneWay}" />
+        </AppBar>
+    </Page.TopAppBar>
+    
     <Page.Resources>
     </Page.Resources>
 

@@ -8,7 +8,7 @@ using Risotto.Models;
 
 namespace Risotto.ViewModels
 {
-    public class DocumentDetailViewModel : ViewModelBase
+    public class DocumentDetailViewModel : RisViewModelBase
     {
         public const string UpdateInProgressPropertyName = "UpdateInProgress";
         private bool _updateInProgress = false;

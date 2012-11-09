@@ -141,6 +141,7 @@
     <Compile Include="ThirdParty\ExtendedTextBox.cs" />
     <Compile Include="ViewModels\AdvancedSearchViewModel.cs" />
     <Compile Include="ViewModels\DocumentDetailViewModel.cs" />
+    <Compile Include="ViewModels\RisViewModelBase.cs" />
     <Compile Include="ViewModels\SearchResultsViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="WebViewFlyoutFixes.cs" />

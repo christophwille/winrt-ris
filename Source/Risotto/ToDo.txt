@@ -2,15 +2,12 @@
 	xslt transform for details page
 
 
-Search Contract (for simple full text search) [done]
-
 Advanced Search (separate page)
 	see http://www.ris.bka.gv.at/bundesrecht
 
 Search Results -> Detail -> Search Results transition: restore scroll position in GridView
 
 Settings
-	Purge search history [done]
 	Purge all downloads
 
 Store each search in a SQLite database
@@ -23,14 +20,6 @@ Share contract
 
 Details page
 	AppBar for "keep local" / "remove local"
-
-SearchResults page
-	When in Snapped Mode use IE instead of our detail page [done]
-
-OnSuggestions implementation [done]
-
-App Bar (Top)
-	Add Home button (Search Results, Details Page)
 
 Custom Url Scheme (Protocol Activation)
 	ris://NORxxxxx for sharing [partially done, missing is navigation to detail page]
