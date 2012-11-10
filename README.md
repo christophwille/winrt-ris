@@ -13,6 +13,10 @@ Featureideen:
 * Suchformulare für die gebräuchlichsten Suchparameter
 * Sharing Contract Implementierung
 
+## Entwickler
+* Christoph Wille
+* Siegfried Pammer (Parser für Volltextsuche)
+
 Screenshot
 
 ![In Action](https://raw.github.com/christophwille/winrt-ris/master/screenshot.png)
