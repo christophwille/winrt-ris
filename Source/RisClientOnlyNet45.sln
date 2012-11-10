@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ris.Client", "Ris.Client\Ris.Client.csproj", "{EC998FDE-EECA-4D13-82BE-E4919870463C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ris.Client.Tests", "Ris.Client.Tests\Ris.Client.Tests.csproj", "{B7F769AE-F5BC-470D-B086-1A64D5BDA5E4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EC998FDE-EECA-4D13-82BE-E4919870463C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC998FDE-EECA-4D13-82BE-E4919870463C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC998FDE-EECA-4D13-82BE-E4919870463C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC998FDE-EECA-4D13-82BE-E4919870463C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7F769AE-F5BC-470D-B086-1A64D5BDA5E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7F769AE-F5BC-470D-B086-1A64D5BDA5E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7F769AE-F5BC-470D-B086-1A64D5BDA5E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7F769AE-F5BC-470D-B086-1A64D5BDA5E4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
