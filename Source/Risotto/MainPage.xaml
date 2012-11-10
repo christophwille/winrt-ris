@@ -101,8 +101,9 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Grid.Row="0">
-                    <ThirdParty:ExtendedTextBox 
+                <StackPanel Orientation="Vertical" Grid.Row="0">
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <ThirdParty:ExtendedTextBox 
                         CustomAction="{Binding UpdateBoundSearchTextProperty, Mode=OneTime}"
                         Width="230" 
                         x:Name="searchText" 
@@ -111,11 +112,16 @@
                         Text="{Binding SearchText}"
                         Margin="5, 5, 5, 5" />
 
-                    <Button Style="{StaticResource SearchAppBarButtonStyle}" 
+                        <Button Style="{StaticResource SearchAppBarButtonStyle}" 
                         x:Name="startSearchButton"
                         AutomationProperties.Name="Volltextsuche" 
                         Margin="5, 5, 5, 5"
                         Command="{Binding FulltextSearchCommand, Mode=OneWay}" />
+                    </StackPanel>
+
+                    <Button Margin="0,0,0,15" Content="Erweiterte Suche im RIS" 
+                            x:Name="advancedQueryButton" Click="AdvancedQueryButton_OnClick"
+                            Width="230" />
                 </StackPanel>
 
                 <ListView
@@ -150,7 +156,7 @@
                     ItemClick="Downloads_OnItemClick"
                     IsSwipeEnabled="false"/>
         </Grid>
-        
+
         <VisualStateManager.VisualStateGroups>
 
             <!-- Visual states reflect the application's view state -->
@@ -224,7 +230,7 @@
                                 </DiscreteObjectKeyFrame.Value>
                             </DiscreteObjectKeyFrame>
                         </ObjectAnimationUsingKeyFrames>
-                        
+
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Grid.Row)" Storyboard.TargetName="downloadsListView">
                             <DiscreteObjectKeyFrame KeyTime="0">
                                 <DiscreteObjectKeyFrame.Value>
@@ -239,7 +245,7 @@
                                 </DiscreteObjectKeyFrame.Value>
                             </DiscreteObjectKeyFrame>
                         </ObjectAnimationUsingKeyFrames>
-                        
+
                     </Storyboard>
                 </VisualState>
 
@@ -296,7 +302,7 @@
                                 </DiscreteObjectKeyFrame.Value>
                             </DiscreteObjectKeyFrame>
                         </ObjectAnimationUsingKeyFrames>
-                        
+
                     </Storyboard>
                 </VisualState>
             </VisualStateGroup>

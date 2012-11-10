@@ -97,5 +97,10 @@ namespace Risotto
         {
             throw new NotImplementedException();
         }
+
+        private void AdvancedQueryButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate<AdvancedSearchPage>();
+        }
     }
 }
