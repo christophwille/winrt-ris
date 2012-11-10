@@ -6,11 +6,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F3903DEA-13E5-4119-93E0-CD837776A65E}</ProjectGuid>
+    <ProjectGuid>{57EF1650-30D1-4CB5-A9D1-3ED5646BCC95}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ris.Data</RootNamespace>
-    <AssemblyName>Ris.Data</AssemblyName>
+    <RootNamespace>Ris.Client.WinRT</RootNamespace>
+    <AssemblyName>Ris.Client.WinRT</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -100,27 +100,20 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="BindableBase.cs" />
-    <Compile Include="Models\DbRisQueryParameter.cs" />
-    <Compile Include="Models\Download.cs" />
-    <Compile Include="Models\RisQueryParameter.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RisDbContext.cs" />
-    <Compile Include="SerializationHelper.cs" />
-    <Compile Include="SQLite.cs" />
-    <Compile Include="SQLiteAsync.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AdvancedQuery\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Ris.Client\Ris.Client.csproj">
       <Project>{ec998fde-eeca-4d13-82be-e4919870463c}</Project>
       <Name>Ris.Client</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ris.Data\Ris.Data.csproj">
+      <Project>{f3903dea-13e5-4119-93e0-cd837776a65e}</Project>
+      <Name>Ris.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RisClient.cs" />
+    <Compile Include="RisQueryWithIncrementalLoading.cs" />
+    <Compile Include="ServiceReference.cs" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>

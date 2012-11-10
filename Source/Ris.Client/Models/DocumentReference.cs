@@ -1,6 +1,6 @@
 using System;
 
-namespace Ris.Data.Models
+namespace Ris.Client.Models
 {
     public class DocumentReference
     {

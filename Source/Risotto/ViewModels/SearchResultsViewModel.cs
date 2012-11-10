@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Command;
-using Ris.Client;
+using Ris.Client.WinRT;
 using Ris.Data.Models;
 using Risotto.Models;
 using Ris.Data;
+using Ris.Client.Models;
 
 namespace Risotto.ViewModels
 {

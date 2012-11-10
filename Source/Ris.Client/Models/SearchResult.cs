@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Ris.Data.Models
+namespace Ris.Client.Models
 {
     public class SearchResult : ResultBase
     {

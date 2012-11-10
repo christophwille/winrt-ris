@@ -11,8 +11,9 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 using System.ComponentModel;
+using Ris.Client.Models;
 
-namespace Ris.Client
+namespace Ris.Client.WinRT
 {
     //
     // http://www.silverlightplayground.org/post/2012/06/10/Metro-Incrementally-load-GridView-and-ListView-with-ISupportIncrementalLoading.aspx

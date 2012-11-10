@@ -200,6 +200,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Ris.Client.WinRT\Ris.Client.WinRT.csproj">
+      <Project>{57ef1650-30d1-4cb5-a9d1-3ed5646bcc95}</Project>
+      <Name>Ris.Client.WinRT</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ris.Client\Ris.Client.csproj">
       <Project>{ec998fde-eeca-4d13-82be-e4919870463c}</Project>
       <Name>Ris.Client</Name>

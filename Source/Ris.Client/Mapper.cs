@@ -1,0 +1,164 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Ris.Client.Models;
+
+using Req = Ris.Client.Messages.Request;
+using Resp = Ris.Client.Messages.Response;
+using Doc = Ris.Client.Messages.Document;
+
+namespace Ris.Client
+{
+    public static class Mapper
+    {
+        public static SearchResult MapSearchResult(Resp.T_OGDSearchResult searchResult)
+        {
+            if (searchResult.status == Resp.T_OGDSearchResultStatus.error)
+            {
+                var error = (Resp.T_Error)searchResult.Item;
+                return new SearchResult(error.Message);
+            }
+            else
+            {
+                var documentsResult = (Resp.T_OGDSearchResultSearchDocumentsResult)searchResult.Item;
+
+                var mappedDocumentReferences = documentsResult.DocumentReferences
+                    .Select(dr => new DocumentReference
+                                    {
+                                        Dokumentnummer = dr.Dokumentnummer,
+                                        DokumentUrl = DocumentReference.FixDocumentUrl(dr.DokumentUrl),
+                                        Kurzinformation = dr.Kurzinformation,
+                                        ArtikelParagraphAnlage = dr.ArtikelParagraphAnlage,
+                                        Applikation = dr.Applikation.ToString()
+                                    })
+                                    .ToList();
+
+                return new SearchResult(mappedDocumentReferences,
+                                            documentsResult.Hits.pageNumber,
+                                            documentsResult.Hits.pageSize,
+                                            documentsResult.Hits.Value);
+            }
+        }
+
+        public static DocumentResult MapDocumentResult(Doc.DocumentResult documentResult)
+        {
+            if (documentResult.status == Doc.DocumentResultStatus.error)
+            {
+                var error = (Doc.T_Error)documentResult.Item;
+                return new DocumentResult(error.Message);
+            }
+
+            var documentsResult = (Doc.T_OGDWebDocument)documentResult.Item;
+
+            var transformedDocument = new Client.Models.Document()
+                                          {
+                                              Abkuerzung = documentsResult.Abkuerzung,
+                                              Aenderung = documentsResult.Aenderung,
+                                              Aenderungsdatum = documentsResult.Aenderungsdatum,
+                                              AlteDokumentnummer = documentsResult.AlteDokumentnummer,
+                                              Anmerkung = documentsResult.Anmerkung,
+                                              AnmerkungZurGanzenRechtsvorschrift =
+                                                  documentsResult.AnmerkungZurGanzenRechtsvorschrift,
+                                              ArtikelParagraphAnlage = documentsResult.ArtikelParagraphAnlage,
+                                              Ausserkrafttretedatum = documentsResult.Ausserkrafttretedatum,
+                                              Beachte = documentsResult.Beachte,
+                                              BeachteZurGanzenRechtsvorschrift =
+                                                  documentsResult.BeachteZurGanzenRechtsvorschrift,
+                                              Dokumentnummer = documentsResult.Dokumentnummer,
+                                              Gesetzesnummer = documentsResult.Gesetzesnummer,
+
+                                              Indizes = documentsResult.Indizes != null
+                                                            ? new List<string>(documentsResult.Indizes)
+                                                            : new List<string>(),
+
+                                              Inkrafttretedatum = documentsResult.Inkrafttretedatum,
+                                              Kundmachungsorgan = documentsResult.Kundmachungsorgan,
+                                              Kurztitel = documentsResult.Kurztitel,
+                                              Langtitel = documentsResult.Langtitel,
+                                              Schlagworte = documentsResult.Schlagworte,
+                                              Sprachen = documentsResult.Sprachen,
+                                              Staaten = documentsResult.Staaten,
+                                              Typ = documentsResult.Typ,
+                                              Uebergangsrecht = documentsResult.Uebergangsrecht,
+                                              Unterzeichnungsdatum = documentsResult.Unterzeichnungsdatum,
+                                              Veroeffentlichungsdatum = documentsResult.Veroeffentlichungsdatum,
+                                          };
+
+            var transformedContentItems = new List<Client.Models.DocumentContent>();
+
+            foreach (Doc.T_WebDocumentContentReference content in documentsResult.Dokumentinhalt)
+            {
+                DocumentContentTypeEnum ctype = ContentTypeToContentTypeEnum(content.ContentType);
+                DocumentContentDataTypeEnum dtype = DataTypeToDataTypeEnum(content.DataType);
+
+                if (content.Item is Doc.risdok)
+                {
+                    var risdok = (Doc.risdok)content.Item;
+
+                    if (null != risdok.nutzdaten)
+                    {
+                        var transformedContent = new Client.Models.DocumentContent()
+                                                     {
+                                                         Name = content.Name,
+                                                         ContentType = ctype,
+                                                         DataType = dtype,
+                                                         Nutzdaten = risdok.nutzdaten.Text, // for Xslt processing
+                                                     };
+
+                        transformedContentItems.Add(transformedContent);
+                    }
+                }
+                else
+                {
+                    // TODO: Transform base64 item
+                    string type = content.Item.ToString();
+                }
+            }
+
+            return new DocumentResult()
+                       {
+                           Succeeded = true,
+                           Document = transformedDocument,
+                           DocumentContents = transformedContentItems
+                       };
+        }
+
+        private static DocumentContentDataTypeEnum DataTypeToDataTypeEnum(Doc.T_WebDocumentDataType orig)
+        {
+            DocumentContentDataTypeEnum outVar;
+
+            switch (orig)
+            {
+                case Doc.T_WebDocumentDataType.Gif:
+                    outVar = DocumentContentDataTypeEnum.Gif;
+                    break;
+                case Doc.T_WebDocumentDataType.Jpg:
+                    outVar = DocumentContentDataTypeEnum.Jpg;
+                    break;
+                case Doc.T_WebDocumentDataType.Pdf:
+                    outVar = DocumentContentDataTypeEnum.Pdf;
+                    break;
+                case Doc.T_WebDocumentDataType.Png:
+                    outVar = DocumentContentDataTypeEnum.Png;
+                    break;
+                case Doc.T_WebDocumentDataType.Tiff:
+                    outVar = DocumentContentDataTypeEnum.Tiff;
+                    break;
+                default:
+                    outVar = DocumentContentDataTypeEnum.Xml;
+                    break;
+            }
+
+            return outVar;
+        }
+
+        private static DocumentContentTypeEnum ContentTypeToContentTypeEnum(Doc.T_WebDocumentContentType orig)
+        {
+            if (Doc.T_WebDocumentContentType.MainDocument == orig)
+                return DocumentContentTypeEnum.MainDocument;
+
+            return DocumentContentTypeEnum.Attachment;
+        }
+    }
+}

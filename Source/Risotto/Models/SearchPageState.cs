@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ris.Data.Models;
+using Ris.Client.Models;
 
 namespace Risotto.Models
 {

@@ -1,11 +1,9 @@
-﻿using SQLite;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace Ris.Data.Models
+namespace Ris.Client.Models
 {
     public class Document
     {
@@ -21,11 +19,7 @@ namespace Ris.Data.Models
         public string BeachteZurGanzenRechtsvorschrift { get; set; }
         public string Dokumentnummer { get; set; }
         public string Gesetzesnummer { get; set; }
-
-        // TODO: transform to / from simple string property for storing to database
-        [Ignore]
         public List<string> Indizes { get; set; }
-
         public DateTime? Inkrafttretedatum { get; set; }
         public string Kundmachungsorgan { get; set; }
         public string Kurztitel { get; set; }

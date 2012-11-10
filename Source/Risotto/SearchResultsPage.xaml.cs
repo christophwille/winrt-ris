@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Risotto.Services;
+using Ris.Client.Models;
 
 // The Search Contract item template is documented at http://go.microsoft.com/fwlink/?LinkId=234240
 

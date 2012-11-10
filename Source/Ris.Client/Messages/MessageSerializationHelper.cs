@@ -4,13 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
 namespace Ris.Client.Messages
 {
-    internal static class MessageSerializationHelper
+    public static class MessageSerializationHelper
     {
         public static T DeserializeFromString<T>(string data)
         {
