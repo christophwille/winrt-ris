@@ -17,7 +17,14 @@ namespace Ris.Data.Models
 
         public override string DisplayString
         {
-            get { return "NOT IMPLEMENTED"; }
+            get
+            {
+                if (!String.IsNullOrWhiteSpace(Suchworte)) return Suchworte;
+                if (!String.IsNullOrWhiteSpace(TitelAbkuerzung)) return TitelAbkuerzung;
+                if (FassungVom.HasValue) return FassungVom.Value.ToString("d");
+                
+                return "Erweiterte Abfrage";
+            }
         }
 
         public string Suchworte { get; set; }

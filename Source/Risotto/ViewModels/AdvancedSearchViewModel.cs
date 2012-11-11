@@ -321,7 +321,7 @@ namespace Risotto.ViewModels
                 return null;
             }
 
-            return result;
+            return result.Date;
         }
 
         private string ValidatePhraseExpressionText(string searchText, string validationMessageToAdd)

@@ -61,9 +61,8 @@ namespace Risotto.ViewModels
                     IncrementalLoadingStarted, IncrementalLoadingCompleted, IncrementalLoadingFailed);
                 UpdateSearchResultInfo();
 
-                // TODO: Re-Enable storing once full advanced query is in place
-                //var ctx = new RisDbContext();
-                //ctx.InsertSearchHistoryEntry(new DbRisQueryParameter(localQueryParam, DocumentReferences.Hits));
+                var ctx = new RisDbContext();
+                ctx.InsertSearchHistoryEntry(new DbRisQueryParameter(localQueryParam, DocumentReferences.Hits));
             }
             else
             {
@@ -92,15 +91,15 @@ namespace Risotto.ViewModels
         {
             if (message != null)
             {
-                SearchResultInfo = String.Format("{0}: {1}", QueryParameter.DisplayString, message);
+                SearchResultInfo = String.Format("\"{0}\": {1}", QueryParameter.DisplayString, message);
             }
             else if (null == DocumentReferences)
             {
-                SearchResultInfo = QueryParameter.DisplayString;
+                SearchResultInfo = String.Format("\"{0}\"", QueryParameter.DisplayString);
             }
             else
             {
-                SearchResultInfo = String.Format("{0} ({1} von {2} geladen)", QueryParameter.DisplayString, DocumentReferences.Count, DocumentReferences.Hits);
+                SearchResultInfo = String.Format("\"{0}\" ({1} von {2} geladen)", QueryParameter.DisplayString, DocumentReferences.Count, DocumentReferences.Hits);
             }
         }
 
