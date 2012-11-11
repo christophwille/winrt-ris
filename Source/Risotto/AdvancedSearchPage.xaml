@@ -45,12 +45,12 @@
             <TextBlock x:Name="pageTitle" Grid.Column="1" Text="{StaticResource AppName}" Style="{StaticResource PageHeaderTextStyle}"/>
         </Grid>
 
-        <Grid Grid.Row="1" HorizontalAlignment="Center" Width="700">
+        <Grid Grid.Row="1" HorizontalAlignment="Left" Width="700" Margin="120,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="250" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="30" />
                 <ColumnDefinition Width="250" />
             </Grid.ColumnDefinitions>
             
@@ -167,11 +167,19 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
-
-            <StackPanel Orientation="Horizontal" Grid.Row="11" Grid.Column="2" Grid.ColumnSpan="3" Margin="15,15,15,15">
-                <Button Content="Suche starten" x:Name="submitButton" Click="SubmitButton_OnClick" />
-                <Button Content="Zurücksetzen" x:Name="resetButton" Click="ResetButton_OnClick" />
+            <StackPanel Orientation="Horizontal" Grid.Row="10" Grid.Column="3" Grid.ColumnSpan="3" HorizontalAlignment="Right">
+                <Button Content="Suchen" x:Name="submitButton" Command="{Binding SubmitCommand, Mode=OneWay}" />
+                <Button Content="Zurücksetzen" x:Name="resetButton" Command="{Binding ResetCommand, Mode=OneWay}" />
             </StackPanel>
+
+            <TextBlock Text="{Binding ValidationMessage}"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Left"
+                       FontSize="16"
+                       TextWrapping="Wrap"
+                       Margin="5,5,5,5"
+                        Grid.Row="11" Grid.Column="2" Grid.ColumnSpan="3"
+                       Foreground="Orange" />
         </Grid>
 
         <VisualStateManager.VisualStateGroups>

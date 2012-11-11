@@ -58,15 +58,5 @@ namespace Risotto
         protected override void SaveState(Dictionary<String, Object> pageState)
         {
         }
-
-        private void SubmitButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            ViewModel.Submit();
-        }
-
-        private void ResetButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            ViewModel.Reset();
-        }
     }
 }

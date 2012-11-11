@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using Ris.Client.PhraseParser;
 using System;
 using System.Collections.Generic;
@@ -18,14 +19,10 @@ namespace Risotto.ViewModels
     {
         public AdvancedSearchViewModel()
         {
-            // Set the search defaults
-            FassungVom = DateTime.Now.ToString("d");
-
-            ImRisSeitSource = ImRisSeitListItem.GenerateList();
-            SelectImRisSeitListItem(ChangedWithinEnum.Undefined);
-
             Kundmachungsorgane = Kundmachungsorgan.GenerateList();
-            SelectKundmachungsorgan("");
+            ImRisSeitSource = ImRisSeitListItem.GenerateList();
+
+            SetSearchDefaults();
         }
 
         public List<ImRisSeitListItem> ImRisSeitSource { get; private set; }
@@ -249,28 +246,54 @@ namespace Risotto.ViewModels
             set { Set(FassungVomPropertyName, ref _fassungvom, value); }
         }
 
-        private bool Validate()
+        private RisAdvancedQueryParameter Validate()
         {
-            ValidateNonEmptyTextWithParser(Suchworte, "Suchworte enthält keine gültige Abfrage");
-            ValidateNonEmptyTextWithParser(TitelAbkuerzung, "Titel, Abkürzung enthält keine gültige Abfrage");
-            ValidateNonEmptyTextWithParser(Index, "Index enthält keine gültige Abfrage");
-            ValidateNonEmptyTextWithParser(Typ, "Typ enthält keine gültige Abfrage");
+            var p = new RisAdvancedQueryParameter();
 
-            ValidateNonEmptyTextToDate(FassungVom, "Fassung vom ist kein gültiges Datum");
-            ValidateNonEmptyTextToDate(Unterzeichnungsdatum, "Unterzeichnungsdatum ist kein gültiges Datum");
+            p.Suchworte = ValidatePhraseExpressionText(Suchworte, "Suchworte enthält keine gültige Abfrage");
+            p.TitelAbkuerzung = ValidatePhraseExpressionText(TitelAbkuerzung, "Titel, Abkürzung enthält keine gültige Abfrage");
+            
+            p.ParagrafVon = ValidateNonEmptyTextToInteger(ParagrafVon, "Paragraf von muß eine Zahl sein");
+            p.ParagrafBis = ValidateNonEmptyTextToInteger(ParagrafBis, "Paragraf bis muß eine Zahl sein");
+            p.ArtikelVon = ArtikelVon.Trim();
+            p.ArtikelBis = ArtikelBis.Trim();
+            p.AnlageVon = AnlageVon.Trim();
+            p.AnlageBis = AnlageBis.Trim();
 
-            ValidateNonEmptyTextToInteger(ParagrafVon, "Paragraf von muß eine Zahl sein");
-            ValidateNonEmptyTextToInteger(ParagrafBis, "Paragraf bis muß eine Zahl sein");
+            p.Kundmachungsorgan = SelectedKundmachungsorgan.Text;
+            p.KundmachungsorganNummer = KundmachungsorganNummer;
 
-            // TODO: von - bis Checks (wenn bis dann muß auch von eingegeben worden sein)
+            p.Typ = ValidatePhraseExpressionText(Typ, "Typ enthält keine gültige Abfrage");
+            p.Index = ValidatePhraseExpressionText(Index, "Index enthält keine gültige Abfrage");
 
-            return String.IsNullOrWhiteSpace(ValidationMessage);
+            p.Unterzeichnungsdatum = ValidateNonEmptyTextToDate(Unterzeichnungsdatum, "Unterzeichnungsdatum ist kein gültiges Datum");
+            p.FassungVom = ValidateNonEmptyTextToDate(FassungVom, "Fassung vom ist kein gültiges Datum");
+            p.ImRisSeit = SelectedImRisSeitListItem.ImRisSeit;
+
+            if (p.ParagrafBis.HasValue && !p.ParagrafVon.HasValue)
+            {
+                ValidationMessage += "Wenn Paragraf bis einen Wert hat, muß auch Paragraf von angegeben werden" + Environment.NewLine;
+            }
+
+            if (p.ArtikelBis != "" && p.ArtikelVon == "")
+            {
+                ValidationMessage += "Wenn Artikel bis einen Wert hat, muß auch Artikel von angegeben werden" + Environment.NewLine;
+            }
+
+            if (p.AnlageBis != "" && p.AnlageVon == "")
+            {
+                ValidationMessage += "Wenn Anlage bis einen Wert hat, muß auch Anlage von angegeben werden" + Environment.NewLine;
+            }
+
+            bool anyFailures = !String.IsNullOrWhiteSpace(ValidationMessage);
+
+            return (anyFailures ? null : p);
         }
 
-        private bool ValidateNonEmptyTextToInteger(string searchText, string validationMessageToAdd)
+        private int? ValidateNonEmptyTextToInteger(string searchText, string validationMessageToAdd)
         {
             if (String.IsNullOrWhiteSpace(searchText))
-                return true;
+                return null;
 
             int result = 0;
             bool pOk = Int32.TryParse(searchText, out result);
@@ -278,15 +301,16 @@ namespace Risotto.ViewModels
             if (!pOk)
             {
                 ValidationMessage += validationMessageToAdd + Environment.NewLine;
+                return null;
             }
 
-            return pOk;
+            return result;
         }
 
-        private bool ValidateNonEmptyTextToDate(string searchText, string validationMessageToAdd)
+        private DateTime? ValidateNonEmptyTextToDate(string searchText, string validationMessageToAdd)
         {
             if (String.IsNullOrWhiteSpace(searchText))
-                return true;
+                return null;
 
             DateTime result = DateTime.Now;
             bool pOk = DateTime.TryParse(searchText, out result);
@@ -294,51 +318,89 @@ namespace Risotto.ViewModels
             if (!pOk)
             {
                 ValidationMessage += validationMessageToAdd + Environment.NewLine;
-                return false;
+                return null;
             }
 
-            return true;
+            return result;
         }
 
-        private bool ValidateNonEmptyTextWithParser(string searchText, string validationMessageToAdd)
+        private string ValidatePhraseExpressionText(string searchText, string validationMessageToAdd)
         {
             if (String.IsNullOrWhiteSpace(searchText))
-                return true;
+                return null;
 
             try
             {
                 var expr = QueryParser.Parse(searchText);
-                return true;
+                return searchText.Trim();
             }
             catch (ParseException)
             {
                 ValidationMessage += validationMessageToAdd + Environment.NewLine;
-                return false;
+                return null;
+            }
+        }
+
+        private RelayCommand _submitCommand;
+        public RelayCommand SubmitCommand
+        {
+            get
+            {
+                return _submitCommand
+                    ?? (_submitCommand = new RelayCommand(Submit));
             }
         }
 
         public void Submit()
         {
             ValidationMessage = "";
-
-            if (!Validate()) return;
-
-            var p = new RisAdvancedQueryParameter()
-                        {
-                            Suchworte = this.Suchworte
-                            // TODO: Add other fields
-                        };
+            
+            var p = Validate();
+            if (null == p) return;
 
             string navParam = RisQueryParameterSerializeable.Serialize(p);
             NavigationService.Navigate<SearchResultsPage>(navParam);
         }
 
+        private RelayCommand _resetCommand;
+        public RelayCommand ResetCommand
+        {
+            get
+            {
+                return _resetCommand
+                    ?? (_resetCommand = new RelayCommand(Reset));
+            }
+        }
+
         public void Reset()
         {
             ValidationMessage = "";
-            Suchworte = "";
 
-            // TODO: Add all fields to this reset list
+            SetSearchDefaults();
+
+            Suchworte = "";
+            TitelAbkuerzung = "";
+
+            ParagrafBis = "";
+            ArtikelVon = "";
+            ArtikelBis = "";
+            AnlageVon = "";
+            AnlageBis = "";
+
+            KundmachungsorganNummer = "";
+
+            Typ = "";
+            Index = "";
+
+            Unterzeichnungsdatum = "";
+        }
+
+        private void SetSearchDefaults()
+        {
+            // Set the search defaults
+            FassungVom = DateTime.Now.ToString("d");
+            SelectImRisSeitListItem(ChangedWithinEnum.Undefined);
+            SelectKundmachungsorgan("");
         }
     }
 }
