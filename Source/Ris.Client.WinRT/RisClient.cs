@@ -64,8 +64,55 @@ namespace Ris.Client.WinRT
             {
                 request.Suchworte = QueryParser.Parse(param.Suchworte);
             }
-            
-            // TODO: add other fields
+
+            if (!String.IsNullOrWhiteSpace(param.TitelAbkuerzung))
+            {
+                request.Titel = QueryParser.Parse(param.TitelAbkuerzung);
+            }
+
+            // TODO: Implement
+            //if (param.ParagrafVon.HasValue)
+            //{
+            //    var abschnitt = new Req.NormabschnittSucheinschraenkung();
+
+
+            //    // Not quite sure if that is correct
+            //    abschnitt.TypSpecified = true;
+            //    abschnitt.Typ = Req.NormabschnittTyp.Alle;
+            //}
+
+            if (!String.IsNullOrWhiteSpace(param.Kundmachungsorgan))
+            {
+                request.Kundmachungsorgan = new Req.PhraseSearchExpression()
+                                                    {
+                                                        Value = param.Kundmachungsorgan
+                                                    };
+            }
+
+            if (!String.IsNullOrWhiteSpace(param.KundmachungsorganNummer))
+            {
+                request.Kundmachungsorgannummer = new Req.PhraseSearchExpression()
+                                                      {
+                                                          Value = param.KundmachungsorganNummer
+                                                      };
+            }
+
+            if (!String.IsNullOrWhiteSpace(param.Index))
+            {
+                request.Index = QueryParser.Parse(param.Index);
+            }
+
+            if (param.Unterzeichnungsdatum.HasValue)
+            {
+                // Does not exist on Service interface
+                throw new NotImplementedException();
+            }
+
+            if (param.FassungVom.HasValue)
+            {
+                request.FassungVom = param.FassungVom.Value.Date;
+                request.FassungVomSpecified = true;
+            }
 
             return request;
         }
