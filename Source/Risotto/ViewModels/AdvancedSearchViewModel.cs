@@ -10,6 +10,7 @@ using Ris.Data.Models;
 using Risotto.Models;
 using Risotto.Services;
 using Ris.Client.Models;
+using System.Globalization;
 
 namespace Risotto.ViewModels
 {
@@ -248,20 +249,55 @@ namespace Risotto.ViewModels
             set { Set(FassungVomPropertyName, ref _fassungvom, value); }
         }
 
-        public void Reset()
-        {
-            Suchworte = "";
-
-            // TODO: Add all fields to this reset list
-        }
-
         private bool Validate()
         {
             ValidateNonEmptyTextWithParser(Suchworte, "Suchworte enthält keine gültige Abfrage");
+            ValidateNonEmptyTextWithParser(TitelAbkuerzung, "Titel, Abkürzung enthält keine gültige Abfrage");
+            ValidateNonEmptyTextWithParser(Index, "Index enthält keine gültige Abfrage");
+            ValidateNonEmptyTextWithParser(Typ, "Typ enthält keine gültige Abfrage");
 
-            // TODO: Validate all fields
+            ValidateNonEmptyTextToDate(FassungVom, "Fassung vom ist kein gültiges Datum");
+            ValidateNonEmptyTextToDate(Unterzeichnungsdatum, "Unterzeichnungsdatum ist kein gültiges Datum");
+
+            ValidateNonEmptyTextToInteger(ParagrafVon, "Paragraf von muß eine Zahl sein");
+            ValidateNonEmptyTextToInteger(ParagrafBis, "Paragraf bis muß eine Zahl sein");
+
+            // TODO: von - bis Checks (wenn bis dann muß auch von eingegeben worden sein)
 
             return String.IsNullOrWhiteSpace(ValidationMessage);
+        }
+
+        private bool ValidateNonEmptyTextToInteger(string searchText, string validationMessageToAdd)
+        {
+            if (String.IsNullOrWhiteSpace(searchText))
+                return true;
+
+            int result = 0;
+            bool pOk = Int32.TryParse(searchText, out result);
+
+            if (!pOk)
+            {
+                ValidationMessage += validationMessageToAdd + Environment.NewLine;
+            }
+
+            return pOk;
+        }
+
+        private bool ValidateNonEmptyTextToDate(string searchText, string validationMessageToAdd)
+        {
+            if (String.IsNullOrWhiteSpace(searchText))
+                return true;
+
+            DateTime result = DateTime.Now;
+            bool pOk = DateTime.TryParse(searchText, out result);
+
+            if (!pOk)
+            {
+                ValidationMessage += validationMessageToAdd + Environment.NewLine;
+                return false;
+            }
+
+            return true;
         }
 
         private bool ValidateNonEmptyTextWithParser(string searchText, string validationMessageToAdd)
@@ -283,6 +319,8 @@ namespace Risotto.ViewModels
 
         public void Submit()
         {
+            ValidationMessage = "";
+
             if (!Validate()) return;
 
             var p = new RisAdvancedQueryParameter()
@@ -293,6 +331,14 @@ namespace Risotto.ViewModels
 
             string navParam = RisQueryParameterSerializeable.Serialize(p);
             NavigationService.Navigate<SearchResultsPage>(navParam);
+        }
+
+        public void Reset()
+        {
+            ValidationMessage = "";
+            Suchworte = "";
+
+            // TODO: Add all fields to this reset list
         }
     }
 }
