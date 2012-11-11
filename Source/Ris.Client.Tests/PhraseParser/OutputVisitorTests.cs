@@ -23,7 +23,7 @@ namespace Ris.Client.Tests.PhraseParser
             visitor.Visit(expr, null);
             var output = buffer.ToString();
 
-            Assert.That(output, Is.EqualTo("'Ehe' und 'Familie'"));
+            Assert.That(output, Is.EqualTo("Ehe und Familie"));
         }
     }
 }

@@ -120,8 +120,7 @@ namespace Ris.Client.PhraseParser
 			}
 			if (la.Kind == TokenKind.Term) {
 				Get();
-                // CW: Change from Term to Phrase
-                return new PhraseSearchExpression() { Value = t.Value };
+                return new TermSearchExpression() { Value = t.Value };
 			}
 			throw new ParseException("parse error: TERM or PHRASE expected!");
 		}
