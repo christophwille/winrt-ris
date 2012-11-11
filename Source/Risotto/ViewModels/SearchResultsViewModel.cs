@@ -61,8 +61,9 @@ namespace Risotto.ViewModels
                     IncrementalLoadingStarted, IncrementalLoadingCompleted, IncrementalLoadingFailed);
                 UpdateSearchResultInfo();
 
-                var ctx = new RisDbContext();
-                ctx.InsertSearchHistoryEntry(new DbRisQueryParameter(localQueryParam, DocumentReferences.Hits));
+                // TODO: Re-Enable storing once full advanced query is in place
+                //var ctx = new RisDbContext();
+                //ctx.InsertSearchHistoryEntry(new DbRisQueryParameter(localQueryParam, DocumentReferences.Hits));
             }
             else
             {

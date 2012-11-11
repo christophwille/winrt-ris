@@ -29,40 +29,25 @@ namespace Ris.Data.Models
         public ChangedWithinEnum ImRisSeit { get; set; }
     }
 
-    public class RisFulltextQueryParameter : RisQueryParameter
+    public class RisQueryParameterSerializeable
     {
-        public string SearchText { get; set; }
+        public RisQueryParameter QueryParameter { get; set; }
 
-        // For serialization
-        public RisFulltextQueryParameter()
-            : base()
+        public static string Serialize(RisQueryParameter p)
         {
+            var toSerialize = new RisQueryParameterSerializeable()
+                                  {
+                                      QueryParameter = p
+                                  };
+
+            return SerializationHelper.SerializeToString(toSerialize);
         }
 
-        public RisFulltextQueryParameter(string searchText)
-            : base()
+        public static RisQueryParameter Deserialize(string data)
         {
-            SearchText = searchText;
-        }
+            var ds = SerializationHelper.DeserializeFromString<RisQueryParameterSerializeable>(data);
 
-        public override string DisplayString
-        {
-            get { return SearchText; }
-        }
-    }
-
-    public class RisAdvancedQueryParameter : RisQueryParameter
-    {
-        // For serialization
-        public RisAdvancedQueryParameter()
-            : base()
-        {
-
-        }
-
-        public override string DisplayString
-        {
-            get { return "NOT IMPLEMENTED"; }
+            return ds.QueryParameter;
         }
     }
 }

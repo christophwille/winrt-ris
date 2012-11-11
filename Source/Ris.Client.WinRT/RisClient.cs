@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ris.Client.PhraseParser;
 
 namespace Ris.Client.WinRT
 {
@@ -55,6 +56,20 @@ namespace Ris.Client.WinRT
             return request;
         }
 
+        private Req.T_OGDSearchRequest PrepareAdvancedSearch(RisAdvancedQueryParameter param)
+        {
+            var request = new Req.T_OGDSearchRequest();
+
+            if (!String.IsNullOrWhiteSpace(param.Suchworte))
+            {
+                request.Suchworte = QueryParser.Parse(param.Suchworte);
+            }
+            
+            // TODO: add other fields
+
+            return request;
+        }
+
         public async Task<SearchResult> QueryAsync(RisQueryParameter param, int seitenNummer)
         {
             Req.T_OGDSearchRequest request = null;
@@ -65,11 +80,14 @@ namespace Ris.Client.WinRT
             }
             else if (param is RisAdvancedQueryParameter)
             {
-                throw new NotImplementedException();
+                request = PrepareAdvancedSearch((RisAdvancedQueryParameter)param);
             }
 
             if (null == request)
                 return new SearchResult("Kein Query Processor gefunden");
+
+            request.ImRisSeitSpecified = true;
+            request.ImRisSeit = Mapper.MapChangedWithinToChangesetInterval(param.ImRisSeit);
 
             return await QueryAsync(request, seitenNummer);
         }
@@ -86,10 +104,6 @@ namespace Ris.Client.WinRT
             // We do continuous loading in the UI, thus the user cannot specify the page size
             request.DokumenteProSeiteSpecified = true;
             request.DokumenteProSeite = Req.PageSize.Fifty;
-
-            // TODO Read from query parameter (needs to be set in calling method)
-            request.ImRisSeitSpecified = true;
-            request.ImRisSeit = Req.ChangeSetInterval.Undefined;
 
             try
             {

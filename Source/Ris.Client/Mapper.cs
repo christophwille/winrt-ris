@@ -160,5 +160,65 @@ namespace Ris.Client
 
             return DocumentContentTypeEnum.Attachment;
         }
+
+        public static ChangedWithinEnum MapChangesetIntervalToChangedWithin(Req.ChangeSetInterval changeSetInterval)
+        {
+            switch (changeSetInterval)
+            {
+                case Req.ChangeSetInterval.Undefined:
+                    return ChangedWithinEnum.Undefined;
+                    break;
+                case Req.ChangeSetInterval.EinerWoche:
+                    return ChangedWithinEnum.EinerWoche;
+                    break;
+                case Req.ChangeSetInterval.ZweiWochen:
+                    return ChangedWithinEnum.ZweiWochen;
+                    break;
+                case Req.ChangeSetInterval.EinemMonat:
+                    return ChangedWithinEnum.EinemMonat;
+                    break;
+                case Req.ChangeSetInterval.DreiMonaten:
+                    return ChangedWithinEnum.DreiMonaten;
+                    break;
+                case Req.ChangeSetInterval.SechsMonaten:
+                    return ChangedWithinEnum.SechsMonaten;
+                    break;
+                case Req.ChangeSetInterval.EinemJahr:
+                    return ChangedWithinEnum.EinemJahr;
+                    break;
+            }
+
+            throw new ArgumentOutOfRangeException();
+        }
+
+        public static Req.ChangeSetInterval MapChangedWithinToChangesetInterval(ChangedWithinEnum changedWithin)
+        {
+            switch (changedWithin)
+            {
+                case ChangedWithinEnum.Undefined:
+                    return Req.ChangeSetInterval.Undefined;
+                    break;
+                case ChangedWithinEnum.EinerWoche:
+                    return Req.ChangeSetInterval.EinerWoche;
+                    break;
+                case ChangedWithinEnum.ZweiWochen:
+                    return Req.ChangeSetInterval.ZweiWochen;
+                    break;
+                case ChangedWithinEnum.EinemMonat:
+                    return Req.ChangeSetInterval.EinemMonat;
+                    break;
+                case ChangedWithinEnum.DreiMonaten:
+                    return Req.ChangeSetInterval.DreiMonaten;
+                    break;
+                case ChangedWithinEnum.SechsMonaten:
+                    return Req.ChangeSetInterval.SechsMonaten;
+                    break;
+                case ChangedWithinEnum.EinemJahr:
+                    return Req.ChangeSetInterval.EinemJahr;
+                    break;
+            }
+
+            throw new ArgumentOutOfRangeException();
+        }
     }
 }

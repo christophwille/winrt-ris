@@ -72,11 +72,11 @@
             
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Suchworte" />
 
-            <TextBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" />
+            <TextBox Text="{Binding Suchworte, Mode=TwoWay}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" />
 
             <StackPanel Orientation="Horizontal" Grid.Row="11" Grid.Column="2" Grid.ColumnSpan="3">
-                <Button Content="Suche starten" />
-                <Button Content="Zurücksetzen" />
+                <Button Content="Suche starten" x:Name="submitButton" Click="SubmitButton_OnClick" />
+                <Button Content="Zurücksetzen" x:Name="resetButton" Click="ResetButton_OnClick" />
             </StackPanel>
         </Grid>
 

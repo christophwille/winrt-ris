@@ -69,10 +69,10 @@ namespace Risotto
         {
             try
             {
-                var p = SerializationHelper.DeserializeFromString<RisQueryParameter>(s);
+                var p = RisQueryParameterSerializeable.Deserialize(s);
                 return p;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // If it cannot be deserialized, we assume it to be a fulltext search
                 return new RisFulltextQueryParameter(s);
