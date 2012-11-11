@@ -7,12 +7,20 @@ using System.Text;
 using System.Threading.Tasks;
 using Ris.Data;
 using Ris.Data.Models;
+using Risotto.Models;
 using Risotto.Services;
 
 namespace Risotto.ViewModels
 {
     public class AdvancedSearchViewModel : RisViewModelBase
     {
+        public AdvancedSearchViewModel()
+        {
+            ImRisSeitSource = ImRisSeitListItem.GenerateList();
+        }
+
+      public List<ImRisSeitListItem> ImRisSeitSource { get; private set; } 
+
         public const string ValidationMessagePropertyName = "ValidationMessage";
         private string _validationMessage = "";
 

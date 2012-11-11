@@ -21,8 +21,7 @@
     
     <Page.Resources>
 
-        <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
-        <x:String x:Key="AppName">My Application</x:String>
+        <x:String x:Key="AppName">Erweiterte Suche</x:String>
     </Page.Resources>
 
     <!--
@@ -69,12 +68,90 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Suchworte" />
 
-            <TextBox Text="{Binding Suchworte, Mode=TwoWay}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" />
+            <!-- Suchworte -->
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Suchworte" HorizontalAlignment="Right"
+                       Style="{StaticResource ItemTextStyle}" Margin="5,5,5,5" />
+            <TextBox Text="{Binding Suchworte, Mode=TwoWay}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3" 
+                     HorizontalAlignment="Stretch" Margin="5,5,5,5" />
 
-            <StackPanel Orientation="Horizontal" Grid.Row="11" Grid.Column="2" Grid.ColumnSpan="3">
+            <!-- Titel, Abkürzung -->
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Titel, Abkürzung"  HorizontalAlignment="Right"
+                       Style="{StaticResource ItemTextStyle}" Margin="5,5,5,5" />
+            <TextBox Text="{Binding TitelAbkuerzung, Mode=TwoWay}" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" 
+                     HorizontalAlignment="Stretch" Margin="5,5,5,5" />
+
+            <!-- Paragraf-->
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Paragraf von"  HorizontalAlignment="Right"
+                       Style="{StaticResource ItemTextStyle}" Margin="5,5,5,5" />
+            <TextBox Text="{Binding ParagrafVon, Mode=TwoWay}" Grid.Row="2" Grid.Column="2"
+                     HorizontalAlignment="Stretch" Margin="5,5,5,5" />
+            <TextBlock Grid.Row="2" Grid.Column="3" Text="bis"  HorizontalAlignment="Right"
+                       Style="{StaticResource ItemTextStyle}" Margin="5,5,5,5" />
+            <TextBox Text="{Binding ParagrafBis, Mode=TwoWay}" Grid.Row="2" Grid.Column="4"
+                     HorizontalAlignment="Stretch" Margin="5,5,5,5" />
+
+            <!-- Artikel-->
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Artikel von"  HorizontalAlignment="Right"
+                       Style="{StaticResource ItemTextStyle}" Margin="5,5,5,5" />
+            <TextBox Text="{Binding ArtikelVon, Mode=TwoWay}" Grid.Row="3" Grid.Column="2"
+                     HorizontalAlignment="Stretch" Margin="5,5,5,5" />
+            <TextBlock Grid.Row="3" Grid.Column="3" Text="bis"  HorizontalAlignment="Right"
+                       Style="{StaticResource ItemTextStyle}" Margin="5,5,5,5" />
+            <TextBox Text="{Binding ArtikelBis, Mode=TwoWay}" Grid.Row="3" Grid.Column="4"
+                     HorizontalAlignment="Stretch" Margin="5,5,5,5" />
+
+            <!-- Anlage-->
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Anlage von"  HorizontalAlignment="Right"
+                       Style="{StaticResource ItemTextStyle}" Margin="5,5,5,5" />
+            <TextBox Text="{Binding AnlageVon, Mode=TwoWay}" Grid.Row="4" Grid.Column="2"
+                     HorizontalAlignment="Stretch" Margin="5,5,5,5" />
+            <TextBlock Grid.Row="4" Grid.Column="3" Text="bis"  HorizontalAlignment="Right"
+                       Style="{StaticResource ItemTextStyle}" Margin="5,5,5,5" />
+            <TextBox Text="{Binding AnlageBis, Mode=TwoWay}" Grid.Row="4" Grid.Column="4"
+                     HorizontalAlignment="Stretch" Margin="5,5,5,5" />
+
+            <!-- TODO: Kundmachungsorgan, row 5-->
+
+            <!-- Typ -->
+            <TextBlock Grid.Row="6" Grid.Column="0" Text="Typ"  HorizontalAlignment="Right"
+                       Style="{StaticResource ItemTextStyle}" Margin="5,5,5,5" />
+            <TextBox Text="{Binding Typ, Mode=TwoWay}" Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="3" 
+                     HorizontalAlignment="Stretch" Margin="5,5,5,5" />
+
+            <!-- Index -->
+            <TextBlock Grid.Row="7" Grid.Column="0" Text="Index"  HorizontalAlignment="Right"
+                       Style="{StaticResource ItemTextStyle}" Margin="5,5,5,5" />
+            <TextBox Text="{Binding Index, Mode=TwoWay}" Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="3" 
+                     HorizontalAlignment="Stretch" Margin="5,5,5,5" />
+
+            <!-- Unterzeichnungsdatum -->
+            <TextBlock Grid.Row="8" Grid.Column="0" Text="Unterzeichnungsdatum"  HorizontalAlignment="Right"
+                       Style="{StaticResource ItemTextStyle}" Margin="5,5,5,5" />
+            <TextBox Text="{Binding Unterzeichnungsdatum, Mode=TwoWay}" Grid.Row="8" Grid.Column="2"
+                     HorizontalAlignment="Stretch" Margin="5,5,5,5" />
+
+            <!-- Fassung vom -->
+            <TextBlock Grid.Row="9" Grid.Column="0" Text="Fassung vom"  HorizontalAlignment="Right"
+                       Style="{StaticResource ItemTextStyle}" Margin="5,5,5,5" />
+            <TextBox Text="{Binding FassungVom, Mode=TwoWay}" Grid.Row="9" Grid.Column="2"
+                     HorizontalAlignment="Stretch" Margin="5,5,5,5" />
+
+            <!-- Neu/geändert im RIS seit -->
+            <TextBlock Grid.Row="10" Grid.Column="0" Text="Neu/geändert im RIS seit"  HorizontalAlignment="Right"
+                       Style="{StaticResource ItemTextStyle}" Margin="5,5,5,5" />
+            <ComboBox Grid.Row="10" Grid.Column="2" 
+                      ItemsSource="{Binding ImRisSeitSource}"
+                      HorizontalAlignment="Stretch" Margin="5,5,5,5">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Text}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+
+            <StackPanel Orientation="Horizontal" Grid.Row="11" Grid.Column="2" Grid.ColumnSpan="3" Margin="15,15,15,15">
                 <Button Content="Suche starten" x:Name="submitButton" Click="SubmitButton_OnClick" />
                 <Button Content="Zurücksetzen" x:Name="resetButton" Click="ResetButton_OnClick" />
             </StackPanel>

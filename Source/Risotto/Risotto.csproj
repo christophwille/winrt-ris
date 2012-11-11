@@ -127,6 +127,7 @@
     </Compile>
     <Compile Include="Models\AdvancedSearchPageState.cs" />
     <Compile Include="Models\DocumentDetailNavigationParameter.cs" />
+    <Compile Include="Models\ImRisSeitListItem.cs" />
     <Compile Include="Models\SearchPageState.cs" />
     <Compile Include="Models\MainPageState.cs" />
     <Compile Include="Models\SampleDataSource.cs" />
