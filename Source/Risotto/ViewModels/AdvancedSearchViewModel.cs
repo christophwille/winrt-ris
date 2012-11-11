@@ -381,6 +381,7 @@ namespace Risotto.ViewModels
             Suchworte = "";
             TitelAbkuerzung = "";
 
+            ParagrafVon = "";
             ParagrafBis = "";
             ArtikelVon = "";
             ArtikelBis = "";
@@ -401,6 +402,47 @@ namespace Risotto.ViewModels
             FassungVom = DateTime.Now.ToString("d");
             SelectImRisSeitListItem(ChangedWithinEnum.Undefined);
             SelectKundmachungsorgan("");
+        }
+
+        public AdvancedSearchPageState SaveState()
+        {
+            return new AdvancedSearchPageState()
+                       {
+                           Suchworte = this.Suchworte,
+                           TitelAbkuerzung = this.TitelAbkuerzung,
+                           ParagrafVon = this.ParagrafVon,
+                           ParagrafBis = this.ParagrafBis,
+                           ArtikelVon = this.ArtikelVon,
+                           ArtikelBis = this.ArtikelBis,
+                           AnlageVon = this.AnlageVon,
+                           AnlageBis = this.AnlageBis,
+                           Kundmachungsorgan = this.SelectedKundmachungsorgan.Text,
+                           KundmachungsorganNummer = this.KundmachungsorganNummer,
+                           Typ = this.Typ,
+                           Index = this.Index,
+                           Unterzeichnungsdatum = this.Unterzeichnungsdatum,
+                           FassungVom = this.FassungVom,
+                           ImRisSeit = this.SelectedImRisSeitListItem.ImRisSeit,
+                       };
+        }
+
+        public void LoadState(AdvancedSearchPageState state)
+        {
+            Suchworte = state.Suchworte;
+            TitelAbkuerzung = state.TitelAbkuerzung;
+            ParagrafVon = state.ParagrafVon;
+            ParagrafBis = state.ParagrafBis;
+            ArtikelVon = state.ArtikelVon;
+            ArtikelBis = state.ArtikelBis;
+            AnlageVon = state.AnlageVon;
+            AnlageBis = state.AnlageBis;
+            SelectKundmachungsorgan(state.Kundmachungsorgan);
+            KundmachungsorganNummer = state.KundmachungsorganNummer;
+            Typ = state.Typ;
+            Index = state.Index;
+            Unterzeichnungsdatum = state.Unterzeichnungsdatum;
+            FassungVom = state.FassungVom;
+            SelectImRisSeitListItem(state.ImRisSeit);
         }
     }
 }
