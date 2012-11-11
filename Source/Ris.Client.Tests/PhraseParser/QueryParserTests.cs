@@ -19,8 +19,14 @@ namespace Ris.Client.Tests.PhraseParser
 
             Assert.That(expr, Is.Not.Null);
             Assert.That(expr, Is.InstanceOf<PhraseSearchExpression>());
+            Assert.That(((PhraseSearchExpression)expr).Value, Is.EqualTo("Ehe"));
         }
 
-
+        [Test]
+        [ExpectedException(typeof(ParseException))]
+        public void ParseSimpleIncompleteSearch()
+        {
+            SearchExpression expr = QueryParser.Parse("Ehe und");
+        }
     }
 }
