@@ -142,6 +142,7 @@
                        Style="{StaticResource ItemTextStyle}" Margin="5,5,5,5" />
             <ComboBox Grid.Row="10" Grid.Column="2" 
                       ItemsSource="{Binding ImRisSeitSource}"
+                      SelectedItem="{Binding SelectedImRisSeitListItem, Mode=TwoWay}"
                       HorizontalAlignment="Stretch" Margin="5,5,5,5">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
