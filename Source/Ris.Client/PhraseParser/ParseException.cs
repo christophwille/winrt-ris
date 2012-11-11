@@ -3,9 +3,6 @@ using System.Runtime.Serialization;
 
 namespace Ris.Client.PhraseParser
 {
-	/// <summary>
-	/// Desctiption of ParseException.
-	/// </summary>
 	public class ParseException : Exception
 	{
 		public ParseException()

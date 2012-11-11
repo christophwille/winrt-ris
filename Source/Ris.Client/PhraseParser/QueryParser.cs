@@ -1,7 +1,4 @@
-﻿// Copyright (c) AlphaSierraPapa for the SharpDevelop Team (for details please see \doc\copyright.txt)
-// This code is distributed under the GNU LGPL (for details please see \doc\license.txt)
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -123,7 +120,8 @@ namespace Ris.Client.PhraseParser
 			}
 			if (la.Kind == TokenKind.Term) {
 				Get();
-				return new TermSearchExpression() { Value = t.Value };
+                // CW: Change from Term to Phrase
+                return new PhraseSearchExpression() { Value = t.Value };
 			}
 			throw new ParseException("parse error: TERM or PHRASE expected!");
 		}
