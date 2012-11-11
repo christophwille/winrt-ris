@@ -444,5 +444,28 @@ namespace Risotto.ViewModels
             FassungVom = state.FassungVom;
             SelectImRisSeitListItem(state.ImRisSeit);
         }
+
+        public void InitializeFromParameter(RisAdvancedQueryParameter param)
+        {
+            Suchworte = param.Suchworte;
+            TitelAbkuerzung = param.TitelAbkuerzung;
+            ParagrafVon = param.ParagrafVon.ToString();
+            ParagrafBis = param.ParagrafBis.ToString();
+            ArtikelVon = param.ArtikelVon;
+            ArtikelBis = param.ArtikelBis;
+            AnlageVon = param.AnlageVon;
+            AnlageBis = param.AnlageBis;
+            SelectKundmachungsorgan(param.Kundmachungsorgan);
+            KundmachungsorganNummer = param.KundmachungsorganNummer;
+            Typ = param.Typ;
+            Index = param.Index;
+            
+            if (param.Unterzeichnungsdatum.HasValue)
+                Unterzeichnungsdatum = param.Unterzeichnungsdatum.Value.ToString("d");
+            if (param.FassungVom.HasValue)
+                FassungVom = param.FassungVom.Value.ToString("d");
+
+            SelectImRisSeitListItem(param.ImRisSeit);
+        }
     }
 }

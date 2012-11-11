@@ -15,14 +15,10 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Risotto.Models;
-
-// The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
+using Ris.Data.Models;
 
 namespace Risotto
 {
-    /// <summary>
-    /// A basic page that provides characteristics common to most applications.
-    /// </summary>
     public sealed partial class AdvancedSearchPage : Risotto.Common.LayoutAwarePage
     {
         public AdvancedSearchViewModel ViewModel { get; set; }
@@ -41,6 +37,12 @@ namespace Risotto
 
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
+            if (navigationParameter != null)
+            {
+                var param = SerializationHelper.DeserializeFromString<RisAdvancedQueryParameter>((string)navigationParameter);
+                ViewModel.InitializeFromParameter(param);
+            }
+
             if (pageState != null && pageState.ContainsKey(Constants.AdvancedSearchPageState))
             {
                 string serializedState = pageState[Constants.AdvancedSearchPageState].ToString();

@@ -19,13 +19,8 @@ using Windows.UI.Xaml.Navigation;
 using Ris.Data.Models;
 using Risotto.Services;
 
-// The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
-
 namespace Risotto
 {
-    /// <summary>
-    /// A basic page that provides characteristics common to most applications.
-    /// </summary>
     public sealed partial class MainPage : Risotto.Common.LayoutAwarePage
     {
         public MainPageViewModel ViewModel { get; set; }
@@ -41,15 +36,6 @@ namespace Risotto
             }
         }
 
-        /// <summary>
-        /// Populates the page with content passed during navigation.  Any saved state is also
-        /// provided when recreating a page from a prior session.
-        /// </summary>
-        /// <param name="navigationParameter">The parameter value passed to
-        /// <see cref="Frame.Navigate(Type, Object)"/> when this page was initially requested.
-        /// </param>
-        /// <param name="pageState">A dictionary of state preserved by this page during an earlier
-        /// session.  This will be null the first time a page is visited.</param>
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
             App.SearchHistoryChanged += AppOnSearchHistoryChanged;
@@ -70,12 +56,6 @@ namespace Risotto
             ViewModel.LoadSearchHistoryAsync();
         }
 
-        /// <summary>
-        /// Preserves state associated with this page in case the application is suspended or the
-        /// page is discarded from the navigation cache.  Values must conform to the serialization
-        /// requirements of <see cref="SuspensionManager.SessionState"/>.
-        /// </summary>
-        /// <param name="pageState">An empty dictionary to be populated with serializable state.</param>
         protected override void SaveState(Dictionary<String, Object> pageState)
         {
             App.SearchHistoryChanged -= AppOnSearchHistoryChanged;
@@ -87,10 +67,19 @@ namespace Risotto
         private void SearchHistory_OnItemClick(object sender, ItemClickEventArgs e)
         {
             var item = e.ClickedItem as DbRisQueryParameter;
-            string searchTextToPass = ((RisFulltextQueryParameter) item.RisQueryParameter).SearchText;
+            var query = item.RisQueryParameter;
 
-            // TODO: switch to serialization when advanced query is implemented, currently direct cast to full text search (see above)
-            NavigationService.Navigate<SearchResultsPage>(searchTextToPass);
+            // Full text goes directly to search results, Advanced to the search definition page first
+            if (query is RisFulltextQueryParameter)
+            {
+                string searchTextToPass = ((RisFulltextQueryParameter)item.RisQueryParameter).SearchText;
+                NavigationService.Navigate<SearchResultsPage>(searchTextToPass);
+            }
+            else if (query is RisAdvancedQueryParameter)
+            {
+                string navParam = SerializationHelper.SerializeToString((RisAdvancedQueryParameter) query);
+                NavigationService.Navigate<AdvancedSearchPage>(navParam);
+            }
         }
 
         private void Downloads_OnItemClick(object sender, ItemClickEventArgs e)
