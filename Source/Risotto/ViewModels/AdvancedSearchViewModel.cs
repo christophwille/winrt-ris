@@ -17,13 +17,18 @@ namespace Risotto.ViewModels
     {
         public AdvancedSearchViewModel()
         {
+            // Set the search defaults
             FassungVom = DateTime.Now.ToString("d");
 
             ImRisSeitSource = ImRisSeitListItem.GenerateList();
             SelectImRisSeitListItem(ChangedWithinEnum.Undefined);
+
+            Kundmachungsorgane = Kundmachungsorgan.GenerateList();
+            SelectKundmachungsorgan("");
         }
 
         public List<ImRisSeitListItem> ImRisSeitSource { get; private set; }
+        public List<Kundmachungsorgan> Kundmachungsorgane { get; set; }
 
         public const string SelectedImRisSeitListItemPropertyName = "SelectedImRisSeitListItem";
         private ImRisSeitListItem _selectedImRisSeitListItem = null;
@@ -38,9 +43,27 @@ namespace Risotto.ViewModels
             set { Set(SelectedImRisSeitListItemPropertyName, ref _selectedImRisSeitListItem, value); }
         }
 
+        public const string SelectedKundmachungsorganPropertyName = "SelectedKundmachungsorgan";
+        private Kundmachungsorgan _selectedKundmachungsorgan = null;
+
+        public Kundmachungsorgan SelectedKundmachungsorgan
+        {
+            get
+            {
+                return _selectedKundmachungsorgan;
+            }
+
+            set { Set(SelectedKundmachungsorganPropertyName, ref _selectedKundmachungsorgan, value); }
+        }
+
         private void SelectImRisSeitListItem(ChangedWithinEnum c)
         {
             SelectedImRisSeitListItem = ImRisSeitSource.FirstOrDefault(i => i.ImRisSeit == c);
+        }
+
+        private void SelectKundmachungsorgan(string k)
+        {
+            SelectedKundmachungsorgan = Kundmachungsorgane.FirstOrDefault(i => i.Text == k);
         }
 
         public const string ValidationMessagePropertyName = "ValidationMessage";
@@ -158,6 +181,19 @@ namespace Risotto.ViewModels
             }
 
             set { Set(AnlageBisPropertyName, ref _anlagebis, value); }
+        }
+
+        public const string KundmachungsorganNummerPropertyName = "KundmachungsorganNummer";
+        private string _kundmachungsorganNummer = "";
+
+        public string KundmachungsorganNummer
+        {
+            get
+            {
+                return _kundmachungsorganNummer;
+            }
+
+            set { Set(KundmachungsorganNummerPropertyName, ref _kundmachungsorganNummer, value); }
         }
 
         public const string TypPropertyName = "Typ";

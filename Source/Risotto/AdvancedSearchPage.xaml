@@ -45,13 +45,13 @@
             <TextBlock x:Name="pageTitle" Grid.Column="1" Text="{StaticResource AppName}" Style="{StaticResource PageHeaderTextStyle}"/>
         </Grid>
 
-        <Grid Grid.Row="1" HorizontalAlignment="Center" Width="600">
+        <Grid Grid.Row="1" HorizontalAlignment="Center" Width="700">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="250" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="250" />
             </Grid.ColumnDefinitions>
             
             <Grid.RowDefinitions>
@@ -111,7 +111,23 @@
             <TextBox Text="{Binding AnlageBis, Mode=TwoWay}" Grid.Row="4" Grid.Column="4"
                      HorizontalAlignment="Stretch" Margin="5,5,5,5" />
 
-            <!-- TODO: Kundmachungsorgan, row 5-->
+            <!-- Kundmachungsorgan -->
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="Kundmachungsorgan"  HorizontalAlignment="Right"
+                       Style="{StaticResource ItemTextStyle}" Margin="5,5,5,5" />
+            <ComboBox Grid.Row="5" Grid.Column="2" 
+                      ItemsSource="{Binding Kundmachungsorgane}"
+                      SelectedItem="{Binding SelectedKundmachungsorgan, Mode=TwoWay}"
+                      HorizontalAlignment="Stretch" Margin="5,5,5,5">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Text}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock Grid.Row="5" Grid.Column="3" Text="Nr."  HorizontalAlignment="Right"
+                       Style="{StaticResource ItemTextStyle}" Margin="5,5,5,5" />
+            <TextBox Text="{Binding KundmachungsorganNummer, Mode=TwoWay}" Grid.Row="5" Grid.Column="4"
+                     HorizontalAlignment="Stretch" Margin="5,5,5,5" />
 
             <!-- Typ -->
             <TextBlock Grid.Row="6" Grid.Column="0" Text="Typ"  HorizontalAlignment="Right"
