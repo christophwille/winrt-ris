@@ -9,6 +9,7 @@ using Ris.Data.Models;
 using Risotto.Models;
 using Risotto.ViewModels;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.ViewManagement;
@@ -21,8 +22,6 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Risotto.Services;
 using Ris.Client.Models;
-
-// The Search Contract item template is documented at http://go.microsoft.com/fwlink/?LinkId=234240
 
 namespace Risotto
 {
@@ -46,6 +45,7 @@ namespace Risotto
 
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
+            DataTransferManager.GetForCurrentView().DataRequested += OnDataRequested;
             ViewModel.QueryParameter = NavigationParameterToSearchParameter(navigationParameter as String);
 
             // Do we return from a detail page?
@@ -60,6 +60,11 @@ namespace Risotto
             {
                 ViewModel.SearchRisAsync();
             }
+        }
+
+        private void OnDataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        {
+            ViewModel.DataRequestedHandling(args.Request);
         }
 
         //
@@ -81,6 +86,8 @@ namespace Risotto
 
         protected override void SaveState(Dictionary<String, Object> pageState)
         {
+            DataTransferManager.GetForCurrentView().DataRequested -= OnDataRequested;
+
             string serializedState = SerializationHelper.SerializeToString(ViewModel.SaveState());
             pageState[Constants.SearchResultsPageState] = serializedState;
         }

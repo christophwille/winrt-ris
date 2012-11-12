@@ -10,6 +10,7 @@ using Ris.Data.Models;
 using Risotto.Models;
 using Ris.Data;
 using Ris.Client.Models;
+using Windows.ApplicationModel.DataTransfer;
 
 namespace Risotto.ViewModels
 {
@@ -39,6 +40,36 @@ namespace Risotto.ViewModels
             set
             {
                 Set(DocumentReferencesPropertyName, ref _documentReferences, value);
+            }
+        }
+
+        public void DataRequestedHandling(DataRequest request)
+        {
+            // We work with a copy of the list of document references
+            List<DocumentReference> list = null;
+            if (DocumentReferences != null)
+            {
+                list = DocumentReferences.ToList();
+            }
+
+            request.Data.Properties.Title = SearchResultInfo;
+            // request.Data.Properties.Description = ...;
+
+            if (list != null)
+            {
+                var stb = new StringBuilder();
+
+                stb.AppendLine();
+                stb.Append("Suchresultate:\r\n");
+
+                foreach (var docref in list)
+                {
+                    // TODO: risdok://Dokumentnummer here
+                    stb.AppendFormat("{0}, {1}\r\n{2}\r\n\r\n", 
+                        docref.ArtikelParagraphAnlage, docref.Kurzinformation, docref.DokumentUrl);
+                }
+
+                request.Data.SetText(stb.ToString());
             }
         }
 
