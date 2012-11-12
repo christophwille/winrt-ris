@@ -89,5 +89,32 @@ namespace Ris.Client.Tests.PhraseParser
         {
             SearchExpression expr = QueryParser.Parse("(Ehe Kinder");
         }
+
+        [Test]
+        public void ParseAndOrWithParens()
+        {
+            SearchExpression expr = QueryParser.Parse("(Scheidung oder Tod) und Ehe");
+
+            Assert.That(expr, Is.Not.Null);
+            Assert.That(expr, Is.InstanceOf<AndSearchExpression>());
+            Assert.That(((AndSearchExpression)expr).Expressions.Length, Is.EqualTo(2));
+        }
+
+        [Test]
+        [ExpectedException(typeof(ParseException))]
+        public void FailAndOrWithoutParens()
+        {
+            SearchExpression expr = QueryParser.Parse("Ehe Scheidung oder Ehe Tod");
+        }
+
+        [Test]
+        public void ParseComplexStatement()
+        {
+            SearchExpression expr = QueryParser.Parse("('anwaltliche Vertretung' oder Scheidung) und Ehe*");
+
+            Assert.That(expr, Is.Not.Null);
+            Assert.That(expr, Is.InstanceOf<AndSearchExpression>());
+            Assert.That(((AndSearchExpression)expr).Expressions.Length, Is.EqualTo(2));
+        }
     }
 }
