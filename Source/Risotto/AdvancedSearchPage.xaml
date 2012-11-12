@@ -142,7 +142,7 @@
                      HorizontalAlignment="Stretch" Margin="5,5,5,5" />
 
             <!-- Unterzeichnungsdatum -->
-            <!-- TODO Why is this not available in the service request
+            <!-- NOTE: This is not not available in the OGD service request
             <TextBlock Grid.Row="8" Grid.Column="0" Text="Unterzeichnungsdatum"  HorizontalAlignment="Right"
                        Style="{StaticResource ItemTextStyle}" Margin="5,5,5,5" />
             <TextBox Text="{Binding Unterzeichnungsdatum, Mode=TwoWay}" Grid.Row="8" Grid.Column="2"
