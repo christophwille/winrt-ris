@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Text;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using Risotto.Models;
 using Risotto.ViewModels;
@@ -69,12 +70,13 @@ namespace Risotto
             {
                 try
                 {
-                    string html = webView.InvokeScript("eval", new string[] { "document.documentElement.outerHTML;" });
+                    var html = new StringBuilder(webView.InvokeScript("eval", new string[] { "document.documentElement.outerHTML;" }));
                     
-                    // TODO: fix Urls to base Urls otherwise it won't look right (css, js et cetera missing)
+                    // Fix Urls to base Urls otherwise it won't look right (css, js et cetera missing)
+                    QuickDirtyHtmlFixup(html);
 
                     request.Data.Properties.Title = ViewModel.PageTitle;
-                    request.Data.SetHtmlFormat(html);
+                    request.Data.SetHtmlFormat(html.ToString());
                 }
                 catch
                 {
@@ -91,6 +93,12 @@ namespace Risotto
         public void OnFlyoutClose()
         {
             WebViewFlyoutFixes.FlyoutClose(webViewRect, webView);
+        }
+
+        private void QuickDirtyHtmlFixup(StringBuilder html)
+        {
+            html.Replace("src=\"/", "src=\"http://www.ris.bka.gv.at/");
+            html.Replace("href=\"/", "href=\"http://www.ris.bka.gv.at/");
         }
     }
 }
