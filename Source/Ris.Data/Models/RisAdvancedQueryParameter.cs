@@ -21,9 +21,13 @@ namespace Ris.Data.Models
         {
             get
             {
-                if (!String.IsNullOrWhiteSpace(Suchworte)) return Suchworte;
-                if (!String.IsNullOrWhiteSpace(TitelAbkuerzung)) return TitelAbkuerzung;
-                if (FassungVom.HasValue) return FassungVom.Value.ToString("d");
+                if (!String.IsNullOrWhiteSpace(Suchworte)) return "Suchworte: " + Suchworte;
+                if (!String.IsNullOrWhiteSpace(TitelAbkuerzung)) return "Titel, Abkürzung: " + TitelAbkuerzung;
+                if (AbschnittTyp != AbschnittTypEnum.NotSpecifiedInQuery)
+                {
+                    return AbschnittTyp.ToString() + " von " + Von + " bis " + Bis;
+                }
+                if (FassungVom.HasValue) return "Fassung vom: " + FassungVom.Value.ToString("d");
                 
                 return "Erweiterte Abfrage";
             }
