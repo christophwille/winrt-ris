@@ -35,12 +35,9 @@ namespace Ris.Data.Models
                 var adv = (RisAdvancedQueryParameter)qp;
                 Suchworte = adv.Suchworte;
                 TitelAbkuerzung = adv.TitelAbkuerzung;
-                ParagrafVon = adv.ParagrafVon;
-                ParagrafBis = adv.ParagrafBis;
-                ArtikelVon = adv.ArtikelVon;
-                ArtikelBis = adv.ArtikelBis;
-                AnlageVon = adv.AnlageVon;
-                AnlageBis = adv.AnlageBis;
+                Von = adv.Von;
+                Bis = adv.Bis;
+                AbschnittTyp = (int)adv.AbschnittTyp;
                 Kundmachungsorgan = adv.Kundmachungsorgan;
                 KundmachungsorganNummer = adv.KundmachungsorganNummer;
                 Typ = adv.Typ;
@@ -73,12 +70,9 @@ namespace Ris.Data.Models
                                   {
                                       Suchworte = this.Suchworte,
                                       TitelAbkuerzung = this.TitelAbkuerzung,
-                                      ParagrafVon = this.ParagrafVon,
-                                      ParagrafBis = this.ParagrafBis,
-                                      ArtikelVon = this.ArtikelVon,
-                                      ArtikelBis = this.ArtikelBis,
-                                      AnlageVon = this.AnlageVon,
-                                      AnlageBis = this.AnlageBis,
+                                      Von = this.Von,
+                                      Bis = this.Bis,
+                                      AbschnittTyp = (AbschnittTypEnum)this.AbschnittTyp,
                                       Kundmachungsorgan = this.Kundmachungsorgan,
                                       KundmachungsorganNummer = this.KundmachungsorganNummer,
                                       Typ = this.Typ,
@@ -102,12 +96,11 @@ namespace Ris.Data.Models
         // Advanced Search
         public string Suchworte { get; set; }
         public string TitelAbkuerzung { get; set; }
-        public int? ParagrafVon { get; set; }
-        public int? ParagrafBis { get; set; }
-        public string ArtikelVon { get; set; }
-        public string ArtikelBis { get; set; }
-        public string AnlageVon { get; set; }
-        public string AnlageBis { get; set; }
+
+        public string Von { get; set; }
+        public string Bis { get; set; }
+        public int AbschnittTyp { get; set; }
+
         public string Kundmachungsorgan { get; set; }
         public string KundmachungsorganNummer { get; set; }
         public string Typ { get; set; }

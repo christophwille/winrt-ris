@@ -70,16 +70,15 @@ namespace Ris.Client.WinRT
                 request.Titel = QueryParser.Parse(param.TitelAbkuerzung);
             }
 
-            // TODO: Implement Abschnitt
-            //if (param.ParagrafVon.HasValue)
-            //{
-            //    var abschnitt = new Req.NormabschnittSucheinschraenkung();
+            if (param.AbschnittTyp != AbschnittTypEnum.NotSpecifiedInQuery)
+            {
+                var abschnitt = AbschnittParser.Parse(param.Von, param.Bis, param.AbschnittTyp);
 
-
-            //    // Not quite sure if that is correct
-            //    abschnitt.TypSpecified = true;
-            //    abschnitt.Typ = Req.NormabschnittTyp.Alle;
-            //}
+                if (null != abschnitt)
+                {
+                    request.Abschnitt = abschnitt;
+                }
+            }
 
             if (!String.IsNullOrWhiteSpace(param.Kundmachungsorgan))
             {

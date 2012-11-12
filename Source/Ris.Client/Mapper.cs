@@ -220,5 +220,26 @@ namespace Ris.Client
 
             throw new ArgumentOutOfRangeException();
         }
+
+        public static Req.NormabschnittTyp MapAbschnittTypToNormabschnittTyp(AbschnittTypEnum abschnitt)
+        {
+            switch (abschnitt)
+            {
+                case AbschnittTypEnum.Alle:
+                    return Req.NormabschnittTyp.Alle;
+                    break;
+                case AbschnittTypEnum.Artikel:
+                    return Req.NormabschnittTyp.Artikel;
+                    break;
+                case AbschnittTypEnum.Paragraph:
+                    return Req.NormabschnittTyp.Paragraph;
+                    break;
+                case AbschnittTypEnum.Anlage:
+                    return Req.NormabschnittTyp.Anlage;
+                    break;
+            }
+
+            throw new ArgumentOutOfRangeException();
+        }
     }
 }

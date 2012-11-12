@@ -64,6 +64,7 @@
     <Content Include="Messages\Notes.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbschnittParser.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="Messages\Document.cs">
       <SubType>Code</SubType>
@@ -73,6 +74,7 @@
     </Compile>
     <Compile Include="Messages\Response.cs" />
     <Compile Include="Messages\MessageSerializationHelper.cs" />
+    <Compile Include="Models\AbschnittTypEnum.cs" />
     <Compile Include="Models\ChangedWithinEnum.cs" />
     <Compile Include="Models\Document.cs" />
     <Compile Include="Models\DocumentContent.cs" />

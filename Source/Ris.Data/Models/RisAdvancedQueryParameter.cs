@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ris.Client.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ namespace Ris.Data.Models
         public RisAdvancedQueryParameter()
             : base()
         {
+            AbschnittTyp = AbschnittTypEnum.NotSpecifiedInQuery;
         }
 
         public override string DisplayString
@@ -28,31 +30,19 @@ namespace Ris.Data.Models
         }
 
         public string Suchworte { get; set; }
-
         public string TitelAbkuerzung { get; set; }
 
         public string Index { get; set; }
-
         public string Typ { get; set; }
 
         public DateTime? Unterzeichnungsdatum { get; set; }
-
         public DateTime? FassungVom { get; set; }
 
-        public int? ParagrafVon { get; set; }
-
-        public int? ParagrafBis { get; set; }
-
-        public string ArtikelVon { get; set; }
-
-        public string ArtikelBis { get; set; }
-
-        public string AnlageVon { get; set; }
-
-        public string AnlageBis { get; set; }
+        public string Von { get; set; }
+        public string Bis { get; set; }
+        public AbschnittTypEnum AbschnittTyp { get; set; }
 
         public string Kundmachungsorgan { get; set; }
-
         public string KundmachungsorganNummer { get; set; }
     }
 }

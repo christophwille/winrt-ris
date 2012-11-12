@@ -12,6 +12,7 @@ using Risotto.Models;
 using Risotto.Services;
 using Ris.Client.Models;
 using System.Globalization;
+using Ris.Client;
 
 namespace Risotto.ViewModels
 {
@@ -252,13 +253,8 @@ namespace Risotto.ViewModels
 
             p.Suchworte = ValidatePhraseExpressionText(Suchworte, "Suchworte enthält keine gültige Abfrage");
             p.TitelAbkuerzung = ValidatePhraseExpressionText(TitelAbkuerzung, "Titel, Abkürzung enthält keine gültige Abfrage");
-            
-            p.ParagrafVon = ValidateNonEmptyTextToInteger(ParagrafVon, "Paragraf von muß eine Zahl sein");
-            p.ParagrafBis = ValidateNonEmptyTextToInteger(ParagrafBis, "Paragraf bis muß eine Zahl sein");
-            p.ArtikelVon = ArtikelVon.Trim();
-            p.ArtikelBis = ArtikelBis.Trim();
-            p.AnlageVon = AnlageVon.Trim();
-            p.AnlageBis = AnlageBis.Trim();
+
+            ValidateAbschnitt(p);
 
             p.Kundmachungsorgan = SelectedKundmachungsorgan.Text;
             p.KundmachungsorganNummer = KundmachungsorganNummer;
@@ -270,41 +266,62 @@ namespace Risotto.ViewModels
             p.FassungVom = ValidateNonEmptyTextToDate(FassungVom, "Fassung vom ist kein gültiges Datum");
             p.ImRisSeit = SelectedImRisSeitListItem.ImRisSeit;
 
-            if (p.ParagrafBis.HasValue && !p.ParagrafVon.HasValue)
-            {
-                ValidationMessage += "Wenn Paragraf bis einen Wert hat, muß auch Paragraf von angegeben werden" + Environment.NewLine;
-            }
-
-            if (p.ArtikelBis != "" && p.ArtikelVon == "")
-            {
-                ValidationMessage += "Wenn Artikel bis einen Wert hat, muß auch Artikel von angegeben werden" + Environment.NewLine;
-            }
-
-            if (p.AnlageBis != "" && p.AnlageVon == "")
-            {
-                ValidationMessage += "Wenn Anlage bis einen Wert hat, muß auch Anlage von angegeben werden" + Environment.NewLine;
-            }
-
             bool anyFailures = !String.IsNullOrWhiteSpace(ValidationMessage);
-
             return (anyFailures ? null : p);
         }
 
-        private int? ValidateNonEmptyTextToInteger(string searchText, string validationMessageToAdd)
+        private void ValidateAbschnitt(RisAdvancedQueryParameter p)
         {
-            if (String.IsNullOrWhiteSpace(searchText))
-                return null;
+            var inputmask = new Dictionary<AbschnittTypEnum, bool>();
+            inputmask[AbschnittTypEnum.Paragraph] = !String.IsNullOrWhiteSpace(ParagrafVon) || !String.IsNullOrWhiteSpace(ParagrafBis);
+            inputmask[AbschnittTypEnum.Artikel] = !String.IsNullOrWhiteSpace(ArtikelVon) || !String.IsNullOrWhiteSpace(ArtikelBis);
+            inputmask[AbschnittTypEnum.Anlage] = !String.IsNullOrWhiteSpace(AnlageVon) || !String.IsNullOrWhiteSpace(AnlageBis);
 
-            int result = 0;
-            bool pOk = Int32.TryParse(searchText, out result);
+            int countOfAbschnitteSpecified = inputmask.Count(kvp => kvp.Value);
 
-            if (!pOk)
+            // If not specified at all, return immediately
+            if (0 == countOfAbschnitteSpecified) return;
+
+            if (countOfAbschnitteSpecified > 1)
             {
-                ValidationMessage += validationMessageToAdd + Environment.NewLine;
-                return null;
+                ValidationMessage += "Paragraph, Artikel, Anlage dürfen jeweils nur ausschließlich eingegeben werden" + Environment.NewLine;
             }
+            else
+            {
+                string von, bis;
+                AbschnittTypEnum typ;
+                if (inputmask[AbschnittTypEnum.Paragraph])
+                {
+                    von = ParagrafVon;
+                    bis = ParagrafBis;
+                    typ = AbschnittTypEnum.Paragraph;
+                }
+                else if (inputmask[AbschnittTypEnum.Artikel])
+                {
+                    von = ArtikelVon;
+                    bis = ArtikelBis;
+                    typ = AbschnittTypEnum.Artikel;
+                }
+                else
+                {
+                    von = AnlageVon;
+                    bis = AnlageBis;
+                    typ = AbschnittTypEnum.Anlage;
+                }
 
-            return result;
+                var abschnitt = AbschnittParser.Parse(von, bis, typ);
+
+                if (null == abschnitt)
+                {
+                    ValidationMessage += typ.ToString() + " Von-Bis ungültig" + Environment.NewLine;
+                }
+                else
+                {
+                    p.Von = von;
+                    p.Bis = bis;
+                    p.AbschnittTyp = typ;
+                }
+            }
         }
 
         private DateTime? ValidateNonEmptyTextToDate(string searchText, string validationMessageToAdd)
@@ -449,12 +466,23 @@ namespace Risotto.ViewModels
         {
             Suchworte = param.Suchworte;
             TitelAbkuerzung = param.TitelAbkuerzung;
-            ParagrafVon = param.ParagrafVon.ToString();
-            ParagrafBis = param.ParagrafBis.ToString();
-            ArtikelVon = param.ArtikelVon;
-            ArtikelBis = param.ArtikelBis;
-            AnlageVon = param.AnlageVon;
-            AnlageBis = param.AnlageBis;
+
+            switch (param.AbschnittTyp)
+            {
+                case AbschnittTypEnum.Paragraph:
+                    ParagrafVon = param.Von;
+                    ParagrafBis = param.Bis;
+                    break;
+                case AbschnittTypEnum.Artikel:
+                    ArtikelVon = param.Von;
+                    ArtikelBis = param.Bis;
+                    break;
+                case AbschnittTypEnum.Anlage:
+                    AnlageVon = param.Von;
+                    AnlageBis = param.Bis;
+                    break;
+            }
+
             SelectKundmachungsorgan(param.Kundmachungsorgan);
             KundmachungsorganNummer = param.KundmachungsorganNummer;
             Typ = param.Typ;
