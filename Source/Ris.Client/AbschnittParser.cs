@@ -51,6 +51,9 @@ namespace Ris.Client
         }
 
         // Format: (optional) Numeric followed by any number of spaces (including none) + character(s)
+        //
+        // NOTE: searching for "1/3" as outlined on the Web is not available in the OGD service
+        //
         public static bool Parse(string input, out int nummer, out string buchstabe)
         {
             input = input.Trim();
