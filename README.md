@@ -5,22 +5,33 @@ Store Link: http://apps.microsoft.com/webpdp/app/ris-bundesrecht-osterreich/69ba
 
 Diese Applikation befindet sich in Entwicklung. Aktueller Funktionsumfang:
 
-* Volltextsuche mit inkrementellem Nachladen der Suchtreffer (jeweils 50 weitere)
-* Bei Anklicken eines Suchtreffers erfolgt Anzeige des Gesetzestexts im Internet Explorer
+* Volltextsuche 
+* Erweiterte Suche
+* Trefferliste mit automatischem inkrementellem Nachladen weiterer Suchtreffer (jeweils 50 weitere)
+* Bei Anklicken eines Suchtreffers erfolgt Anzeige des Dokuments
 * History der Suchabfragen
+* Sharing von Trefferlisten und Dokumenten
 
 Featureideen:
 
 * Dokumente downloaden und für Offline-Verwendung cachen
-* Suchformular für alle Suchparameter (Erweiterte Suche)
 * Protocol Handler (Direktlink auf ein Dokument in die App)
-* Sharing Contract (Suchresultate, aktuelles Dokument)
 
 ## Entwickler
 * Christoph Wille
 * Siegfried Pammer (Parser für Volltextsuche)
 
-Screenshot
+Screenshots
 
-![In Action](https://raw.github.com/christophwille/winrt-ris/master/screenshot.png)
+Erweiterte Suche
+
+![Erweiterte Suche](https://raw.github.com/christophwille/winrt-ris/master/screenshot_erweitertesuche.png)
+
+Trefferliste
+
+![Suchresultate](https://raw.github.com/christophwille/winrt-ris/master/screenshot_suchresultate.png)
+
+Dokumentanzeige 
+
+![Dokument](https://raw.github.com/christophwille/winrt-ris/master/screenshot_dokument.png)
 
