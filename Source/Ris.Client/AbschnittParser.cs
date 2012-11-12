@@ -60,6 +60,9 @@ namespace Ris.Client
             nummer = 0;
             buchstabe = "";
 
+            // Parsing an empty input string is considered an error
+            if (input.Length == 0) return false;
+
             string firstPart = "";
             for (int i = 0; i < nInputLength; i++)
             {
