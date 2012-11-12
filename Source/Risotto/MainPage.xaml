@@ -104,19 +104,20 @@
                 <StackPanel Orientation="Vertical" Grid.Row="0">
                     <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                         <ThirdParty:ExtendedTextBox 
-                        CustomAction="{Binding UpdateBoundSearchTextProperty, Mode=OneTime}"
-                        Width="230" 
-                        x:Name="searchText" 
-                        Height="40" 
-                        FontSize="20"
-                        Text="{Binding SearchText}"
-                        Margin="5, 5, 5, 5" />
+                            CustomAction="{Binding UpdateBoundSearchTextProperty, Mode=OneTime}"
+                            Width="230" 
+                            x:Name="searchText" 
+                            Height="40" 
+                            FontSize="20"
+                            KeyDown="SearchText_OnKeyDown"
+                            Text="{Binding SearchText}"
+                            Margin="5, 5, 5, 5" />
 
                         <Button Style="{StaticResource SearchAppBarButtonStyle}" 
-                        x:Name="startSearchButton"
-                        AutomationProperties.Name="Volltextsuche" 
-                        Margin="5, 5, 5, 5"
-                        Command="{Binding FulltextSearchCommand, Mode=OneWay}" />
+                            x:Name="startSearchButton"
+                            AutomationProperties.Name="Volltextsuche" 
+                            Margin="5, 5, 5, 5"
+                            Command="{Binding FulltextSearchCommand, Mode=OneWay}" />
                     </StackPanel>
 
                     <Button Margin="0,0,0,15" Content="Erweiterte Suche im RIS" 

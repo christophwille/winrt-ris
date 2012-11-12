@@ -91,5 +91,16 @@ namespace Risotto
         {
             NavigationService.Navigate<AdvancedSearchPage>();
         }
+
+        private void SearchText_OnKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                if (ViewModel.CanSearchRis)
+                {
+                    ViewModel.SearchFulltext();
+                }
+            }
+        }
     }
 }
