@@ -70,7 +70,7 @@ namespace Ris.Client.WinRT
                 request.Titel = QueryParser.Parse(param.TitelAbkuerzung);
             }
 
-            // TODO: Implement
+            // TODO: Implement Abschnitt
             //if (param.ParagrafVon.HasValue)
             //{
             //    var abschnitt = new Req.NormabschnittSucheinschraenkung();
