@@ -42,13 +42,6 @@ namespace Risotto
             this.Resuming += OnResuming;
         }
 
-        public static event EventHandler<EventArgs> SearchHistoryChanged;
-        public static void RaiseSearchHistoryChangedEvent()
-        {
-            if (null != SearchHistoryChanged)
-                SearchHistoryChanged(null, null);
-        }
-
         private async Task CommonInitialize()
         {
             // Register handler for CommandsRequested events from the settings pane

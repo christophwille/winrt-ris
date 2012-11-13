@@ -10,6 +10,10 @@
     d:DesignWidth="400">
     
     <Grid>
-        <Button x:Name="deleteHistory" Content="Suchhistorie löschen" Click="DeleteHistory_OnClick" />
+        <StackPanel Orientation="Vertical">
+            <TextBlock Style="{StaticResource TitleTextStyle}" Margin="5,10,0,10">Datenverwaltung</TextBlock>
+            <Button x:Name="deleteHistory" Content="Suchhistorie löschen" Click="DeleteHistory_OnClick" Width="200"/>
+            <Button x:Name="deleteDownloads" Content="Lokale Kopien löschen" Click="DeleteDownloads_OnClick" Width="200" />
+        </StackPanel>
     </Grid>
 </UserControl>

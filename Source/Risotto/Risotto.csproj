@@ -125,6 +125,7 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MessengerHelper.cs" />
     <Compile Include="Models\AdvancedSearchPageState.cs" />
     <Compile Include="Models\DocumentDetailNavigationParameter.cs" />
     <Compile Include="Models\ImRisSeitListItem.cs" />

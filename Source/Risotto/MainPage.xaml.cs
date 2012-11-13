@@ -38,9 +38,11 @@ namespace Risotto
 
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
-            App.SearchHistoryChanged += AppOnSearchHistoryChanged;
+            MessengerHelper.Register(this, MessengerHelper.SearchHistoryDeleted, SearchHistoryDeleted);
+            MessengerHelper.Register(this, MessengerHelper.DownloadsDeleted, DownloadsDeleted);
 
             ViewModel.LoadSearchHistoryAsync(); // intentionally no await
+            ViewModel.LoadDownloadsAsync(); // intentionally no await
 
             if (pageState != null && pageState.ContainsKey(Constants.MainPageState))
             {
@@ -51,14 +53,20 @@ namespace Risotto
             }
         }
 
-        private void AppOnSearchHistoryChanged(object sender, EventArgs eventArgs)
+        private void SearchHistoryDeleted()
         {
             ViewModel.LoadSearchHistoryAsync();
         }
 
+        private void DownloadsDeleted()
+        {
+            ViewModel.LoadDownloadsAsync();
+        }
+
         protected override void SaveState(Dictionary<String, Object> pageState)
         {
-            App.SearchHistoryChanged -= AppOnSearchHistoryChanged;
+            MessengerHelper.Unregister(this, MessengerHelper.SearchHistoryDeleted);
+            MessengerHelper.Unregister(this, MessengerHelper.DownloadsDeleted);
 
             string serializedState = SerializationHelper.SerializeToString(ViewModel.SaveState());
             pageState[Constants.MainPageState] = serializedState;

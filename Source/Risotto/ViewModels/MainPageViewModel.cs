@@ -43,7 +43,6 @@ namespace Risotto.ViewModels
             }
         }
 
-
         public const string SelectedSearchHistoryPropertyName = "SelectedSearchHistory";
         private DbRisQueryParameter _selectedHistoryItem = null;
         public DbRisQueryParameter SelectedSearchHistory
@@ -56,6 +55,17 @@ namespace Risotto.ViewModels
             }
         }
 
+        public const string SelectedDownloadPropertyName = "SelectedDownload";
+        private DbDownloadedDocument _selectedDownload = null;
+        public DbDownloadedDocument SelectedDownload
+        {
+            get { return _selectedDownload; }
+            set
+            {
+                Set(SelectedDownloadPropertyName, ref _selectedDownload, value);
+                DeleteSelectedDownloadCommand.RaiseCanExecuteChanged();
+            }
+        }
         
         private RelayCommand _deleteSelectedSearchHistoryItemCommand;
         public RelayCommand DeleteSelectedSearchHistoryItemCommand
@@ -69,12 +79,32 @@ namespace Risotto.ViewModels
             }
         }
 
+        private RelayCommand _deleteSelectedDownloadCommand;
+        public RelayCommand DeleteSelectedDownloadCommand
+        {
+            get
+            {
+                return _deleteSelectedDownloadCommand
+                    ?? (_deleteSelectedDownloadCommand = new RelayCommand(
+                        async () => await DeleteSelectedDownloadAsync(),
+                        () => SelectedDownload != null));
+            }
+        }
+
         public async Task DeleteSelectedSearchHistoryItemAsync()
         {
             var ctx = new RisDbContext();
 
             await ctx.DeleteSearchHistoryEntry(SelectedSearchHistory);
             await LoadSearchHistoryAsync();
+        }
+
+        public async Task DeleteSelectedDownloadAsync()
+        {
+            var ctx = new RisDbContext();
+
+            await ctx.DeleteDownload(SelectedDownload);
+            await LoadDownloadsAsync();
         }
 
         public async Task LoadSearchHistoryAsync()
@@ -84,6 +114,15 @@ namespace Risotto.ViewModels
 
             SelectedSearchHistory = null;
             SearchHistory = history;
+        }
+
+        public async Task LoadDownloadsAsync()
+        {
+            var ctx = new RisDbContext();
+            var history = await ctx.GetTenMostRecentDownloads();
+
+            SelectedDownload = null;
+            DownloadedDocuments = history;
         }
 
         private RelayCommand _searchRisCommand;

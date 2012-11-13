@@ -31,7 +31,17 @@ namespace Risotto
             var ctx = new RisDbContext();
             await ctx.DeleteSearchHistory();
 
-            App.RaiseSearchHistoryChangedEvent();
+            MessengerHelper.Notify(MessengerHelper.SearchHistoryDeleted);
+        }
+
+        private async void DeleteDownloads_OnClick(object sender, RoutedEventArgs e)
+        {
+            deleteDownloads.IsEnabled = false;
+
+            var ctx = new RisDbContext();
+            await ctx.DeleteDownloads();
+
+            MessengerHelper.Notify(MessengerHelper.DownloadsDeleted);
         }
     }
 }
