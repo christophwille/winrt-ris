@@ -16,7 +16,7 @@ namespace Ris.Data.Models
         public DbDownloadedDocument(string nummer, string titel, string originalresultxml)
         {
             DokumentNummer = nummer;
-            DokumentTitel = DokumentTitel;
+            DokumentTitel = titel;
             OriginalDocumentResultXml = originalresultxml;
 
             LastDownloaded = DateTime.Now;

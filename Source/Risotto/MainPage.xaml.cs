@@ -92,7 +92,12 @@ namespace Risotto
 
         private void Downloads_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            throw new NotImplementedException();
+            var item = e.ClickedItem as DbDownloadedDocument;
+
+            var action = DocumentDetailNavigationParameter
+                .CreateNavigationParameter(item.DokumentTitel, NavigationAction.LoadCachedDownload, item.Id.ToString());
+
+            NavigationService.Navigate<DocumentDetailPage>(action);
         }
 
         private void AdvancedQueryButton_OnClick(object sender, RoutedEventArgs e)

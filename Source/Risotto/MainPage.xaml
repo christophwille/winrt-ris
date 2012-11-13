@@ -152,7 +152,9 @@
                     Padding="10,0,0,60"
                     ItemsSource="{Binding Source={StaticResource downloadsViewSource}}"
                     ItemTemplate="{StaticResource DownloadsItemTemplate}"
-                    SelectionMode="None"
+                    SelectionMode="Single"
+                    SelectedItem="{Binding SelectedDownload, Mode=TwoWay}"
+                    IsSynchronizedWithCurrentItem="False"
                     IsItemClickEnabled="true"
                     ItemClick="Downloads_OnItemClick"
                     IsSwipeEnabled="false"/>
