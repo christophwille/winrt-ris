@@ -54,13 +54,13 @@
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="120"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <RowDefinition Height="140" />
+                <RowDefinition Height="100" />
             </Grid.RowDefinitions>
             
             <WebView Grid.Column="1" x:Name="webView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />

@@ -64,9 +64,8 @@ namespace Risotto.ViewModels
 
                 foreach (var docref in list)
                 {
-                    // TODO: risdok://Dokumentnummer here
-                    stb.AppendFormat("{0}, {1}\r\n{2}\r\n\r\n", 
-                        docref.ArtikelParagraphAnlage, docref.Kurzinformation, docref.DokumentUrl);
+                    stb.AppendFormat("{0}, {1}\r\nRIS Bundesrecht Österreich URL: risdok://{2}/\r\nWeb URL: {3}\r\n\r\n", 
+                        docref.ArtikelParagraphAnlage, docref.Kurzinformation, docref.Dokumentnummer, docref.DokumentUrl);
                 }
 
                 request.Data.SetText(stb.ToString());

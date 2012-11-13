@@ -1,10 +1,12 @@
-﻿using Callisto.Controls;
+﻿using System.Diagnostics;
+using Callisto.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Ris.Data;
 using Risotto.Common;
+using Risotto.Models;
 using Risotto.Services;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -42,8 +44,11 @@ namespace Risotto
             this.Resuming += OnResuming;
         }
 
+        private bool _commonHasBeenInitialized = false;
         private async Task CommonInitialize()
         {
+            if (_commonHasBeenInitialized) return;
+
             // Register handler for CommandsRequested events from the settings pane
             SettingsPane.GetForCurrentView().CommandsRequested += OnCommandsRequested;
 
@@ -51,6 +56,8 @@ namespace Risotto
             SearchPane.GetForCurrentView().SuggestionsRequested += OnSuggestionsRequested;
 
             await RisDbContext.InitializeDatabaseAsync();
+
+            _commonHasBeenInitialized = true;
         }
 
         protected override void OnActivated(IActivatedEventArgs args)
@@ -64,14 +71,19 @@ namespace Risotto
         //
         // http://tozon.info/blog/post/2011/10/06/Windows-8-Metro-declarations-Protocol.aspx
         //
-        private void OnProtocolActivated(ProtocolActivatedEventArgs args)
+        private async void OnProtocolActivated(ProtocolActivatedEventArgs args)
         {
             // Format:  risdok://NOR12110323
-
             string dokumentNummer = args.Uri.Host;
+            string title = "Dokument " + dokumentNummer;
 
-            // TODO: Protocol, Laden von Dokumentnummer (aktuell nicht möglich, aktuell geht nur laden von DokumentUrl)
-            Window.Current.Content = new MainPage();
+            var action = DocumentDetailNavigationParameter
+                .CreateNavigationParameter(title, NavigationAction.LoadFromService, dokumentNummer);
+
+            await CommonInitialize();
+            await EnsureRootFrameInitialization(args.PreviousExecutionState, Window.Current.Content as Frame);
+
+            NavigationService.Navigate<DocumentDetailPage>(action);
             Window.Current.Activate();
         }
 
@@ -85,8 +97,25 @@ namespace Risotto
         {
             await CommonInitialize();
 
-            Frame rootFrame = Window.Current.Content as Frame;
+            var rootFrame = Window.Current.Content as Frame;
+            rootFrame = await EnsureRootFrameInitialization(args.PreviousExecutionState, rootFrame);
 
+            if (rootFrame.Content == null)
+            {
+                // When the navigation stack isn't restored navigate to the first page,
+                // configuring the new page by passing required information as a navigation
+                // parameter
+                if (!rootFrame.Navigate(typeof(MainPage), args.Arguments))
+                {
+                    throw new Exception("Failed to create initial page");
+                }
+            }
+            // Ensure the current window is active
+            Window.Current.Activate();
+        }
+
+        private async Task<Frame> EnsureRootFrameInitialization(ApplicationExecutionState previousExecutionState, Frame rootFrame)
+        {
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
@@ -98,7 +127,7 @@ namespace Risotto
                 //Associate the frame with a SuspensionManager key                                
                 SuspensionManager.RegisterFrame(rootFrame, "AppFrame");
 
-                if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                if (previousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     // Restore the saved session state only when appropriate
                     try
@@ -116,18 +145,7 @@ namespace Risotto
                 Window.Current.Content = rootFrame;
             }
 
-            if (rootFrame.Content == null)
-            {
-                // When the navigation stack isn't restored navigate to the first page,
-                // configuring the new page by passing required information as a navigation
-                // parameter
-                if (!rootFrame.Navigate(typeof(MainPage), args.Arguments))
-                {
-                    throw new Exception("Failed to create initial page");
-                }
-            }
-            // Ensure the current window is active
-            Window.Current.Activate();
+            return rootFrame;
         }
 
         /// <summary>

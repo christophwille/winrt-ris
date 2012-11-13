@@ -89,13 +89,19 @@ namespace Risotto.ViewModels
             }
             else
             {
-                PageTitle = NavigationParameter.DokumentTitel;
+                PageTitle = CreateTitleFromDocument();
 
                 // TODO: Xslt processing for displaying the Html content
             }
 
             RaisePropertyChanged(CanAddDownloadPropertyName);
             UpdateInProgress = false;
+        }
+
+        private string CreateTitleFromDocument()
+        {
+            var item = CurrentDocument.Document;
+            return String.Format("{0} {1}", item.ArtikelParagraphAnlage, item.Kurztitel);
         }
 
         private async Task<bool> LoadFromCacheAsync()
