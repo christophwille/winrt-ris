@@ -18,8 +18,8 @@ namespace Risotto.Models
             get { return _documentReferences; }
         }
 
-        private readonly List<Download> _downloads = new List<Download>();
-        public List<Download> Downloads
+        private readonly List<DbDownloadedDocument> _downloads = new List<DbDownloadedDocument>();
+        public List<DbDownloadedDocument> Downloads
         {
             get { return _downloads; }
         }
@@ -42,9 +42,12 @@ namespace Risotto.Models
 
             _documentReferences.Add(dm);
 
-            var dl = new Download()
+            var dl = new DbDownloadedDocument()
                          {
-                             Name = "Fake Sample Download"
+                             Id = 1,
+                             DokumentNummer = "NOR123455",
+                             DokumentTitel = "§1 Faschingsgesetz",
+                             LastDownloaded = DateTime.Now
                          };
 
             _downloads.Add(dl);

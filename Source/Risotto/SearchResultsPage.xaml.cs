@@ -104,13 +104,34 @@ namespace Risotto
             }
             else
             {
-                var title = String.Format("{0} {1}", item.ArtikelParagraphAnlage, item.Kurzinformation);
-
-                var action = DocumentDetailNavigationParameter
-                    .CreateNavigationParameter(title, NavigationAction.LoadFromUrl, item.DokumentUrl);
-
-                NavigationService.Navigate<DocumentDetailPage>(action);
+                // NavigateWithLoadingAction(item);
+                NavigateWithServiceAction(item);
             }
+        }
+
+        private string CreateTitleFromItem(DocumentReference item)
+        {
+            return String.Format("{0} {1}", item.ArtikelParagraphAnlage, item.Kurzinformation);
+        }
+
+        private void NavigateWithLoadingAction(DocumentReference item)
+        {
+            var title = CreateTitleFromItem(item);
+
+            var action = DocumentDetailNavigationParameter
+                .CreateNavigationParameter(title, NavigationAction.LoadFromUrl, item.DokumentUrl);
+
+            NavigationService.Navigate<DocumentDetailPage>(action);
+        }
+
+        private void NavigateWithServiceAction(DocumentReference item)
+        {
+            var title = CreateTitleFromItem(item);
+
+            var action = DocumentDetailNavigationParameter
+                .CreateNavigationParameter(title, NavigationAction.LoadFromService, item.Dokumentnummer);
+
+            NavigationService.Navigate<DocumentDetailPage>(action);
         }
     }
 }

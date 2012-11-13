@@ -167,7 +167,7 @@ namespace Ris.Client.WinRT
             }
         }
 
-        public async Task<DocumentResult> GetDocument(string dokumentNummer)
+        public async Task<DocumentResult> GetDocumentAsync(string dokumentNummer)
         {
             var client = CreateServiceClient();
 

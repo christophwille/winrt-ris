@@ -21,6 +21,7 @@ namespace Ris.Data
         {
             var db = CreateConnection();
             CreateTablesResult result = await db.CreateTableAsync<DbRisQueryParameter>();
+            result = await db.CreateTableAsync<DbDownloadedDocument>();
         }
 
         private readonly SQLiteAsyncConnection _connection;
@@ -60,6 +61,38 @@ namespace Ris.Data
         public async Task DeleteSearchHistory()
         {
             var result = await _connection.ExecuteAsync("DELETE FROM DbRisQueryParameter");
+        }
+
+
+        // Downloaded documents
+
+        public async Task<DbDownloadedDocument> GetDownload(int id)
+        {
+            var doc = await _connection.Table<DbDownloadedDocument>().Where(d => d.Id == id).FirstOrDefaultAsync();
+            return doc;
+        }
+
+        public async Task InsertDownload(DbDownloadedDocument doc)
+        {
+            int result = await _connection.InsertAsync(doc);
+        }
+
+        public async Task DeleteDownload(DbDownloadedDocument doc)
+        {
+            int result = await _connection.DeleteAsync(doc);
+        }
+
+        public async Task<List<DbDownloadedDocument>> GetTenMostRecentDownloads()
+        {
+            var query = _connection.Table<DbDownloadedDocument>().OrderByDescending(doc => doc.LastDownloaded);
+            var history = await query.ToListAsync();
+
+            return history;
+        }
+
+        public async Task DeleteDownloads()
+        {
+            var result = await _connection.ExecuteAsync("DELETE FROM DbDownloadedDocument");
         }
     }
 }

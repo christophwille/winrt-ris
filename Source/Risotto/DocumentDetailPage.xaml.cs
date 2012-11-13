@@ -41,13 +41,16 @@ namespace Risotto
             dataTransferManager.DataRequested += DataTransferManager_DataRequested;
 
             var navParam = DocumentDetailNavigationParameter.FromNavigationParameter((string) navigationParameter);
-
-            ViewModel.PageTitle = navParam.DokumentTitel;
-            ViewModel.NavigationAction = navParam.Action;
+            ViewModel.NavigationParameter = navParam;
 
             if (navParam.Action == NavigationAction.LoadFromUrl)
             {
+                ViewModel.PageTitle = navParam.DokumentTitel;
                 webView.Navigate(new Uri(navParam.Command));
+            }
+            else
+            {
+                ViewModel.Load();
             }
         }
 
@@ -55,6 +58,8 @@ namespace Risotto
         {
             var dataTransferManager = DataTransferManager.GetForCurrentView();
             dataTransferManager.DataRequested -= DataTransferManager_DataRequested;
+
+            // TODO: save state
         }
 
         //
@@ -66,22 +71,28 @@ namespace Risotto
         {
             DataRequest request = args.Request;
 
-            if (NavigationAction.LoadFromUrl == ViewModel.NavigationAction)
+            if (NavigationAction.LoadFromUrl == ViewModel.NavigationParameter.Action)
             {
-                try
-                {
-                    var html = new StringBuilder(webView.InvokeScript("eval", new string[] { "document.documentElement.outerHTML;" }));
-                    
-                    // Fix Urls to base Urls otherwise it won't look right (css, js et cetera missing)
-                    QuickDirtyHtmlFixup(html);
+                ProvideSharingDataFromWebView(request);
+            }
+        }
 
-                    request.Data.Properties.Title = ViewModel.PageTitle;
-                    request.Data.SetHtmlFormat(html.ToString());
-                }
-                catch
-                {
-                    request.FailWithDisplayText("Es gibt keine Inhalte die geteilt werden können");
-                }
+        private void ProvideSharingDataFromWebView(DataRequest request)
+        {
+            try
+            {
+                var html = new StringBuilder(webView.InvokeScript("eval", new string[] { "document.documentElement.outerHTML;" }));
+
+                // Fix Urls to base Urls otherwise it won't look right (css, js et cetera missing) - really, really simple 
+                html.Replace("src=\"/", "src=\"http://www.ris.bka.gv.at/");
+                html.Replace("href=\"/", "href=\"http://www.ris.bka.gv.at/");
+
+                request.Data.Properties.Title = ViewModel.PageTitle;
+                request.Data.SetHtmlFormat(html.ToString());
+            }
+            catch
+            {
+                request.FailWithDisplayText("Es gibt keine Inhalte die geteilt werden können");
             }
         }
 
@@ -93,12 +104,6 @@ namespace Risotto
         public void OnFlyoutClose()
         {
             WebViewFlyoutFixes.FlyoutClose(webViewRect, webView);
-        }
-
-        private void QuickDirtyHtmlFixup(StringBuilder html)
-        {
-            html.Replace("src=\"/", "src=\"http://www.ris.bka.gv.at/");
-            html.Replace("href=\"/", "href=\"http://www.ris.bka.gv.at/");
         }
     }
 }

@@ -105,7 +105,7 @@
   <ItemGroup>
     <Compile Include="BindableBase.cs" />
     <Compile Include="Models\DbRisQueryParameter.cs" />
-    <Compile Include="Models\Download.cs" />
+    <Compile Include="Models\DbDownloadedDocument.cs" />
     <Compile Include="Models\RisAdvancedQueryParameter.cs" />
     <Compile Include="Models\RisFulltextQueryParameter.cs" />
     <Compile Include="Models\RisQueryParameter.cs" />

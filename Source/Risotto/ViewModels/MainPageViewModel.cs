@@ -15,9 +15,9 @@ namespace Risotto.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
-        public const string DownloadsPropertyName = "Downloads";
-        private List<Download> _downloads = null;
-        public List<Download> Downloads
+        public const string DownloadedDocumentsPropertyName = "DownloadedDocuments";
+        private List<DbDownloadedDocument> _downloads = null;
+        public List<DbDownloadedDocument> DownloadedDocuments
         {
             get
             {
@@ -25,7 +25,7 @@ namespace Risotto.ViewModels
             }
             set
             {
-                Set(DownloadsPropertyName, ref _downloads, value);
+                Set(DownloadedDocumentsPropertyName, ref _downloads, value);
             }
         }
 

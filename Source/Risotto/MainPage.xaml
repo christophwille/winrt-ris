@@ -25,7 +25,7 @@
 
         <CollectionViewSource
             x:Name="downloadsViewSource"
-            Source="{Binding Downloads}"
+            Source="{Binding DownloadedDocuments}"
             d:Source="{Binding Downloads, Source={d:DesignInstance Type=data:SampleDataSource, IsDesignTimeCreatable=True}}"/>
 
         <DataTemplate x:Key="SearchHistoryItemTemplate">
@@ -46,8 +46,8 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Margin="10,0,0,0">
-                    <TextBlock Text="{Binding Name}" Style="{StaticResource ItemTextStyle}" MaxHeight="40"/>
-                    <TextBlock Text="{Binding ArtikelParagraphAnlage}" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap"/>
+                    <TextBlock Text="{Binding DokumentTitel}" Style="{StaticResource ItemTextStyle}" MaxHeight="40"/>
+                    <TextBlock Text="{Binding LastDownloaded}" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>

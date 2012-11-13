@@ -7,6 +7,7 @@ using Ris.Client.Models;
 using Req = Ris.Client.Messages.Request;
 using Resp = Ris.Client.Messages.Response;
 using Doc = Ris.Client.Messages.Document;
+using Ris.Client.Messages;
 
 namespace Ris.Client
 {
@@ -50,6 +51,7 @@ namespace Ris.Client
             }
 
             var documentsResult = (Doc.T_OGDWebDocument)documentResult.Item;
+            string ogdwebdocument = MessageSerializationHelper.SerializeToString(documentsResult);
 
             var transformedDocument = new Client.Models.Document()
                                           {
@@ -83,6 +85,9 @@ namespace Ris.Client
                                               Uebergangsrecht = documentsResult.Uebergangsrecht,
                                               Unterzeichnungsdatum = documentsResult.Unterzeichnungsdatum,
                                               Veroeffentlichungsdatum = documentsResult.Veroeffentlichungsdatum,
+
+                                              // Complete string representation of the document, including WebDocumentContentReferences
+                                              OGDWebDocument = ogdwebdocument
                                           };
 
             var transformedContentItems = new List<Client.Models.DocumentContent>();
