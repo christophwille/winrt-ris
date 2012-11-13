@@ -8,7 +8,7 @@
     xmlns:common="using:Risotto.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:q42converters="using:Q42.WinRT.Converters" mc:Ignorable="d">
 
     <Page.TopAppBar>
         <AppBar>
@@ -21,6 +21,7 @@
     </Page.TopAppBar>
     
     <Page.Resources>
+        <q42converters:VisibilityConverter x:Name="q42visconverter" />
     </Page.Resources>
 
     <!--
@@ -34,6 +35,13 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <ProgressBar
+                     Visibility="{Binding UpdateInProgress, Converter={StaticResource q42visconverter}}"
+                     HorizontalAlignment="Center" 
+                     VerticalAlignment="Top" 
+                     IsIndeterminate="True"  
+                     Width="300" />
+        
         <!-- Back button and page title -->
         <Grid>
             <Grid.ColumnDefinitions>
