@@ -13,10 +13,12 @@ namespace Ris.Data.Models
         {
         }
 
-        public DbDownloadedDocument(string nummer, string titel)
+        public DbDownloadedDocument(string nummer, string titel, string originalresultxml)
         {
             DokumentNummer = nummer;
             DokumentTitel = DokumentTitel;
+            OriginalDocumentResultXml = originalresultxml;
+
             LastDownloaded = DateTime.Now;
         }
 
@@ -25,6 +27,8 @@ namespace Ris.Data.Models
 
         public string DokumentNummer { get; set; }
         public string DokumentTitel { get; set; }
+
+        public string OriginalDocumentResultXml { get; set; }
 
         public DateTime LastDownloaded { get; set; }
     }

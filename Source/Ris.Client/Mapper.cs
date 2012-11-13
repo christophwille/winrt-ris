@@ -51,7 +51,6 @@ namespace Ris.Client
             }
 
             var documentsResult = (Doc.T_OGDWebDocument)documentResult.Item;
-            string ogdwebdocument = MessageSerializationHelper.SerializeToString(documentsResult);
 
             var transformedDocument = new Client.Models.Document()
                                           {
@@ -85,9 +84,6 @@ namespace Ris.Client
                                               Uebergangsrecht = documentsResult.Uebergangsrecht,
                                               Unterzeichnungsdatum = documentsResult.Unterzeichnungsdatum,
                                               Veroeffentlichungsdatum = documentsResult.Veroeffentlichungsdatum,
-
-                                              // Complete string representation of the document, including WebDocumentContentReferences
-                                              OGDWebDocument = ogdwebdocument
                                           };
 
             var transformedContentItems = new List<Client.Models.DocumentContent>();

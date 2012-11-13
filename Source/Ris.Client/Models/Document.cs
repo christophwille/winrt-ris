@@ -31,7 +31,5 @@ namespace Ris.Client.Models
         public string Uebergangsrecht { get; set; }
         public DateTime? Unterzeichnungsdatum { get; set; }
         public DateTime? Veroeffentlichungsdatum { get; set; }
-
-        public string OGDWebDocument { get; set; }
     }
 }

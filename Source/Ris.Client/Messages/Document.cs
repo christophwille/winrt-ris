@@ -845,7 +845,7 @@ namespace Ris.Client.Messages.Document
 
         public System.Xml.Schema.XmlSchema GetSchema()
         {
-            throw new System.NotImplementedException();
+            return null;
         }
 
         public void ReadXml(System.Xml.XmlReader reader)

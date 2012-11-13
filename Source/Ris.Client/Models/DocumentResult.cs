@@ -19,5 +19,6 @@ namespace Ris.Client.Models
 
         public Document Document { get; set; }
         public List<DocumentContent> DocumentContents { get; set; }
+        public string OriginalDocumentResultXml { get; set; }
     }
 }

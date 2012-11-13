@@ -176,7 +176,10 @@ namespace Ris.Client.WinRT
                 getDocumentResponse doc = await client.getDocumentAsync("Br", dokumentNummer);
 
                 var documentResult = MessageSerializationHelper.DeserializeFromString<Doc.DocumentResult>(doc.Body.getDocumentResult);
-                return Mapper.MapDocumentResult(documentResult);
+                var result = Mapper.MapDocumentResult(documentResult);
+
+                result.OriginalDocumentResultXml = doc.Body.getDocumentResult;
+                return result;
             }
             catch (Exception ex)
             {

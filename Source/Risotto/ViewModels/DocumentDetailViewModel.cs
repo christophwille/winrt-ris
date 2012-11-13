@@ -1,9 +1,12 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System.Diagnostics;
+using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ris.Client;
+using Ris.Client.Messages;
 using Ris.Client.Models;
 using Ris.Client.WinRT;
 using Ris.Data;
@@ -58,8 +61,7 @@ namespace Risotto.ViewModels
             }
         }
 
-        private Document Document { get; set; }
-        private List<DocumentContent> DocumentContents { get; set; }
+        private Ris.Client.Models.DocumentResult CurrentDocument { get; set; }
 
         public async Task Load()
         {
@@ -80,6 +82,7 @@ namespace Risotto.ViewModels
             if (!loadingSucceeded)
             {
                 PageTitle = "Fehler: Laden fehlgeschlagen";
+                CurrentDocument = null;
             }
             else
             {
@@ -101,23 +104,30 @@ namespace Risotto.ViewModels
 
             if (null == doc) return false;
 
-            // TODO: rehydrate document from storage
+            try
+            {
+                // Rehydrate document from storage
+                var documentResult = MessageSerializationHelper.DeserializeFromString<Ris.Client.Messages.Document.DocumentResult>(doc.OriginalDocumentResultXml);
+                CurrentDocument = Mapper.MapDocumentResult(documentResult);
 
-            return true;
+                return CurrentDocument.Succeeded;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("LoadFromCacheAsync::" + ex.ToString());
+            }
+            
+            return false;
         }
-
 
         private async Task<bool> LoadFromServiceAsync()
         {
             var client = new RisClient();
-
             var result = await client.GetDocumentAsync(NavigationParameter.Command);
 
             if (result.Succeeded)
             {
-                Document = result.Document;
-                DocumentContents = result.DocumentContents;
-
+                CurrentDocument = result;
                 return true;
             }
 
