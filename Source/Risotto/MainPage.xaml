@@ -132,7 +132,7 @@
                     TabIndex="1"
                     Grid.Row="1"
                     Margin="0,-10,0,0"
-                    Padding="10,0,0,60"
+                    Padding="0,0,0,60"
                     ItemsSource="{Binding Source={StaticResource searchHistoryViewSource}}"
                     ItemTemplate="{StaticResource SearchHistoryItemTemplate}"
                     SelectionMode="Single"
@@ -149,7 +149,7 @@
                     AutomationProperties.Name="Items"
                     TabIndex="1"
                     Margin="0,-10,0,0"
-                    Padding="10,0,0,60"
+                    Padding="0,0,0,60"
                     ItemsSource="{Binding Source={StaticResource downloadsViewSource}}"
                     ItemTemplate="{StaticResource DownloadsItemTemplate}"
                     SelectionMode="Single"
@@ -326,6 +326,13 @@
                             Visibility="{Binding SelectedSearchHistory, Converter={StaticResource nonnullvisconv}}"
                             Tag="Delete" 
                             Command="{Binding DeleteSelectedSearchHistoryItemCommand, Mode=OneWay}" />
+
+                    <Button AutomationProperties.Name="Lokale Kopie löschen"  
+                            x:Name="DeleteDownload" 
+                            Style="{StaticResource DeleteAppBarButtonStyle}" 
+                            Visibility="{Binding SelectedDownload, Converter={StaticResource nonnullvisconv}}"
+                            Tag="DeleteDownload" 
+                            Command="{Binding DeleteSelectedDownloadCommand, Mode=OneWay}" />
                 </StackPanel>
                 <StackPanel x:Name="RightPanel" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
                 </StackPanel>
