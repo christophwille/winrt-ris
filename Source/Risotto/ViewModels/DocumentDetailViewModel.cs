@@ -5,11 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GalaSoft.MvvmLight.Command;
 using Ris.Client;
 using Ris.Client.Messages;
 using Ris.Client.Models;
 using Ris.Client.WinRT;
 using Ris.Data;
+using Ris.Data.Models;
 using Risotto.Models;
 
 namespace Risotto.ViewModels
@@ -58,6 +60,7 @@ namespace Risotto.ViewModels
             set
             {
                 Set(NavigationParameterPropertyName, ref _navigationParameter, value);
+                RaisePropertyChanged(CanAddDownloadPropertyName);
             }
         }
 
@@ -91,6 +94,7 @@ namespace Risotto.ViewModels
                 // TODO: Xslt processing for displaying the Html content
             }
 
+            RaisePropertyChanged(CanAddDownloadPropertyName);
             UpdateInProgress = false;
         }
 
@@ -132,6 +136,55 @@ namespace Risotto.ViewModels
             }
 
             return false;
+        }
+
+        private RelayCommand _addDownloadCommand;
+        public RelayCommand AddDownloadCommand
+        {
+            get
+            {
+                return _addDownloadCommand
+                    ?? (_addDownloadCommand = new RelayCommand(
+                        async () => await AddDownloadAsync(), () => CanAddDownload));
+            }
+        }
+
+        private async Task AddDownloadAsync()
+        {
+            try
+            {
+                var ctx = new RisDbContext();
+
+                var dl = new DbDownloadedDocument(NavigationParameter.Command,
+                                                  NavigationParameter.DokumentTitel,
+                                                  CurrentDocument.OriginalDocumentResultXml);
+
+                await ctx.InsertDownload(dl);
+
+                _addOperationHasBeenExecuted = true;
+                RaisePropertyChanged(CanAddDownloadPropertyName);
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private bool _addOperationHasBeenExecuted = false;
+
+        public const string CanAddDownloadPropertyName = "CanAddDownload";
+        public bool CanAddDownload
+        {
+            get
+            {
+                if (null == NavigationParameter) return false;
+                if (NavigationParameter.Action == NavigationAction.LoadFromUrl) return false;
+                if (NavigationParameter.Action == NavigationAction.LoadCachedDownload) return false;
+
+                if (CurrentDocument != null && CurrentDocument.Succeeded && !_addOperationHasBeenExecuted) 
+                    return true;
+
+                return false;
+            }
         }
     }
 }

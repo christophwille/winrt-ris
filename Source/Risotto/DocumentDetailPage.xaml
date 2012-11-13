@@ -52,15 +52,27 @@
             <TextBlock x:Name="pageTitle" Grid.Column="1" Text="{Binding PageTitle}" Style="{StaticResource PageHeaderTextStyle}"/>
         </Grid>
 
-        <WebView x:Name="webView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-        <Rectangle x:Name="webViewRect" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="140"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="140" />
+            </Grid.RowDefinitions>
+            
+            <WebView Grid.Column="1" x:Name="webView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <Rectangle Grid.Column="1" x:Name="webViewRect" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
-        <StackPanel x:Name="snappedInfoMessage" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
-            <TextBlock Style="{StaticResource SnappedPageHeaderTextStyle}" HorizontalAlignment="Center" 
+            <StackPanel Grid.Column="1" x:Name="snappedInfoMessage" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Style="{StaticResource SnappedPageHeaderTextStyle}" HorizontalAlignment="Center" 
                        TextWrapping="Wrap" 
                        VerticalAlignment="Center" 
                        TextAlignment="Center">Gesetzestextanzeige ist in der aktuellen Ansicht nicht möglich</TextBlock>
-        </StackPanel>
+            </StackPanel>
+        </Grid>
 
         <VisualStateManager.VisualStateGroups>
 
@@ -100,4 +112,25 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
     </Grid>
+
+    <Page.BottomAppBar>
+        <AppBar>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="50*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel x:Name="LeftPanel" Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Left">
+                    <Button AutomationProperties.Name="Lokal merken"  
+                            x:Name="Download" 
+                            Style="{StaticResource AddAppBarButtonStyle}" 
+                            IsEnabled="{Binding CanAddDownload}"
+                            Tag="Download" 
+                            Command="{Binding AddDownloadCommand, Mode=OneWay}" />
+                </StackPanel>
+                <StackPanel x:Name="RightPanel" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+                </StackPanel>
+            </Grid>
+        </AppBar>
+    </Page.BottomAppBar>
 </common:LayoutAwarePage>
