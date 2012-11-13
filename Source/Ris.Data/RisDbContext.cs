@@ -40,7 +40,7 @@ namespace Ris.Data
             int result = await _connection.DeleteAsync(rqp);
         }
 
-        public async Task<List<DbRisQueryParameter>> GetTenMostRecentSearchHistoryEntries()
+        public async Task<List<DbRisQueryParameter>> GetSearchHistoryEntries()
         {
             var query = _connection.Table<DbRisQueryParameter>().OrderByDescending(dqp => dqp.Executed);
             var history = await query.ToListAsync();
@@ -82,7 +82,7 @@ namespace Ris.Data
             int result = await _connection.DeleteAsync(doc);
         }
 
-        public async Task<List<DbDownloadedDocument>> GetTenMostRecentDownloads()
+        public async Task<List<DbDownloadedDocument>> GetDownloads()
         {
             var query = _connection.Table<DbDownloadedDocument>().OrderByDescending(doc => doc.LastDownloaded);
             var history = await query.ToListAsync();

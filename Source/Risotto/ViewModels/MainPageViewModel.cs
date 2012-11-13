@@ -110,7 +110,7 @@ namespace Risotto.ViewModels
         public async Task LoadSearchHistoryAsync()
         {
             var ctx = new RisDbContext();
-            var history = await ctx.GetTenMostRecentSearchHistoryEntries();
+            var history = await ctx.GetSearchHistoryEntries();
 
             SelectedSearchHistory = null;
             SearchHistory = history;
@@ -119,7 +119,7 @@ namespace Risotto.ViewModels
         public async Task LoadDownloadsAsync()
         {
             var ctx = new RisDbContext();
-            var history = await ctx.GetTenMostRecentDownloads();
+            var history = await ctx.GetDownloads();
 
             SelectedDownload = null;
             DownloadedDocuments = history;
