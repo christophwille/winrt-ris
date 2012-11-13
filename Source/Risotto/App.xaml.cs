@@ -77,7 +77,6 @@ namespace Risotto
 
             string dokumentNummer = args.Uri.Host;
 
-            // TODO: Protocol, Appxmanifest Protocol Handler aktivieren (disabled weil nicht implementiert)
             // TODO: Protocol, Laden von Dokumentnummer (aktuell nicht möglich, aktuell geht nur laden von DokumentUrl)
             Window.Current.Content = new MainPage();
             Window.Current.Activate();
