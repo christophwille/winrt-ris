@@ -10,6 +10,7 @@ using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -40,7 +41,7 @@ namespace Risotto
             var dataTransferManager = DataTransferManager.GetForCurrentView();
             dataTransferManager.DataRequested += DataTransferManager_DataRequested;
 
-            var navParam = DocumentDetailNavigationParameter.FromNavigationParameter((string) navigationParameter);
+            var navParam = DocumentDetailNavigationParameter.FromNavigationParameter((string)navigationParameter);
             ViewModel.NavigationParameter = navParam;
 
             if (navParam.Action == NavigationAction.LoadFromUrl)
@@ -105,5 +106,22 @@ namespace Risotto
         {
             WebViewFlyoutFixes.FlyoutClose(webViewRect, webView);
         }
+
+        private async void Save_OnClick(object sender, RoutedEventArgs e)
+        {
+            var fileSavePicker = new FileSavePicker();
+            fileSavePicker.FileTypeChoices.Add("Html Datei", new List<string> { ".html" });
+            fileSavePicker.DefaultFileExtension = ".html";
+
+            fileSavePicker.SuggestedFileName = "RisDokumentTemp.html";
+
+            var fileToSave = await fileSavePicker.PickSaveFileAsync();
+            var stream = await fileToSave.OpenStreamForWriteAsync();
+
+            var writer = new StreamWriter(stream);
+            await writer.WriteAsync("Hallo Welt");
+        }
+
+
     }
 }
