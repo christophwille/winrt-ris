@@ -18,5 +18,7 @@ namespace Ris.Client.Models
         {
             return ContentType == DocumentContentTypeEnum.MainDocument;
         }
+
+        public byte[] Content { get; set; }
     }
 }

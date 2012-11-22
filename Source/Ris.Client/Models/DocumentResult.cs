@@ -19,6 +19,24 @@ namespace Ris.Client.Models
 
         public Document Document { get; set; }
         public List<DocumentContent> DocumentContents { get; set; }
+
         public string OriginalDocumentResultXml { get; set; }
+
+        public DocumentContent GetMainDocument()
+        {
+            if (null == DocumentContents) return null;
+
+            return DocumentContents
+                .SingleOrDefault(d => d.IsHauptdokument());
+        }
+
+        public List<DocumentContent> GetAttachments()
+        {
+            if (null == DocumentContents) return null;
+
+            return DocumentContents
+                .Where(d => !d.IsHauptdokument())
+                .ToList();
+        }
     }
 }

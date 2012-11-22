@@ -112,8 +112,19 @@ namespace Ris.Client
                 }
                 else
                 {
-                    // TODO: Transform base64 item
-                    string type = content.Item.ToString();
+                    // content.Item is a byte[] when correctly decoded, eg see risdok://NOR12088695
+                    if (content.Item is byte[])
+                    {
+                        var attachment = new Client.Models.DocumentContent()
+                        {
+                            Name = content.Name,    // this Name property is sent extensionless
+                            ContentType = ctype,
+                            DataType = dtype,
+                            Content = (byte[])content.Item
+                        };
+
+                        transformedContentItems.Add(attachment);
+                    }
                 }
             }
 
