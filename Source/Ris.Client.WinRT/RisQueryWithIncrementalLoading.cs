@@ -80,7 +80,7 @@ namespace Ris.Client.WinRT
             return Task.Run<LoadMoreItemsResult>(
                 async () =>
                 {
-                    var result = await LoadPage(QueryParameter, Page.Value);
+                    var result = await LoadPage(QueryParameter, Page.Value + 1);
 
                     if (!result.Succeeded)
                     {
@@ -99,6 +99,8 @@ namespace Ris.Client.WinRT
                         () =>
                         {
                             foreach (var dr in result.DocumentReferences) Add(dr);
+
+                            Page = result.Page;
 
                             if (null != _incrementalLoadCompleted) _incrementalLoadCompleted();
                         });
