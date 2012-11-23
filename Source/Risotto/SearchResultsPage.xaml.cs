@@ -104,6 +104,8 @@ namespace Risotto
             }
             else
             {
+                // NOTE: Here we decide whether to show content from Web or via Web Service calls
+
                 // NavigateWithLoadingAction(item);
                 NavigateWithServiceAction(item);
             }
