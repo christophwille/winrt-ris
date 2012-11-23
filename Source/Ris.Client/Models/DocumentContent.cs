@@ -20,5 +20,10 @@ namespace Ris.Client.Models
         }
 
         public byte[] Content { get; set; }
+
+        public string ProposedFilename
+        {
+            get { return Name + "." + Mapper.MapDocumentContentDataTypeEnumToExtension(DataType); }
+        }
     }
 }

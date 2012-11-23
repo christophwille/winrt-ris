@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using Callisto.Controls;
 using GalaSoft.MvvmLight;
+using Ris.Client;
+using Ris.Client.Models;
 using Risotto.Models;
 using Risotto.ViewModels;
 using System;
@@ -137,14 +139,46 @@ namespace Risotto
             {
                 var mi = new MenuItem()
                              {
-                                 Text = attachment.Name,
+                                 Text = attachment.ProposedFilename,
+                                 Tag = attachment
                              };
+
+                mi.Tapped += Attachment_OnTapped;
 
                 m.Items.Add(mi);
             }
 
             f.Content = m;
             WebViewFlyoutFixes.ShowFlyout(f, this);
+        }
+
+        private async void Attachment_OnTapped(object sender, TappedRoutedEventArgs tappedRoutedEventArgs)
+        {
+            var mi = sender as MenuItem;
+            var attachment = mi.Tag as DocumentContent;
+
+            if (attachment == null || attachment.Content == null) return;
+
+            var extension = Mapper.MapDocumentContentDataTypeEnumToExtension(attachment.DataType);
+
+            var fileSavePicker = new FileSavePicker();
+            fileSavePicker.FileTypeChoices.Add(extension + " Datei", new List<string> { "." + extension });
+            fileSavePicker.DefaultFileExtension = "." + extension;
+
+            fileSavePicker.SuggestedFileName = attachment.ProposedFilename;
+
+            var fileToSave = await fileSavePicker.PickSaveFileAsync();
+            if (null == fileToSave) return;
+
+            // TODO: snapped view handling
+
+            using (var stream = await fileToSave.OpenStreamForWriteAsync())
+            {
+                await stream.WriteAsync(attachment.Content, 0, attachment.Content.Length);
+                stream.Dispose();
+
+                Windows.System.Launcher.LaunchFileAsync(fileToSave);
+            }
         }
     }
 }

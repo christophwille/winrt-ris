@@ -253,5 +253,10 @@ namespace Ris.Client
 
             throw new ArgumentOutOfRangeException();
         }
+
+        public static string MapDocumentContentDataTypeEnumToExtension(DocumentContentDataTypeEnum type)
+        {
+            return type.ToString();
+        }
     }
 }
