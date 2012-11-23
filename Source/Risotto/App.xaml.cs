@@ -187,7 +187,7 @@ namespace Risotto
                     aboutFlyout.ContentBackgroundBrush = new SolidColorBrush(c);
                     aboutFlyout.HeaderText = "Über";
 
-                    WebViewFlyoutFixes.ShowFlyout(aboutFlyout);
+                    WebViewFlyoutFixes.ShowSettingsFlyout(aboutFlyout);
                 });
 
             args.Request.ApplicationCommands.Add(about);
@@ -201,7 +201,7 @@ namespace Risotto
                 settings.ContentBackgroundBrush = new SolidColorBrush(c);
                 settings.HeaderText = "Einstellungen";
 
-                WebViewFlyoutFixes.ShowFlyout(settings);
+                WebViewFlyoutFixes.ShowSettingsFlyout(settings);
             });
 
             args.Request.ApplicationCommands.Add(preferences);

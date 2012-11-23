@@ -24,7 +24,7 @@ namespace Risotto
 
     public static class WebViewFlyoutFixes
     {
-        public static void ShowFlyout(SettingsFlyout flyout)
+        public static void ShowSettingsFlyout(SettingsFlyout flyout)
         {
             var detailPage = GetCurrentContentPage();
             if (null != detailPage)
@@ -32,6 +32,13 @@ namespace Risotto
                 FixWebViewZOrderProblem(flyout, detailPage);
             }
 
+            flyout.IsOpen = true;
+        }
+
+        public async static void ShowFlyout(Flyout flyout, DocumentDetailPage page)
+        {
+            flyout.Closed += (s, e) => page.OnFlyoutClose();
+            await page.OnFlyoutOpen();
             flyout.IsOpen = true;
         }
 

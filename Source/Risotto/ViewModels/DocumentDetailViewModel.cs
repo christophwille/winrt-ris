@@ -64,7 +64,35 @@ namespace Risotto.ViewModels
             }
         }
 
-        private Ris.Client.Models.DocumentResult CurrentDocument { get; set; }
+        public const string CurrentDocumentPropertyName = "CurrentDocument";
+        private Ris.Client.Models.DocumentResult _currentDocument = null;
+
+        public Ris.Client.Models.DocumentResult CurrentDocument
+        {
+            get
+            {
+                return _currentDocument;
+            }
+            set
+            {
+                Set(CurrentDocumentPropertyName, ref _currentDocument, value);
+            }
+        }
+
+        public const string AttachmentsPropertyName = "Attachments";
+        private List<Ris.Client.Models.DocumentContent> _attachments = null;
+
+        public List<Ris.Client.Models.DocumentContent> Attachments
+        {
+            get
+            {
+                return _attachments;
+            }
+            set
+            {
+                Set(AttachmentsPropertyName, ref _attachments, value);
+            }
+        }
 
         public async Task Load()
         {
@@ -86,12 +114,15 @@ namespace Risotto.ViewModels
             {
                 PageTitle = "Fehler: Laden fehlgeschlagen";
                 CurrentDocument = null;
+                Attachments = null;
             }
             else
             {
                 PageTitle = CreateTitleFromDocument();
 
                 // TODO: Xslt processing for displaying the Html content
+
+                Attachments = CurrentDocument.GetAttachments();
             }
 
             RaisePropertyChanged(CanAddDownloadPropertyName);

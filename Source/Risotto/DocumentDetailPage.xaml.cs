@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Threading.Tasks;
+using Callisto.Controls;
 using GalaSoft.MvvmLight;
 using Risotto.Models;
 using Risotto.ViewModels;
@@ -122,6 +123,28 @@ namespace Risotto
             await writer.WriteAsync("Hallo Welt");
         }
 
+        private void ViewAttachments_OnClick(object sender, RoutedEventArgs e)
+        {
+            var f = new Flyout()
+                           {
+                               Placement = PlacementMode.Top,
+                               PlacementTarget = (UIElement)sender
+                           };
 
+            Menu m = new Menu();
+
+            foreach (var attachment in ViewModel.Attachments)
+            {
+                var mi = new MenuItem()
+                             {
+                                 Text = attachment.Name,
+                             };
+
+                m.Items.Add(mi);
+            }
+
+            f.Content = m;
+            WebViewFlyoutFixes.ShowFlyout(f, this);
+        }
     }
 }
