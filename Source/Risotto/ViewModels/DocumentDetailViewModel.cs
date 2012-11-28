@@ -48,6 +48,21 @@ namespace Risotto.ViewModels
             }
         }
 
+        public const string SourceHtmlPropertyName = "SourceHtml";
+        private string _sourceHtml = null;
+
+        public string SourceHtml
+        {
+            get
+            {
+                return _sourceHtml;
+            }
+            set
+            {
+                Set(SourceHtmlPropertyName, ref _sourceHtml, value);
+            }
+        }
+
         public const string NavigationParameterPropertyName = "NavigationParameter";
         private DocumentDetailNavigationParameter _navigationParameter = null;
 
@@ -113,14 +128,18 @@ namespace Risotto.ViewModels
             if (!loadingSucceeded)
             {
                 PageTitle = "Fehler: Laden fehlgeschlagen";
+
                 CurrentDocument = null;
                 Attachments = null;
+                SourceHtml = null;
             }
             else
             {
                 PageTitle = CreateTitleFromDocument();
 
                 // TODO: Xslt processing for displaying the Html content
+                var mainDoc = CurrentDocument.GetMainDocument();
+                SourceHtml = mainDoc.Nutzdaten;
 
                 Attachments = CurrentDocument.GetAttachments();
             }

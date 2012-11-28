@@ -8,7 +8,10 @@
     xmlns:common="using:Risotto.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:q42converters="using:Q42.WinRT.Converters" mc:Ignorable="d">
+    xmlns:q42converters="using:Q42.WinRT.Converters" 
+    xmlns:q42controls="using:Q42.WinRT.Controls"
+    xmlns:winrtxamltkext="using:WinRTXamlToolkit.Controls.Extensions"
+    mc:Ignorable="d">
 
     <Page.TopAppBar>
         <AppBar>
@@ -64,7 +67,9 @@
                 <RowDefinition Height="100" />
             </Grid.RowDefinitions>
             
-            <WebView Grid.Column="1" x:Name="webView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <WebView Grid.Column="1" x:Name="webView" 
+                     q42controls:WebViewExtensions.SourceHtml="{Binding SourceHtml}"
+                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
             <Rectangle Grid.Column="1" x:Name="webViewRect" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
             <StackPanel Grid.Column="1" x:Name="snappedInfoMessage" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -115,7 +120,7 @@
     </Grid>
 
     <Page.BottomAppBar>
-        <AppBar>
+        <AppBar winrtxamltkext:AppBarExtensions.HideWhenSnapped="True">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50*"/>
@@ -137,10 +142,10 @@
                             />
                 </StackPanel>
                 <StackPanel x:Name="GlobalActionsPanel" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
-                    <Button AutomationProperties.Name="Als Html speichern"  
+                    <Button AutomationProperties.Name="Html speichern"  
                             x:Name="Save" 
                             Style="{StaticResource SaveAppBarButtonStyle}" 
-                            Visibility="{Binding CurrentDocument, Converter={StaticResource nonnullvisconv}}"
+                            Visibility="{Binding SourceHtml, Converter={StaticResource nonnullvisconv}}"
                             Tag="Save" 
                             Click="Save_OnClick"
                             />

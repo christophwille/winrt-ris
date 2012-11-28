@@ -79,6 +79,18 @@ namespace Risotto
             {
                 ProvideSharingDataFromWebView(request);
             }
+            else
+            {
+                if (ViewModel.SourceHtml != null)
+                {
+                    request.Data.Properties.Title = ViewModel.PageTitle;
+                    request.Data.SetHtmlFormat(ViewModel.SourceHtml);
+                }
+                else
+                {
+                    request.FailWithDisplayText("Es gibt keine Inhalte die geteilt werden können");
+                }
+            }
         }
 
         private void ProvideSharingDataFromWebView(DataRequest request)
@@ -116,13 +128,20 @@ namespace Risotto
             fileSavePicker.FileTypeChoices.Add("Html Datei", new List<string> { ".html" });
             fileSavePicker.DefaultFileExtension = ".html";
 
-            fileSavePicker.SuggestedFileName = "RisDokumentTemp.html";
+            string dokumentNummer = ViewModel.CurrentDocument.Document.Dokumentnummer;
+
+            fileSavePicker.SuggestedFileName = String.Format("Ris{0}.html", dokumentNummer);
 
             var fileToSave = await fileSavePicker.PickSaveFileAsync();
-            var stream = await fileToSave.OpenStreamForWriteAsync();
+            if (null == fileToSave) return;
 
-            var writer = new StreamWriter(stream);
-            await writer.WriteAsync("Hallo Welt");
+            using (var stream = await fileToSave.OpenStreamForWriteAsync())
+            {
+                var writer = new StreamWriter(stream);
+                await writer.WriteAsync(ViewModel.SourceHtml);
+                await writer.FlushAsync();
+                writer.Dispose();
+            }
         }
 
         private void ViewAttachments_OnClick(object sender, RoutedEventArgs e)
@@ -170,11 +189,10 @@ namespace Risotto
             var fileToSave = await fileSavePicker.PickSaveFileAsync();
             if (null == fileToSave) return;
 
-            // TODO: snapped view handling
-
             using (var stream = await fileToSave.OpenStreamForWriteAsync())
             {
                 await stream.WriteAsync(attachment.Content, 0, attachment.Content.Length);
+                await stream.FlushAsync();
                 stream.Dispose();
 
                 Windows.System.Launcher.LaunchFileAsync(fileToSave);

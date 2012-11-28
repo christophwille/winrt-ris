@@ -34,9 +34,13 @@ namespace Ris.Client.Models
         {
             if (null == DocumentContents) return null;
 
-            return DocumentContents
+            var attachments = DocumentContents
                 .Where(d => !d.IsHauptdokument())
                 .ToList();
+
+            if (attachments.Count == 0) return null;
+
+            return attachments;
         }
     }
 }
