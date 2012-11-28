@@ -7,9 +7,6 @@ Advanced Search (separate page)
 
 Search Results -> Detail -> Search Results transition: restore scroll position in GridView
 
-Settings
-	Purge all downloads
-
 Store each search in a SQLite database
 	Keep only ten latest searches (auto purge a good idea?)
 	Keep copies of documents in local storage
@@ -18,19 +15,8 @@ Share contract
 	from List of Search Results
 	from Details of Document (doable once XSLT is in place)
 
-Details page
-	AppBar for "keep local" / "remove local"
-
-Custom Url Scheme (Protocol Activation)
-	ris://NORxxxxx for sharing [partially done, missing is navigation to detail page]
-
 MainPage Search History & Downloads
 	enabled item selection + appbar for deleting (todo: show appbar automatically when selecting item)
 
 OnQuerySubmitted
 	Store last value to page state to be able to go back to correct search result page
-
-Detail Page
-	Save as Html (so Word can pick it up)
-
-Search startup - is it correctly using the new startup path?
