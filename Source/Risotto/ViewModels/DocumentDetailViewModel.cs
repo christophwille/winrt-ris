@@ -139,7 +139,7 @@ namespace Risotto.ViewModels
 
                 // TODO: Xslt processing for displaying the Html content
                 var mainDoc = CurrentDocument.GetMainDocument();
-                SourceHtml = mainDoc.Nutzdaten;
+                SourceHtml = CurrentDocument.OriginalDocumentResultXml;
 
                 Attachments = CurrentDocument.GetAttachments();
             }

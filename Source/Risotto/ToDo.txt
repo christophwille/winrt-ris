@@ -20,3 +20,9 @@ MainPage Search History & Downloads
 
 OnQuerySubmitted
 	Store last value to page state to be able to go back to correct search result page
+
+Debug mode: AppBar button for "Show xml"
+
+AppBar button Download Pdf from bka.gv.at
+
+AppBar button Refresh for locally stored documents
