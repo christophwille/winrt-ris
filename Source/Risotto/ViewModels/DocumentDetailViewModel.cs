@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Net.Http;
 using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,16 @@ namespace Risotto.ViewModels
 {
     public class DocumentDetailViewModel : RisViewModelBase
     {
+        public bool IsDebugBuild
+        {
+            get
+            {
+#if DEBUG
+                return true;
+#endif
+                return false;
+            }
+        }
         public const string UpdateInProgressPropertyName = "UpdateInProgress";
         private bool _updateInProgress = false;
 
@@ -119,6 +130,20 @@ namespace Risotto.ViewModels
             if (NavigationParameter.Action == NavigationAction.LoadFromService)
             {
                 loadingSucceeded = await LoadFromServiceAsync();
+
+                if (loadingSucceeded)
+                {
+                    string html = await DownloadHtmlFromRisServer(CurrentDocument.Document.HtmlUrl);
+
+                    if (html != null)
+                    {
+                        SourceHtml = html;
+                    }
+                    else
+                    {
+                        loadingSucceeded = false;
+                    }
+                }
             }
             else if (NavigationParameter.Action == NavigationAction.LoadCachedDownload)
             {
@@ -136,16 +161,29 @@ namespace Risotto.ViewModels
             else
             {
                 PageTitle = CreateTitleFromDocument();
-
-                // TODO: Xslt processing for displaying the Html content
-                var mainDoc = CurrentDocument.GetMainDocument();
-                SourceHtml = CurrentDocument.OriginalDocumentResultXml;
-
                 Attachments = CurrentDocument.GetAttachments();
             }
 
             RaisePropertyChanged(CanAddDownloadPropertyName);
             UpdateInProgress = false;
+        }
+
+        private async Task<string> DownloadHtmlFromRisServer(string url)
+        {
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    var response = await client.GetStringAsync(url);
+                    client.Dispose();
+
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         private string CreateTitleFromDocument()
@@ -169,6 +207,7 @@ namespace Risotto.ViewModels
                 // Rehydrate document from storage
                 var documentResult = MessageSerializationHelper.DeserializeFromString<Ris.Client.Messages.Document.DocumentResult>(doc.OriginalDocumentResultXml);
                 CurrentDocument = Mapper.MapDocumentResult(documentResult);
+                SourceHtml = doc.HtmlFromRisServer;
 
                 return CurrentDocument.Succeeded;
             }
@@ -213,7 +252,8 @@ namespace Risotto.ViewModels
 
                 var dl = new DbDownloadedDocument(NavigationParameter.Command,
                                                   NavigationParameter.DokumentTitel,
-                                                  CurrentDocument.OriginalDocumentResultXml);
+                                                  CurrentDocument.OriginalDocumentResultXml,
+                                                  SourceHtml);
 
                 await ctx.InsertDownload(dl);
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace Ris.Client.Models
 {
@@ -31,5 +32,25 @@ namespace Ris.Client.Models
         public string Uebergangsrecht { get; set; }
         public DateTime? Unterzeichnungsdatum { get; set; }
         public DateTime? Veroeffentlichungsdatum { get; set; }
+
+        [XmlIgnore]
+        public string PdfUrl
+        {
+            get { return String.Format("http://www.ris.bka.gv.at/Dokumente/Bundesnormen/{0}/{0}.pdf", Dokumentnummer); }
+        }
+
+        [XmlIgnore]
+        public string HtmlUrl
+        {
+            // Hierbei handelt es sich um Html ohne externe Abhängigkeiten
+            get { return String.Format("http://www.ris.bka.gv.at/Dokumente/Bundesnormen/{0}/{0}.html", Dokumentnummer); }
+        }
+
+        [XmlIgnore]
+        public string RtfUrl
+        {
+            // Hierbei handelt es sich um Html ohne externe Abhängigkeiten
+            get { return String.Format("http://www.ris.bka.gv.at/Dokumente/Bundesnormen/{0}/{0}.rtf", Dokumentnummer); }
+        }
     }
 }

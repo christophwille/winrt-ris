@@ -13,11 +13,12 @@ namespace Ris.Data.Models
         {
         }
 
-        public DbDownloadedDocument(string nummer, string titel, string originalresultxml)
+        public DbDownloadedDocument(string nummer, string titel, string originalresultxml, string html)
         {
             DokumentNummer = nummer;
             DokumentTitel = titel;
             OriginalDocumentResultXml = originalresultxml;
+            HtmlFromRisServer = html;
 
             LastDownloaded = DateTime.Now;
         }
@@ -28,7 +29,11 @@ namespace Ris.Data.Models
         public string DokumentNummer { get; set; }
         public string DokumentTitel { get; set; }
 
+        // Serialized message that was returned from the server (for structured access to metadata)
         public string OriginalDocumentResultXml { get; set; }
+
+        // Html without site layout that is retrieved from the server
+        public string HtmlFromRisServer { get; set; }
 
         public DateTime LastDownloaded { get; set; }
     }

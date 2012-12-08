@@ -198,5 +198,20 @@ namespace Risotto
                 Windows.System.Launcher.LaunchFileAsync(fileToSave);
             }
         }
+
+        private void DevXml_OnClick(object sender, RoutedEventArgs e)
+        {
+            // TODO If we ever go to XSLT, this can be useful
+        }
+
+        private void ViewOnWeb_OnClick(object sender, RoutedEventArgs e)
+        {
+            Windows.System.Launcher.LaunchUriAsync(new Uri(ViewModel.CurrentDocument.Document.HtmlUrl));
+        }
+
+        private void ViewPdf_OnClick(object sender, RoutedEventArgs e)
+        {
+            Windows.System.Launcher.LaunchUriAsync(new Uri(ViewModel.CurrentDocument.Document.PdfUrl));
+        }
     }
 }

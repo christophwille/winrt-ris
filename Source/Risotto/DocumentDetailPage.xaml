@@ -142,11 +142,32 @@
                             />
                 </StackPanel>
                 <StackPanel x:Name="GlobalActionsPanel" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+                    <Button AutomationProperties.Name="Dev:XML"  
+                            x:Name="DevXml" 
+                            Style="{StaticResource PreviewLinkAppBarButtonStyle}" 
+                            Visibility="{Binding IsDebugBuild}"
+                            Tag="Dev:XML" 
+                            Click="DevXml_OnClick"
+                            />
+                    <Button AutomationProperties.Name="Am Web"  
+                            x:Name="ViewOnWeb" 
+                            Style="{StaticResource GlobeAppBarButtonStyle}" 
+                            Visibility="{Binding SourceHtml, Converter={StaticResource nonnullvisconv}}"
+                            Tag="Am Web" 
+                            Click="ViewOnWeb_OnClick"
+                            />
+                    <Button AutomationProperties.Name="Als PDF"  
+                            x:Name="ViewPdf" 
+                            Style="{StaticResource DownloadAppBarButtonStyle}" 
+                            Visibility="{Binding SourceHtml, Converter={StaticResource nonnullvisconv}}"
+                            Tag="Als PDF" 
+                            Click="ViewPdf_OnClick"
+                            />
                     <Button AutomationProperties.Name="Html speichern"  
                             x:Name="Save" 
                             Style="{StaticResource SaveAppBarButtonStyle}" 
                             Visibility="{Binding SourceHtml, Converter={StaticResource nonnullvisconv}}"
-                            Tag="Save" 
+                            Tag="Speichern" 
                             Click="Save_OnClick"
                             />
                 </StackPanel>
