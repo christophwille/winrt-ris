@@ -36,21 +36,20 @@ namespace Ris.Client.Models
         [XmlIgnore]
         public string PdfUrl
         {
-            get { return String.Format("http://www.ris.bka.gv.at/Dokumente/Bundesnormen/{0}/{0}.pdf", Dokumentnummer); }
+            get { return RisUrlHelper.UrlForPdfFromDokumentNummer(Dokumentnummer); }
         }
 
         [XmlIgnore]
         public string HtmlUrl
         {
             // Hierbei handelt es sich um Html ohne externe Abhängigkeiten
-            get { return String.Format("http://www.ris.bka.gv.at/Dokumente/Bundesnormen/{0}/{0}.html", Dokumentnummer); }
+            get { return RisUrlHelper.UrlForHtmlFromDokumentNummer(Dokumentnummer); }
         }
 
         [XmlIgnore]
         public string RtfUrl
         {
-            // Hierbei handelt es sich um Html ohne externe Abhängigkeiten
-            get { return String.Format("http://www.ris.bka.gv.at/Dokumente/Bundesnormen/{0}/{0}.rtf", Dokumentnummer); }
+            get { return RisUrlHelper.UrlForRtfFromDokumentNummer(Dokumentnummer); }
         }
     }
 }

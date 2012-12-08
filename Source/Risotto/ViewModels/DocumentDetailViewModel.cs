@@ -129,20 +129,22 @@ namespace Risotto.ViewModels
 
             if (NavigationParameter.Action == NavigationAction.LoadFromService)
             {
-                loadingSucceeded = await LoadFromServiceAsync();
+                var svcTask = new Task<DocumentResult>(() => LoadFromServiceAsync().Result);
+                var htmlTask = new Task<string>(() => DownloadHtmlFromRisServer().Result);
 
-                if (loadingSucceeded)
+                svcTask.Start();
+                htmlTask.Start();
+
+                Task.WaitAll(svcTask, htmlTask);
+
+                var docResult = svcTask.Result;
+                string html = htmlTask.Result;
+
+                if (null != docResult && html != null)
                 {
-                    string html = await DownloadHtmlFromRisServer(CurrentDocument.Document.HtmlUrl);
-
-                    if (html != null)
-                    {
-                        SourceHtml = html;
-                    }
-                    else
-                    {
-                        loadingSucceeded = false;
-                    }
+                    CurrentDocument = docResult;
+                    SourceHtml = html;
+                    loadingSucceeded = true;
                 }
             }
             else if (NavigationParameter.Action == NavigationAction.LoadCachedDownload)
@@ -168,10 +170,12 @@ namespace Risotto.ViewModels
             UpdateInProgress = false;
         }
 
-        private async Task<string> DownloadHtmlFromRisServer(string url)
+        private async Task<string> DownloadHtmlFromRisServer()
         {
             try
             {
+                string url = RisUrlHelper.UrlForHtmlFromDokumentNummer(NavigationParameter.Command);
+
                 using (var client = new HttpClient())
                 {
                     var response = await client.GetStringAsync(url);
@@ -215,22 +219,21 @@ namespace Risotto.ViewModels
             {
                 Debug.WriteLine("LoadFromCacheAsync::" + ex.ToString());
             }
-            
+
             return false;
         }
 
-        private async Task<bool> LoadFromServiceAsync()
+        private async Task<DocumentResult> LoadFromServiceAsync()
         {
             var client = new RisClient();
             var result = await client.GetDocumentAsync(NavigationParameter.Command);
 
             if (result.Succeeded)
             {
-                CurrentDocument = result;
-                return true;
+                return result;
             }
 
-            return false;
+            return null;
         }
 
         private RelayCommand _addDownloadCommand;
@@ -276,7 +279,7 @@ namespace Risotto.ViewModels
                 if (NavigationParameter.Action == NavigationAction.LoadFromUrl) return false;
                 if (NavigationParameter.Action == NavigationAction.LoadCachedDownload) return false;
 
-                if (CurrentDocument != null && CurrentDocument.Succeeded && !_addOperationHasBeenExecuted) 
+                if (CurrentDocument != null && CurrentDocument.Succeeded && !_addOperationHasBeenExecuted)
                     return true;
 
                 return false;
