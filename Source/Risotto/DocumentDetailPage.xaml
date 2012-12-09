@@ -145,7 +145,7 @@
                     <Button AutomationProperties.Name="Dev:XML"  
                             x:Name="DevXml" 
                             Style="{StaticResource PreviewLinkAppBarButtonStyle}" 
-                            Visibility="{Binding IsDebugBuild}"
+                            Visibility="{Binding IsDebugBuild, Converter={StaticResource q42visconverter}}"
                             Tag="Dev:XML" 
                             Click="DevXml_OnClick"
                             />
