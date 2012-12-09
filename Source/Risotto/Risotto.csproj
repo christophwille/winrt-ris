@@ -217,8 +217,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Callisto">
-      <HintPath>..\packages\Callisto.1.2.5\lib\winrt45\Callisto.dll</HintPath>
+    <Reference Include="Callisto, Version=1.2.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Callisto.1.2.6\lib\winrt45\Callisto.dll</HintPath>
     </Reference>
     <Reference Include="GalaSoft.MvvmLight.Extras.Win8">
       <HintPath>..\packages\MvvmLight.4.1.23.0\lib\winrt45\GalaSoft.MvvmLight.Extras.Win8.dll</HintPath>
