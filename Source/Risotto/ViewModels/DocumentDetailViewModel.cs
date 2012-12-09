@@ -129,21 +129,12 @@ namespace Risotto.ViewModels
 
             if (NavigationParameter.Action == NavigationAction.LoadFromService)
             {
-                var svcTask = new Task<DocumentResult>(() => LoadFromServiceAsync().Result);
-                var htmlTask = new Task<string>(() => DownloadHtmlFromRisServer().Result);
+                var result = await Task.Run(() => ParallelLoadSynced());
 
-                svcTask.Start();
-                htmlTask.Start();
-
-                Task.WaitAll(svcTask, htmlTask);
-
-                var docResult = svcTask.Result;
-                string html = htmlTask.Result;
-
-                if (null != docResult && html != null)
+                if (null != result)
                 {
-                    CurrentDocument = docResult;
-                    SourceHtml = html;
+                    CurrentDocument = result.Item1;
+                    SourceHtml = result.Item2;
                     loadingSucceeded = true;
                 }
             }
@@ -168,6 +159,27 @@ namespace Risotto.ViewModels
 
             RaisePropertyChanged(CanAddDownloadPropertyName);
             UpdateInProgress = false;
+        }
+
+        private Tuple<DocumentResult, string> ParallelLoadSynced()
+        {
+            var svcTask = new Task<DocumentResult>(() => LoadFromServiceAsync().Result);
+            var htmlTask = new Task<string>(() => DownloadHtmlFromRisServer().Result);
+
+            svcTask.Start();
+            htmlTask.Start();
+
+            Task.WaitAll(svcTask, htmlTask);
+
+            DocumentResult docResult = svcTask.Result;
+            string html = htmlTask.Result;
+
+            if (null != docResult && html != null)
+            {
+                return new Tuple<DocumentResult, string>(docResult, html);
+            }
+
+            return null;
         }
 
         private async Task<string> DownloadHtmlFromRisServer()
