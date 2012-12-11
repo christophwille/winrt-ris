@@ -130,7 +130,7 @@
                     <Button AutomationProperties.Name="Lokal merken"  
                             x:Name="Download" 
                             Style="{StaticResource AddAppBarButtonStyle}" 
-                            IsEnabled="{Binding CanAddDownload}"
+                            Visibility="{Binding CanAddDownload, Converter={StaticResource q42visconverter}}"
                             Tag="Download" 
                             Command="{Binding AddDownloadCommand, Mode=OneWay}" />
                     <Button AutomationProperties.Name="Anhänge"  

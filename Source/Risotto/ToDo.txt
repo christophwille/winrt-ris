@@ -12,4 +12,4 @@ OnQuerySubmitted
 
 AppBar button 
 	Refresh for locally stored documents
-	Not only make lokal merken disabled, don't show it at all
+
