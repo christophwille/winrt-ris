@@ -1,9 +1,5 @@
 ﻿Search Results -> Detail -> Search Results transition: restore scroll position in GridView
 
-Store each search in a SQLite database
-	Keep only ten latest searches (auto purge a good idea?)
-	Keep copies of documents in local storage
-
 Share contract
 	from List of Search Results
 	from Details of Document (doable once XSLT is in place)
@@ -14,6 +10,6 @@ MainPage Search History & Downloads
 OnQuerySubmitted
 	Store last value to page state to be able to go back to correct search result page
 
-Debug mode: AppBar button for "Show xml"
-
-AppBar button Refresh for locally stored documents
+AppBar button 
+	Refresh for locally stored documents
+	Not only make lokal merken disabled, don't show it at all

@@ -199,9 +199,30 @@ namespace Risotto
             }
         }
 
-        private void DevXml_OnClick(object sender, RoutedEventArgs e)
+        private async void DevXml_OnClick(object sender, RoutedEventArgs e)
         {
-            // TODO If we ever go to XSLT, this can be useful
+            if (null == ViewModel.CurrentDocument) return;
+
+            var fileSavePicker = new FileSavePicker();
+            fileSavePicker.FileTypeChoices.Add("Service XML", new List<string> { ".xml" });
+            fileSavePicker.DefaultFileExtension = ".xml";
+
+            string dokumentNummer = ViewModel.CurrentDocument.Document.Dokumentnummer;
+
+            fileSavePicker.SuggestedFileName = String.Format("Ris{0}.xml", dokumentNummer);
+
+            var fileToSave = await fileSavePicker.PickSaveFileAsync();
+            if (null == fileToSave) return;
+
+            using (var stream = await fileToSave.OpenStreamForWriteAsync())
+            {
+                var writer = new StreamWriter(stream);
+                await writer.WriteAsync(ViewModel.CurrentDocument.OriginalDocumentResultXml);
+                await writer.FlushAsync();
+                writer.Dispose();
+            }
+
+            // bool launched = await Windows.System.Launcher.LaunchFileAsync(fileToSave);
         }
 
         private void ViewOnWeb_OnClick(object sender, RoutedEventArgs e)
