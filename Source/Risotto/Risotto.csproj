@@ -141,6 +141,7 @@
       <DependentUpon>SearchResultsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\NavigationService.cs" />
+    <Compile Include="Services\ToastService.cs" />
     <Compile Include="ThirdParty\ExtendedTextBox.cs" />
     <Compile Include="ViewModels\AdvancedSearchViewModel.cs" />
     <Compile Include="ViewModels\DocumentDetailViewModel.cs" />

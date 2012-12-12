@@ -14,6 +14,7 @@ using Ris.Client.WinRT;
 using Ris.Data;
 using Ris.Data.Models;
 using Risotto.Models;
+using Risotto.Services;
 
 namespace Risotto.ViewModels
 {
@@ -353,6 +354,8 @@ namespace Risotto.ViewModels
                     await ctx.RefreshDownload(dl, CachedDocumentDatabaseId.Value);
 
                     CachedDocumentDatabaseId = dl.Id;
+
+                    ToastService.Display(CurrentDocument.Document.Kurztitel, "Aktualisierung erfolgreich durchgeführt");
                 }
             }
             catch (Exception)
