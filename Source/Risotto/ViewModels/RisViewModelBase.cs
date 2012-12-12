@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Command;
+using MetroLog;
 using Risotto.Services;
 
 namespace Risotto.ViewModels
@@ -24,6 +25,24 @@ namespace Risotto.ViewModels
         private void GoHome()
         {
             NavigationService.Navigate<MainPage>();
+        }
+
+        public RisViewModelBase()
+        {
+            CreateLogger = () => LogManagerFactory.DefaultLogManager.GetLogger<RisViewModelBase>();
+        }
+
+        public Func<ILogger> CreateLogger { get; set; }
+        private ILogger _logger = null;
+
+        public ILogger Log { 
+            get 
+            { 
+                if (null != _logger) return _logger;
+
+                _logger = CreateLogger();
+                return _logger;
+            }
         }
     }
 }
