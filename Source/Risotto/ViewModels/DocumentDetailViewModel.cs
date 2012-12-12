@@ -225,6 +225,8 @@ namespace Risotto.ViewModels
                 CurrentDocument = Mapper.MapDocumentResult(documentResult);
                 SourceHtml = doc.HtmlFromRisServer;
 
+                CachedDocumentDatabaseId = doc.Id;
+
                 return CurrentDocument.Succeeded;
             }
             catch (Exception ex)
@@ -273,14 +275,14 @@ namespace Risotto.ViewModels
                 await ctx.InsertDownload(dl);
 
                 _addOperationHasBeenExecuted = true;
+                CachedDocumentDatabaseId = dl.Id;
+
                 RaisePropertyChanged(CanAddDownloadPropertyName);
             }
             catch (Exception)
             {
             }
         }
-
-        private bool _addOperationHasBeenExecuted = false;
 
         public const string CanAddDownloadPropertyName = "CanAddDownload";
         public bool CanAddDownload
@@ -296,6 +298,40 @@ namespace Risotto.ViewModels
 
                 return false;
             }
+        }
+
+        private bool _addOperationHasBeenExecuted = false;
+
+        public const string CachedDocumentDatabaseIdPropertyName = "CachedDocumentDatabaseId";
+        private int? _cachedDocumentDbId = null;
+
+        public int? CachedDocumentDatabaseId
+        {
+            get
+            {
+                return _cachedDocumentDbId;
+            }
+            set
+            {
+                Set(CachedDocumentDatabaseIdPropertyName, ref _cachedDocumentDbId, value);
+            }
+        }
+
+        private RelayCommand _refreshCachedDocumentCommand;
+        public RelayCommand RefreshCachedDocumentCommand
+        {
+            get
+            {
+                return _refreshCachedDocumentCommand
+                    ?? (_refreshCachedDocumentCommand = new RelayCommand(
+                        async () => await RefreshCachedDocumentAsync(), () => CachedDocumentDatabaseId != null));
+            }
+        }
+
+        private async Task RefreshCachedDocumentAsync()
+        {
+            // #1: Refresh the data
+            // #2: Delete old row and Insert in one transaction
         }
     }
 }

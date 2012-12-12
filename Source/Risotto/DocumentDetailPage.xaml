@@ -128,11 +128,15 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel x:Name="ContextItemsPanel" Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Left">
                     <Button AutomationProperties.Name="Lokal merken"  
-                            x:Name="Download" 
                             Style="{StaticResource AddAppBarButtonStyle}" 
                             Visibility="{Binding CanAddDownload, Converter={StaticResource q42visconverter}}"
                             Tag="Download" 
                             Command="{Binding AddDownloadCommand, Mode=OneWay}" />
+                    <Button AutomationProperties.Name="Aktualisieren"  
+                            Style="{StaticResource RefreshAppBarButtonStyle}" 
+                            Visibility="{Binding CachedDocumentDatabaseId, Converter={StaticResource nonnullvisconv}}"
+                            Tag="Aktualisieren" 
+                            Command="{Binding RefreshCachedDocumentCommand, Mode=OneWay}" />
                     <Button AutomationProperties.Name="Anhänge"  
                             x:Name="ViewAttachments" 
                             Style="{StaticResource MoreAppBarButtonStyle}" 
