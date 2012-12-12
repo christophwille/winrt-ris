@@ -42,6 +42,9 @@ namespace Risotto
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             this.Resuming += OnResuming;
+
+            // Set up the global crash handler
+            MetroLog.GlobalCrashHandler.Configure();
         }
 
         private bool _commonHasBeenInitialized = false;
