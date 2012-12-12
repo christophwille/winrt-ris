@@ -13,3 +13,6 @@ OnQuerySubmitted
 AppBar button 
 	Refresh for locally stored documents
 
+Add Notifications Library for saving, refreshing success / failure
+
+Add MetroLog

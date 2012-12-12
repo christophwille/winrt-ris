@@ -129,7 +129,8 @@ namespace Risotto.ViewModels
 
             if (NavigationParameter.Action == NavigationAction.LoadFromService)
             {
-                var result = await Task.Run(() => ParallelLoadSynced());
+                string dokumentNummer = NavigationParameter.Command;
+                var result = await Task.Run(() => ParallelLoadSynced(dokumentNummer));
 
                 if (null != result)
                 {
@@ -161,10 +162,10 @@ namespace Risotto.ViewModels
             UpdateInProgress = false;
         }
 
-        private Tuple<DocumentResult, string> ParallelLoadSynced()
+        private static Tuple<DocumentResult, string> ParallelLoadSynced(string dokumentNummer)
         {
-            var svcTask = new Task<DocumentResult>(() => LoadFromServiceAsync().Result);
-            var htmlTask = new Task<string>(() => DownloadHtmlFromRisServer().Result);
+            var svcTask = new Task<DocumentResult>(() => LoadFromServiceAsync(dokumentNummer).Result);
+            var htmlTask = new Task<string>(() => DownloadHtmlFromRisServer(dokumentNummer).Result);
 
             svcTask.Start();
             htmlTask.Start();
@@ -182,11 +183,11 @@ namespace Risotto.ViewModels
             return null;
         }
 
-        private async Task<string> DownloadHtmlFromRisServer()
+        private static async Task<string> DownloadHtmlFromRisServer(string dokumentNummer)
         {
             try
             {
-                string url = RisUrlHelper.UrlForHtmlFromDokumentNummer(NavigationParameter.Command);
+                string url = RisUrlHelper.UrlForHtmlFromDokumentNummer(dokumentNummer);
 
                 using (var client = new HttpClient())
                 {
@@ -237,10 +238,10 @@ namespace Risotto.ViewModels
             return false;
         }
 
-        private async Task<DocumentResult> LoadFromServiceAsync()
+        private static async Task<DocumentResult> LoadFromServiceAsync(string dokumentNummer)
         {
             var client = new RisClient();
-            var result = await client.GetDocumentAsync(NavigationParameter.Command);
+            var result = await client.GetDocumentAsync(dokumentNummer);
 
             if (result.Succeeded)
             {
@@ -266,12 +267,7 @@ namespace Risotto.ViewModels
             try
             {
                 var ctx = new RisDbContext();
-
-                var dl = new DbDownloadedDocument(NavigationParameter.Command,
-                                                  NavigationParameter.DokumentTitel,
-                                                  CurrentDocument.OriginalDocumentResultXml,
-                                                  SourceHtml);
-
+                var dl = DbDownloadedDocumentFromViewModel(NavigationParameter.Command);
                 await ctx.InsertDownload(dl);
 
                 _addOperationHasBeenExecuted = true;
@@ -282,6 +278,14 @@ namespace Risotto.ViewModels
             catch (Exception)
             {
             }
+        }
+
+        private DbDownloadedDocument DbDownloadedDocumentFromViewModel(string dokumentNummer)
+        {
+            return new DbDownloadedDocument(dokumentNummer,
+                                            NavigationParameter.DokumentTitel,
+                                            CurrentDocument.OriginalDocumentResultXml,
+                                            SourceHtml);
         }
 
         public const string CanAddDownloadPropertyName = "CanAddDownload";
@@ -324,14 +328,40 @@ namespace Risotto.ViewModels
             {
                 return _refreshCachedDocumentCommand
                     ?? (_refreshCachedDocumentCommand = new RelayCommand(
-                        async () => await RefreshCachedDocumentAsync(), () => CachedDocumentDatabaseId != null));
+                        async () => await RefreshCachedDocumentAsync()));
             }
         }
 
         private async Task RefreshCachedDocumentAsync()
         {
-            // #1: Refresh the data
-            // #2: Delete old row and Insert in one transaction
+            try
+            {
+                UpdateInProgress = true;
+
+                // #1: Refresh the data
+                string dokumentNummer = CurrentDocument.Document.Dokumentnummer;
+                var result = await Task.Run(() => ParallelLoadSynced(dokumentNummer));
+
+                if (null != result)
+                {
+                    CurrentDocument = result.Item1;
+                    SourceHtml = result.Item2;
+
+                    // #2: Delete old row and Insert new one
+                    var ctx = new RisDbContext();
+                    var dl = DbDownloadedDocumentFromViewModel(dokumentNummer);
+                    await ctx.RefreshDownload(dl, CachedDocumentDatabaseId.Value);
+
+                    CachedDocumentDatabaseId = dl.Id;
+                }
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+                UpdateInProgress = false;
+            }
         }
     }
 }

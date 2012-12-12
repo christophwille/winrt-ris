@@ -82,6 +82,18 @@ namespace Ris.Data
             int result = await _connection.DeleteAsync(doc);
         }
 
+        public async Task DeleteDownload(int id)
+        {
+            int result = await _connection.DeleteAsync(new DbDownloadedDocument() { Id = id });
+        }
+
+        public async Task RefreshDownload(DbDownloadedDocument doc, int idToReplace)
+        {
+            // TODO: do it properly in a transaction *or* use InsertOrReplace
+            await DeleteDownload(idToReplace);
+            await InsertDownload(doc);
+        }
+
         public async Task<List<DbDownloadedDocument>> GetDownloads()
         {
             var query = _connection.Table<DbDownloadedDocument>().OrderByDescending(doc => doc.LastDownloaded);
