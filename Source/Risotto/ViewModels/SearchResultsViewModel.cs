@@ -43,7 +43,7 @@ namespace Risotto.ViewModels
             }
         }
 
-        public void DataRequestedHandling(DataRequest request)
+        public void Share(DataRequest request)
         {
             // We work with a copy of the list of document references
             List<DocumentReference> list = null;
@@ -69,6 +69,10 @@ namespace Risotto.ViewModels
                 }
 
                 request.Data.SetText(stb.ToString());
+            }
+            else
+            {
+                request.FailWithDisplayText("Keine Resultate für Sharing vorhanden");
             }
         }
 

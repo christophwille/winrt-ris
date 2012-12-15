@@ -10,6 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:data="using:Risotto.Models"
     xmlns:ThirdParty="using:Risotto.ThirdParty" 
+    xmlns:winrtxamltkext="using:WinRTXamlToolkit.Controls.Extensions"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -313,7 +314,7 @@
     </Grid>
 
     <Page.BottomAppBar>
-        <AppBar>
+        <AppBar winrtxamltkext:AppBarExtensions.HideWhenSnapped="True">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50*"/>

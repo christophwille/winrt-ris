@@ -1,7 +1,4 @@
-﻿Share contract
-	from List of Search Results
-	from Details of Document (doable once XSLT is in place)
-
+﻿
 MainPage Search History & Downloads
 	enabled item selection + appbar for deleting (todo: show appbar automatically when selecting item)
 
@@ -10,10 +7,11 @@ OnQuerySubmitted
 
 AppBar
 	Hide after running command
-	Hide in snapped mode
 
-Add Notifications Library for saving, refreshing success / failure
+Implement toast notification for
+	saving a file (&failure)
+	refreshing a locally remembered document (&failure)
 
-Add MetroLog
+Implement logging using MetroLog
 
 Save Xml: GetStorageFileAsync before opening it
