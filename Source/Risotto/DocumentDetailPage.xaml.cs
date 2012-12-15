@@ -94,7 +94,7 @@ namespace Risotto
                 if (ViewModel.SourceHtml != null)
                 {
                     request.Data.Properties.Title = ViewModel.PageTitle;
-                    request.Data.SetHtmlFormat(ViewModel.SourceHtml);
+                    request.Data.SetHtmlFormat(HtmlFormatHelper.CreateHtmlFormat(ViewModel.SourceHtml));
                 }
                 else
                 {
@@ -114,7 +114,7 @@ namespace Risotto
                 html.Replace("href=\"/", "href=\"http://www.ris.bka.gv.at/");
 
                 request.Data.Properties.Title = ViewModel.PageTitle;
-                request.Data.SetHtmlFormat(html.ToString());
+                request.Data.SetHtmlFormat(HtmlFormatHelper.CreateHtmlFormat(html.ToString()));
             }
             catch
             {

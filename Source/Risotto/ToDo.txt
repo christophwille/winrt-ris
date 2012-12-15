@@ -8,9 +8,6 @@ MainPage Search History & Downloads
 OnQuerySubmitted
 	Store last value to page state to be able to go back to correct search result page
 
-AppBar button 
-	Refresh for locally stored documents
-
 AppBar
 	Hide after running command
 	Hide in snapped mode
