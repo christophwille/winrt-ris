@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using MetroLog;
+using MetroLog.Targets;
 using Ris.Data;
 using Risotto.Common;
 using Risotto.Models;
@@ -43,8 +45,14 @@ namespace Risotto
             this.Suspending += OnSuspending;
             this.Resuming += OnResuming;
 
+//#if DEBUG
+//            LogManagerFactory.DefaultConfiguration.AddTarget(LogLevel.Trace, LogLevel.Fatal, new FileStreamingTarget());
+//#else
+//            LogManagerFactory.DefaultConfiguration.AddTarget(LogLevel.Info, LogLevel.Fatal, new FileStreamingTarget());
+//#endif
+
             // Set up the global crash handler
-            MetroLog.GlobalCrashHandler.Configure();
+            GlobalCrashHandler.Configure();
         }
 
         private bool _commonHasBeenInitialized = false;

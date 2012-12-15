@@ -358,8 +358,9 @@ namespace Risotto.ViewModels
                     ToastService.Display(CurrentDocument.Document.Kurztitel, "Aktualisierung erfolgreich durchgeführt");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Error("RefreshCachedDocumentAsync", ex);
             }
             finally
             {
