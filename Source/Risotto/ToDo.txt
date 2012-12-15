@@ -8,10 +8,4 @@ OnQuerySubmitted
 AppBar
 	Hide after running command
 
-Implement toast notification for
-	saving a file (&failure)
-	refreshing a locally remembered document (&failure)
-
-Implement logging using MetroLog
-
 Save Xml: GetStorageFileAsync before opening it

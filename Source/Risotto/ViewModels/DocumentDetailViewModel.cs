@@ -427,7 +427,7 @@ namespace Risotto.ViewModels
                 }
 
                 ToastService.Display("Dokument gespeichert", 
-                    String.Format("{0} in {1} abgelegt", CurrentDocument.Document.Kurztitel, fileToSave.Name));
+                    String.Format("\"{0}\" in \"{1}\" abgelegt", CurrentDocument.Document.Kurztitel, fileToSave.Name));
             }
             catch (Exception ex)
             {
