@@ -4,6 +4,7 @@ using Callisto.Controls;
 using GalaSoft.MvvmLight;
 using Ris.Client;
 using Ris.Client.Models;
+using Ris.Data;
 using Risotto.Models;
 using Risotto.ViewModels;
 using System;
@@ -44,6 +45,14 @@ namespace Risotto
             var dataTransferManager = DataTransferManager.GetForCurrentView();
             dataTransferManager.DataRequested += DataTransferManager_DataRequested;
 
+            if (pageState != null && pageState.ContainsKey(Constants.DocumentDetailPageState))
+            {
+                string serializedState = pageState[Constants.DocumentDetailPageState].ToString();
+                var state = SerializationHelper.DeserializeFromString<DocumentDetailPageState>(serializedState);
+
+                ViewModel.LoadState(state);
+            }
+
             var navParam = DocumentDetailNavigationParameter.FromNavigationParameter((string)navigationParameter);
             ViewModel.NavigationParameter = navParam;
 
@@ -63,7 +72,8 @@ namespace Risotto
             var dataTransferManager = DataTransferManager.GetForCurrentView();
             dataTransferManager.DataRequested -= DataTransferManager_DataRequested;
 
-            // TODO: save state
+            string serializedState = SerializationHelper.SerializeToString(ViewModel.SaveState());
+            pageState[Constants.DocumentDetailPageState] = serializedState;
         }
 
         //

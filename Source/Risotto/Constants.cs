@@ -15,5 +15,6 @@ namespace Risotto
         public const string MainPageState = "MainPageState";
         public const string SearchResultsPageState = "SearchResultsPageState";
         public const string AdvancedSearchPageState = "AdvancedSearchPageState";
+        public const string DocumentDetailPageState = "DocumentDetailPageState";
     }
 }

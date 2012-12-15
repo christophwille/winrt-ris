@@ -366,5 +366,20 @@ namespace Risotto.ViewModels
                 UpdateInProgress = false;
             }
         }
+
+        public void LoadState(DocumentDetailPageState state)
+        {
+            _addOperationHasBeenExecuted = state.AddOperationHasBeenExecuted;
+            CachedDocumentDatabaseId = state.CachedDocumentDatabaseId;
+        }
+
+        public DocumentDetailPageState SaveState()
+        {
+            return new DocumentDetailPageState()
+                            {
+                                AddOperationHasBeenExecuted = _addOperationHasBeenExecuted,
+                                CachedDocumentDatabaseId = this.CachedDocumentDatabaseId
+                            };
+        }
     }
 }

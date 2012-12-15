@@ -1,6 +1,4 @@
-﻿Search Results -> Detail -> Search Results transition: restore scroll position in GridView
-
-Share contract
+﻿Share contract
 	from List of Search Results
 	from Details of Document (doable once XSLT is in place)
 
@@ -13,10 +11,12 @@ OnQuerySubmitted
 AppBar button 
 	Refresh for locally stored documents
 
+AppBar
+	Hide after running command
+	Hide in snapped mode
+
 Add Notifications Library for saving, refreshing success / failure
 
 Add MetroLog
-
-Add page state for DocumentDetailViewModel (bool saved, int? id)
 
 Save Xml: GetStorageFileAsync before opening it
