@@ -81,7 +81,7 @@ namespace Risotto
 
         private void OnDataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
-            ViewModel.DataRequestedHandling(args.Request);
+            ViewModel.Share(args.Request);
         }
 
         //
