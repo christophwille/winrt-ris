@@ -132,28 +132,6 @@ namespace Risotto
             WebViewFlyoutFixes.FlyoutClose(webViewRect, webView);
         }
 
-        private async void Save_OnClick(object sender, RoutedEventArgs e)
-        {
-            var fileSavePicker = new FileSavePicker();
-            fileSavePicker.FileTypeChoices.Add("Html Datei", new List<string> { ".html" });
-            fileSavePicker.DefaultFileExtension = ".html";
-
-            string dokumentNummer = ViewModel.CurrentDocument.Document.Dokumentnummer;
-
-            fileSavePicker.SuggestedFileName = String.Format("Ris{0}.html", dokumentNummer);
-
-            var fileToSave = await fileSavePicker.PickSaveFileAsync();
-            if (null == fileToSave) return;
-
-            using (var stream = await fileToSave.OpenStreamForWriteAsync())
-            {
-                var writer = new StreamWriter(stream);
-                await writer.WriteAsync(ViewModel.SourceHtml);
-                await writer.FlushAsync();
-                writer.Dispose();
-            }
-        }
-
         private void ViewAttachments_OnClick(object sender, RoutedEventArgs e)
         {
             var f = new Flyout()
@@ -186,53 +164,7 @@ namespace Risotto
             var mi = sender as MenuItem;
             var attachment = mi.Tag as DocumentContent;
 
-            if (attachment == null || attachment.Content == null) return;
-
-            var extension = Mapper.MapDocumentContentDataTypeEnumToExtension(attachment.DataType);
-
-            var fileSavePicker = new FileSavePicker();
-            fileSavePicker.FileTypeChoices.Add(extension + " Datei", new List<string> { "." + extension });
-            fileSavePicker.DefaultFileExtension = "." + extension;
-
-            fileSavePicker.SuggestedFileName = attachment.ProposedFilename;
-
-            var fileToSave = await fileSavePicker.PickSaveFileAsync();
-            if (null == fileToSave) return;
-
-            using (var stream = await fileToSave.OpenStreamForWriteAsync())
-            {
-                await stream.WriteAsync(attachment.Content, 0, attachment.Content.Length);
-                await stream.FlushAsync();
-                stream.Dispose();
-
-                Windows.System.Launcher.LaunchFileAsync(fileToSave);
-            }
-        }
-
-        private async void DevXml_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (null == ViewModel.CurrentDocument) return;
-
-            var fileSavePicker = new FileSavePicker();
-            fileSavePicker.FileTypeChoices.Add("Service XML", new List<string> { ".xml" });
-            fileSavePicker.DefaultFileExtension = ".xml";
-
-            string dokumentNummer = ViewModel.CurrentDocument.Document.Dokumentnummer;
-
-            fileSavePicker.SuggestedFileName = String.Format("Ris{0}.xml", dokumentNummer);
-
-            var fileToSave = await fileSavePicker.PickSaveFileAsync();
-            if (null == fileToSave) return;
-
-            using (var stream = await fileToSave.OpenStreamForWriteAsync())
-            {
-                var writer = new StreamWriter(stream);
-                await writer.WriteAsync(ViewModel.CurrentDocument.OriginalDocumentResultXml);
-                await writer.FlushAsync();
-                writer.Dispose();
-            }
-
-            // bool launched = await Windows.System.Launcher.LaunchFileAsync(fileToSave);
+            await ViewModel.SaveAttachmentAsync(attachment);
         }
 
         private void ViewOnWeb_OnClick(object sender, RoutedEventArgs e)

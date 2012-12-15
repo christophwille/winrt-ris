@@ -151,7 +151,7 @@
                             Style="{StaticResource PreviewLinkAppBarButtonStyle}" 
                             Visibility="{Binding IsDebugBuild, Converter={StaticResource q42visconverter}}"
                             Tag="Dev:XML" 
-                            Click="DevXml_OnClick"
+                            Command="{Binding SaveServiceXmlCommand, Mode=OneWay}"
                             />
                     <Button AutomationProperties.Name="Am Web"  
                             x:Name="ViewOnWeb" 
@@ -168,11 +168,10 @@
                             Click="ViewPdf_OnClick"
                             />
                     <Button AutomationProperties.Name="Html speichern"  
-                            x:Name="Save" 
                             Style="{StaticResource SaveAppBarButtonStyle}" 
                             Visibility="{Binding SourceHtml, Converter={StaticResource nonnullvisconv}}"
                             Tag="Speichern" 
-                            Click="Save_OnClick"
+                            Command="{Binding SaveHtmlCommand, Mode=OneWay}"
                             />
                 </StackPanel>
             </Grid>

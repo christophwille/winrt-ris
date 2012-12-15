@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using System.Net.Http;
 using GalaSoft.MvvmLight;
 using System;
@@ -15,6 +16,7 @@ using Ris.Data;
 using Ris.Data.Models;
 using Risotto.Models;
 using Risotto.Services;
+using Windows.Storage.Pickers;
 
 namespace Risotto.ViewModels
 {
@@ -225,15 +227,16 @@ namespace Risotto.ViewModels
                 // Rehydrate document from storage
                 var documentResult = MessageSerializationHelper.DeserializeFromString<Ris.Client.Messages.Document.DocumentResult>(doc.OriginalDocumentResultXml);
                 CurrentDocument = Mapper.MapDocumentResult(documentResult);
-                SourceHtml = doc.HtmlFromRisServer;
 
+                CurrentDocument.OriginalDocumentResultXml = doc.OriginalDocumentResultXml;
+                SourceHtml = doc.HtmlFromRisServer;
                 CachedDocumentDatabaseId = doc.Id;
 
                 return CurrentDocument.Succeeded;
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("LoadFromCacheAsync::" + ex.ToString());
+                Log.Error("LoadFromCacheAsync", ex);
             }
 
             return false;
@@ -276,8 +279,9 @@ namespace Risotto.ViewModels
 
                 RaisePropertyChanged(CanAddDownloadPropertyName);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Error("AddDownloadAsync", ex);
             }
         }
 
@@ -355,7 +359,9 @@ namespace Risotto.ViewModels
 
                     CachedDocumentDatabaseId = dl.Id;
 
-                    ToastService.Display(CurrentDocument.Document.Kurztitel, "Aktualisierung erfolgreich durchgeführt");
+                    ToastService.Display("Aktualisierung erfolgreich", CurrentDocument.Document.Kurztitel);
+
+                    return;
                 }
             }
             catch (Exception ex)
@@ -366,6 +372,9 @@ namespace Risotto.ViewModels
             {
                 UpdateInProgress = false;
             }
+
+            ToastService.Display("Fehler",
+                String.Format("Aktualisierung von \"{0}\" konnte nicht durchgeführt werden", CurrentDocument.Document.Kurztitel));
         }
 
         public void LoadState(DocumentDetailPageState state)
@@ -381,6 +390,101 @@ namespace Risotto.ViewModels
                                 AddOperationHasBeenExecuted = _addOperationHasBeenExecuted,
                                 CachedDocumentDatabaseId = this.CachedDocumentDatabaseId
                             };
+        }
+
+        private RelayCommand _saveHtmlCommand;
+        public RelayCommand SaveHtmlCommand
+        {
+            get
+            {
+                return _saveHtmlCommand
+                    ?? (_saveHtmlCommand = new RelayCommand(
+                        async () => await SaveHtmlAsync()));
+            }
+        }
+
+        public async Task SaveHtmlAsync()
+        {
+            var fileSavePicker = new FileSavePicker();
+            fileSavePicker.FileTypeChoices.Add("Html Datei", new List<string> { ".html" });
+            fileSavePicker.DefaultFileExtension = ".html";
+
+            string dokumentNummer = CurrentDocument.Document.Dokumentnummer;
+
+            fileSavePicker.SuggestedFileName = String.Format("Ris{0}.html", dokumentNummer);
+
+            var fileToSave = await fileSavePicker.PickSaveFileAsync();
+            if (null == fileToSave) return;
+
+            using (var stream = await fileToSave.OpenStreamForWriteAsync())
+            {
+                var writer = new StreamWriter(stream);
+                await writer.WriteAsync(SourceHtml);
+                await writer.FlushAsync();
+                writer.Dispose();
+            }
+        }
+
+        public async Task SaveAttachmentAsync(DocumentContent attachment)
+        {
+            if (attachment == null || attachment.Content == null) return;
+
+            var extension = Mapper.MapDocumentContentDataTypeEnumToExtension(attachment.DataType);
+
+            var fileSavePicker = new FileSavePicker();
+            fileSavePicker.FileTypeChoices.Add(extension + " Datei", new List<string> { "." + extension });
+            fileSavePicker.DefaultFileExtension = "." + extension;
+
+            fileSavePicker.SuggestedFileName = attachment.ProposedFilename;
+
+            var fileToSave = await fileSavePicker.PickSaveFileAsync();
+            if (null == fileToSave) return;
+
+            using (var stream = await fileToSave.OpenStreamForWriteAsync())
+            {
+                await stream.WriteAsync(attachment.Content, 0, attachment.Content.Length);
+                await stream.FlushAsync();
+                stream.Dispose();
+
+                Windows.System.Launcher.LaunchFileAsync(fileToSave);
+            }
+        }
+
+        private RelayCommand _saveServiceXmlCommand;
+        public RelayCommand SaveServiceXmlCommand
+        {
+            get
+            {
+                return _saveServiceXmlCommand
+                    ?? (_saveServiceXmlCommand = new RelayCommand(
+                        async () => await SaveServiceXmlAsync()));
+            }
+        }
+
+        public async Task SaveServiceXmlAsync()
+        {
+            if (null == CurrentDocument) return;
+
+            var fileSavePicker = new FileSavePicker();
+            fileSavePicker.FileTypeChoices.Add("Service XML", new List<string> { ".xml" });
+            fileSavePicker.DefaultFileExtension = ".xml";
+
+            string dokumentNummer = CurrentDocument.Document.Dokumentnummer;
+
+            fileSavePicker.SuggestedFileName = String.Format("Ris{0}.xml", dokumentNummer);
+
+            var fileToSave = await fileSavePicker.PickSaveFileAsync();
+            if (null == fileToSave) return;
+
+            using (var stream = await fileToSave.OpenStreamForWriteAsync())
+            {
+                var writer = new StreamWriter(stream);
+                await writer.WriteAsync(CurrentDocument.OriginalDocumentResultXml);
+                await writer.FlushAsync();
+                writer.Dispose();
+            }
+
+            // bool launched = await Windows.System.Launcher.LaunchFileAsync(fileToSave);
         }
     }
 }
