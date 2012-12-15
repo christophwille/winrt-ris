@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Risotto.App">
-      <VisualElements DisplayName="RIS Bundesrecht Österreich" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Suche über die konsolidierte Fassung des österreichischen Bundesrechts (RIS Bundeskanzleramt). Es wird Volltextsuche und ein erweitertes Suchformular unterstützt. Suchresultate und Dokumente können geteilt werden, eine Suchhistorie wird mit automatisch geführt. Dokumente können lokal für offline Verwendung gespeichert werden." ForegroundText="light" BackgroundColor="#464646">
+      <VisualElements DisplayName="RIS Bundesrecht Österreich" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Suche über die konsolidierte Fassung des österreichischen Bundesrechts (RIS Bundeskanzleramt). Es wird Volltextsuche und ein erweitertes Suchformular unterstützt. Suchresultate und Dokumente können geteilt werden, eine Suchhistorie wird mit automatisch geführt. Dokumente können lokal für offline Verwendung gespeichert werden." ForegroundText="light" BackgroundColor="#464646" ToastCapable="true">
         <DefaultTile ShowName="allLogos" />
         <SplashScreen Image="Assets\SplashScreen.png" />
       </VisualElements>

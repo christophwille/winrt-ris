@@ -16,3 +16,7 @@ AppBar button
 Add Notifications Library for saving, refreshing success / failure
 
 Add MetroLog
+
+Add page state for DocumentDetailViewModel (bool saved, int? id)
+
+Save Xml: GetStorageFileAsync before opening it
