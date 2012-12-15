@@ -416,12 +416,23 @@ namespace Risotto.ViewModels
             var fileToSave = await fileSavePicker.PickSaveFileAsync();
             if (null == fileToSave) return;
 
-            using (var stream = await fileToSave.OpenStreamForWriteAsync())
+            try
             {
-                var writer = new StreamWriter(stream);
-                await writer.WriteAsync(SourceHtml);
-                await writer.FlushAsync();
-                writer.Dispose();
+                using (var stream = await fileToSave.OpenStreamForWriteAsync())
+                {
+                    var writer = new StreamWriter(stream);
+                    await writer.WriteAsync(SourceHtml);
+                    await writer.FlushAsync();
+                    writer.Dispose();
+                }
+
+                ToastService.Display("Dokument gespeichert", 
+                    String.Format("{0} in {1} abgelegt", CurrentDocument.Document.Kurztitel, fileToSave.Name));
+            }
+            catch (Exception ex)
+            {
+                Log.Error("SaveHtmlAsync", ex);
+                ToastService.Display("Fehler", "Dokument konnte nicht gespeichert werden");
             }
         }
 
@@ -440,13 +451,21 @@ namespace Risotto.ViewModels
             var fileToSave = await fileSavePicker.PickSaveFileAsync();
             if (null == fileToSave) return;
 
-            using (var stream = await fileToSave.OpenStreamForWriteAsync())
+            try
             {
-                await stream.WriteAsync(attachment.Content, 0, attachment.Content.Length);
-                await stream.FlushAsync();
-                stream.Dispose();
+                using (var stream = await fileToSave.OpenStreamForWriteAsync())
+                {
+                    await stream.WriteAsync(attachment.Content, 0, attachment.Content.Length);
+                    await stream.FlushAsync();
+                    stream.Dispose();
 
-                Windows.System.Launcher.LaunchFileAsync(fileToSave);
+                    Windows.System.Launcher.LaunchFileAsync(fileToSave);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error("SaveHtmlAsync", ex);
+                ToastService.Display("Fehler", "Attachment konnte nicht gespeichert werden");
             }
         }
 
