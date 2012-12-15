@@ -8,6 +8,7 @@ using Ris.Data;
 using Ris.Data.Models;
 using Risotto.Models;
 using Risotto.ViewModels;
+using WinRTXamlToolkit.Controls.Extensions;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
@@ -40,6 +41,19 @@ namespace Risotto
             {
                 ViewModel = new SearchResultsViewModel();
                 DataContext = ViewModel;
+
+                itemGridView.Loaded += ItemGridViewOnLoaded;
+            }
+        }
+
+        private double? _horizontalOffset = null;
+
+        private void ItemGridViewOnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            if (_horizontalOffset != null)
+            {
+                var scrollViewer = itemGridView.GetFirstDescendantOfType<ScrollViewer>();
+                scrollViewer.ScrollToHorizontalOffset(_horizontalOffset.Value);
             }
         }
 
@@ -55,6 +69,9 @@ namespace Risotto
                 var state = SerializationHelper.DeserializeFromString<SearchPageState>(serializedState);
 
                 ViewModel.LoadState(state);
+
+                // Will be used in ItemGridViewOnLoaded (that's when the GridView is actually loaded for setting this property)
+                _horizontalOffset = state.GridViewHorizontalOffset;
             }
             else
             {
@@ -88,7 +105,14 @@ namespace Risotto
         {
             DataTransferManager.GetForCurrentView().DataRequested -= OnDataRequested;
 
-            string serializedState = SerializationHelper.SerializeToString(ViewModel.SaveState());
+            // Adapted from: http://blogs.msdn.com/b/priozersk/archive/2012/09/09/how-to-restore-scroll-position-of-the-gridview-when-navigating-back.aspx
+            var scrollViewer = itemGridView.GetFirstDescendantOfType<ScrollViewer>();
+            double offset = scrollViewer.HorizontalOffset;
+
+            var state = ViewModel.SaveState();
+            state.GridViewHorizontalOffset = offset;
+
+            string serializedState = SerializationHelper.SerializeToString(state);
             pageState[Constants.SearchResultsPageState] = serializedState;
         }
 
