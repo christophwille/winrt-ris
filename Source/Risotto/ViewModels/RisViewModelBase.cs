@@ -29,7 +29,7 @@ namespace Risotto.ViewModels
 
         public RisViewModelBase()
         {
-            CreateLogger = () => LogManagerFactory.DefaultLogManager.GetLogger<RisViewModelBase>();
+            CreateLogger = () => LogManagerFactory.DefaultLogManager.GetLogger(GetType(), null);
         }
 
         public Func<ILogger> CreateLogger { get; set; }
