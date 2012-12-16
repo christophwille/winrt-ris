@@ -23,7 +23,7 @@ Featureideen:
 
 ## Entwickler
 * Christoph Wille
-* Siegfried Pammer (Parser für Volltextsuche)
+* Siegfried Pammer (Parser für Erweiterte Suche)
 
 Screenshots
 
