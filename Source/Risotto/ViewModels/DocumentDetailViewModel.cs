@@ -464,7 +464,7 @@ namespace Risotto.ViewModels
             }
             catch (Exception ex)
             {
-                Log.Error("SaveHtmlAsync", ex);
+                Log.Error("SaveAttachmentAsync", ex);
                 ToastService.Display("Fehler", "Attachment konnte nicht gespeichert werden");
             }
         }
