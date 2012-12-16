@@ -1,7 +1,4 @@
 ﻿
-MainPage Search History & Downloads
-	Retain selected item in page state
-
 OnQuerySubmitted
 	Store last value to page state to be able to go back to correct search result page
 

@@ -27,5 +27,15 @@ namespace Risotto
         {
             GetScrollViewer(ctrl).ScrollToHorizontalOffset(offset);
         }
+
+        public static double GetVerticalOffset(Control ctrl)
+        {
+            return GetScrollViewer(ctrl).VerticalOffset;
+        }
+
+        public static void ScrollToVerticalOffset(Control ctrl, double offset)
+        {
+            GetScrollViewer(ctrl).ScrollToVerticalOffset(offset);
+        }
     }
 }

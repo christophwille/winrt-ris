@@ -33,16 +33,28 @@ namespace Risotto
             {
                 ViewModel = new MainPageViewModel();
                 DataContext = ViewModel;
+
+                this.Loaded += OnLoaded;
             }
         }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            _pastOnLoaded = true;
+
+            // This call is a "safety": all loads were faster than window init (which is unlikely, but still)
+            // TODO: ScrollListViewsToSavedPosition();
+        }
+
+        private bool _pastOnLoaded = false;
+        private double? _historyVerticalOffset = null;
+        private double? _downloadsVerticalOffset = null;
 
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
             MessengerHelper.Register(this, MessengerHelper.SearchHistoryDeleted, SearchHistoryDeleted);
             MessengerHelper.Register(this, MessengerHelper.DownloadsDeleted, DownloadsDeleted);
-
-            ViewModel.LoadSearchHistoryAsync(); // intentionally no await
-            ViewModel.LoadDownloadsAsync(); // intentionally no await
+            MessengerHelper.Register(this, MessengerHelper.DbLoadCompleted, DbLoadCompleted);
 
             if (pageState != null && pageState.ContainsKey(Constants.MainPageState))
             {
@@ -50,6 +62,34 @@ namespace Risotto
                 var state = SerializationHelper.DeserializeFromString<MainPageState>(serializedState);
 
                 ViewModel.LoadState(state);
+
+                _historyVerticalOffset = state.SearchHistoryVerticalOffset;
+                _downloadsVerticalOffset = state.DownloadsVerticalOffset;
+            }
+
+            ViewModel.LoadSearchHistoryAsync(); // intentionally no await
+            ViewModel.LoadDownloadsAsync(); // intentionally no await
+        }
+
+        private void DbLoadCompleted()
+        {
+            // TODO: ScrollListViewsToSavedPosition();
+        }
+
+        // NOT IN USE BECAUSE: when returning from a search, a new item is added at the top, thus making the previous scroll position invalid
+        private void ScrollListViewsToSavedPosition()
+        {
+            // If the controls weren't loaded, accessing them will cause crashes
+            if (!_pastOnLoaded) return;
+
+            if (null != _historyVerticalOffset && ViewModel.SearchHistory != null)
+            {
+                ScrollViewerHelpers.ScrollToVerticalOffset(searchHistoryListView, _historyVerticalOffset.Value);
+            }
+
+            if (null != _downloadsVerticalOffset && ViewModel.DownloadedDocuments != null)
+            {
+                ScrollViewerHelpers.ScrollToVerticalOffset(downloadsListView, _downloadsVerticalOffset.Value);
             }
         }
 
@@ -67,8 +107,13 @@ namespace Risotto
         {
             MessengerHelper.Unregister(this, MessengerHelper.SearchHistoryDeleted);
             MessengerHelper.Unregister(this, MessengerHelper.DownloadsDeleted);
+            MessengerHelper.Unregister(this, MessengerHelper.DbLoadCompleted);
 
-            string serializedState = SerializationHelper.SerializeToString(ViewModel.SaveState());
+            var state = ViewModel.SaveState();
+            state.SearchHistoryVerticalOffset = ScrollViewerHelpers.GetVerticalOffset(searchHistoryListView);
+            state.DownloadsVerticalOffset = ScrollViewerHelpers.GetVerticalOffset(downloadsListView);
+
+            string serializedState = SerializationHelper.SerializeToString(state);
             pageState[Constants.MainPageState] = serializedState;
         }
 

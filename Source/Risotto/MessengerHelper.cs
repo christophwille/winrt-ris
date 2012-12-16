@@ -12,6 +12,8 @@ namespace Risotto
         public const string SearchHistoryDeleted = "SearchHistoryDeleted";
         public const string DownloadsDeleted = "DownloadsDeleted";
 
+        public const string DbLoadCompleted = "DbLoadCompleted";
+
         public static void Notify(string message)
         {
             Messenger.Default.Send<NotificationMessage>(new NotificationMessage("ignore"), message);

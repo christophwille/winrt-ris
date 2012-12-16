@@ -66,7 +66,7 @@ namespace Risotto.ViewModels
                 DeleteSelectedDownloadCommand.RaiseCanExecuteChanged();
             }
         }
-        
+
         private RelayCommand _deleteSelectedSearchHistoryItemCommand;
         public RelayCommand DeleteSelectedSearchHistoryItemCommand
         {
@@ -114,15 +114,35 @@ namespace Risotto.ViewModels
 
             SelectedSearchHistory = null;
             SearchHistory = history;
+
+            if (null != _selectedSearchHistoryItemFromState && history != null)
+            {
+                SelectedSearchHistory = history.FirstOrDefault(h => h.Id == _selectedSearchHistoryItemFromState.Value);
+            }
+
+            if (history.Any())
+            {
+                MessengerHelper.Notify(MessengerHelper.DbLoadCompleted);
+            }
         }
 
         public async Task LoadDownloadsAsync()
         {
             var ctx = new RisDbContext();
-            var history = await ctx.GetDownloads();
+            var localCopies = await ctx.GetDownloads();
 
             SelectedDownload = null;
-            DownloadedDocuments = history;
+            DownloadedDocuments = localCopies;
+
+            if (null != _selectedDownloadFromState && localCopies != null)
+            {
+                SelectedDownload = localCopies.FirstOrDefault(h => h.Id == _selectedDownloadFromState.Value);
+            }
+
+            if (localCopies.Any())
+            {
+                MessengerHelper.Notify(MessengerHelper.DbLoadCompleted);
+            }
         }
 
         private RelayCommand _searchRisCommand;
@@ -172,12 +192,18 @@ namespace Risotto.ViewModels
             get { return new Action<string>((value) => SearchText = value); }
         }
 
+        private int? _selectedSearchHistoryItemFromState = null;
+        private int? _selectedDownloadFromState = null;
+
         public void LoadState(MainPageState state)
         {
             if (!String.IsNullOrWhiteSpace(state.SearchText))
             {
                 SearchText = state.SearchText;
             }
+
+            _selectedSearchHistoryItemFromState = state.SelectedSearchHistoryItem;
+            _selectedDownloadFromState = state.SelectedDownload;
         }
 
         public MainPageState SaveState()
@@ -186,6 +212,16 @@ namespace Risotto.ViewModels
             {
                 SearchText = this.SearchText,
             };
+
+            if (null != SelectedSearchHistory)
+            {
+                state.SelectedSearchHistoryItem = SelectedSearchHistory.Id;
+            }
+
+            if (null != SelectedDownload)
+            {
+                state.SelectedDownload = SelectedDownload.Id;
+            }
 
             return state;
         }

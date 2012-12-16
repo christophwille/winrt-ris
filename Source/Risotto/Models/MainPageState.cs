@@ -12,10 +12,10 @@ namespace Risotto.Models
         public string SearchText { get; set; }
 
         public int? SelectedSearchHistoryItem { get; set; }
-        public int? SelectedLocalCopyItem { get; set; }
+        public int? SelectedDownload { get; set; }
 
         // View State
         public double SearchHistoryVerticalOffset { get; set; }
-        public double LocalCopiesVerticalOffset { get; set; }
+        public double DownloadsVerticalOffset { get; set; }
     }
 }
