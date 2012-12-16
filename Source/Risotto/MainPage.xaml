@@ -158,6 +158,7 @@
                     IsSynchronizedWithCurrentItem="False"
                     IsItemClickEnabled="true"
                     ItemClick="Downloads_OnItemClick"
+                    SelectionChanged="DownloadsListView_OnSelectionChanged"
                     IsSwipeEnabled="false"/>
         </Grid>
 

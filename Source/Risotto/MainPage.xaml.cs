@@ -115,5 +115,24 @@ namespace Risotto
                 }
             }
         }
+
+        private void DownloadsListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ManageAppBarOnSelection();
+        }
+
+        private void ManageAppBarOnSelection()
+        {
+            if (this.downloadsListView.SelectedItems.Count > 0)
+            {
+                BottomAppBar.IsSticky = true;
+                BottomAppBar.IsOpen = true;
+            }
+            else
+            {
+                BottomAppBar.IsOpen = false;
+                BottomAppBar.IsSticky = false;
+            }
+        }
     }
 }

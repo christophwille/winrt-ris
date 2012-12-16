@@ -1,11 +1,11 @@
 ﻿
 MainPage Search History & Downloads
-	enabled item selection + appbar for deleting (todo: show appbar automatically when selecting item)
+	Retain selected item in page state
 
 OnQuerySubmitted
 	Store last value to page state to be able to go back to correct search result page
 
 AppBar
-	Hide after running command
+	Hide after running command (document detail page; otherwise progress indicator is not shown)
 
-Save Xml: GetStorageFileAsync before opening it
+Save Dev Xml: GetStorageFileAsync before opening it (maybe this helps, because xml Launcher doesn't work)
