@@ -176,5 +176,11 @@ namespace Risotto
         {
             Windows.System.Launcher.LaunchUriAsync(new Uri(ViewModel.CurrentDocument.Document.PdfUrl));
         }
+
+        private void AppBarButton_WithDismissBehavior_OnClick(object sender, RoutedEventArgs e)
+        {
+            TopAppBar.IsOpen = false;
+            BottomAppBar.IsOpen = false;
+        }
     }
 }

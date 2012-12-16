@@ -136,7 +136,9 @@
                             Style="{StaticResource RefreshAppBarButtonStyle}" 
                             Visibility="{Binding CachedDocumentDatabaseId, Converter={StaticResource nonnullvisconv}}"
                             Tag="Aktualisieren" 
-                            Command="{Binding RefreshCachedDocumentCommand, Mode=OneWay}" />
+                            Command="{Binding RefreshCachedDocumentCommand, Mode=OneWay}" 
+                            Click="AppBarButton_WithDismissBehavior_OnClick"
+                            />
                     <Button AutomationProperties.Name="Anhänge"  
                             x:Name="ViewAttachments" 
                             Style="{StaticResource MoreAppBarButtonStyle}" 
@@ -172,6 +174,7 @@
                             Visibility="{Binding SourceHtml, Converter={StaticResource nonnullvisconv}}"
                             Tag="Speichern" 
                             Command="{Binding SaveHtmlCommand, Mode=OneWay}"
+                            Click="AppBarButton_WithDismissBehavior_OnClick"
                             />
                 </StackPanel>
             </Grid>

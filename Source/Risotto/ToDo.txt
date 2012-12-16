@@ -2,7 +2,4 @@
 OnQuerySubmitted
 	Store last value to page state to be able to go back to correct search result page
 
-AppBar
-	Hide after running command (document detail page; otherwise progress indicator is not shown)
-
 Save Dev Xml: GetStorageFileAsync before opening it (maybe this helps, because xml Launcher doesn't work)
