@@ -52,8 +52,7 @@ namespace Risotto
         {
             if (_horizontalOffset != null)
             {
-                var scrollViewer = itemGridView.GetFirstDescendantOfType<ScrollViewer>();
-                scrollViewer.ScrollToHorizontalOffset(_horizontalOffset.Value);
+                ScrollViewerHelpers.ScrollToHorizontalOffset(itemGridView, _horizontalOffset.Value);
             }
         }
 
@@ -105,11 +104,9 @@ namespace Risotto
         {
             DataTransferManager.GetForCurrentView().DataRequested -= OnDataRequested;
 
-            // Adapted from: http://blogs.msdn.com/b/priozersk/archive/2012/09/09/how-to-restore-scroll-position-of-the-gridview-when-navigating-back.aspx
-            var scrollViewer = itemGridView.GetFirstDescendantOfType<ScrollViewer>();
-            double offset = scrollViewer.HorizontalOffset;
-
             var state = ViewModel.SaveState();
+            
+            double offset = ScrollViewerHelpers.GetHorizontalOffset(itemGridView);
             state.GridViewHorizontalOffset = offset;
 
             string serializedState = SerializationHelper.SerializeToString(state);

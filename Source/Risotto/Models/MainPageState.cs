@@ -10,5 +10,12 @@ namespace Risotto.Models
     public class MainPageState
     {
         public string SearchText { get; set; }
+
+        public int? SelectedSearchHistoryItem { get; set; }
+        public int? SelectedLocalCopyItem { get; set; }
+
+        // View State
+        public double SearchHistoryVerticalOffset { get; set; }
+        public double LocalCopiesVerticalOffset { get; set; }
     }
 }
