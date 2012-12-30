@@ -3,3 +3,6 @@ OnQuerySubmitted
 	Store last value to page state to be able to go back to correct search result page
 
 Save Dev Xml: GetStorageFileAsync before opening it (maybe this helps, because xml Launcher doesn't work)
+
+Erweiterte Suche: links to help text on /bundesrecht Web site
+

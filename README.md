@@ -19,7 +19,8 @@ Diese Applikation befindet sich in Entwicklung. Aktueller Funktionsumfang:
 
 Featureideen:
 
-* XSLT um das Dokument direkt aus dem Serviceaufruf zu generieren (weniger Netzwerktraffic, leichtere Anpassung an UI Paradigmen)
+* XSLT um das Dokument direkt aus dem Serviceaufruf zu generieren (weniger Netzwerktraffic, leichtere Anpassung an UI Paradigmen, Highlighting)
+* Historie der angesehenen Dokumente (zusätzlich zu Suchhistorie)
 
 ## Entwickler
 * Christoph Wille
