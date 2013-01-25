@@ -74,7 +74,7 @@ namespace Risotto.ViewModels
             {
                 return _deleteSelectedSearchHistoryItemCommand
                     ?? (_deleteSelectedSearchHistoryItemCommand = new RelayCommand(
-                        async () => await DeleteSelectedSearchHistoryItemAsync(),
+                        () => DeleteSelectedSearchHistoryItemAsync(),
                         () => SelectedSearchHistory != null));
             }
         }
@@ -86,7 +86,7 @@ namespace Risotto.ViewModels
             {
                 return _deleteSelectedDownloadCommand
                     ?? (_deleteSelectedDownloadCommand = new RelayCommand(
-                        async () => await DeleteSelectedDownloadAsync(),
+                        () => DeleteSelectedDownloadAsync(),
                         () => SelectedDownload != null));
             }
         }
