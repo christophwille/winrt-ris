@@ -7,7 +7,9 @@
     xmlns:common="using:Risotto.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:q42converters="using:Q42.WinRT.Converters" xmlns:data="using:Risotto.Models" mc:Ignorable="d"
+    xmlns:q42converters="using:Q42.WinRT.Converters" 
+    xmlns:data="using:Risotto.Models" 
+    mc:Ignorable="d"
     d:ExtensionType="Search">
 
     <Page.TopAppBar>
