@@ -115,6 +115,10 @@ namespace Risotto
 
             string serializedState = SerializationHelper.SerializeToString(state);
             pageState[Constants.MainPageState] = serializedState;
+
+            // OnNavigatedFrom would be called *before* SaveState (unless we call base. first), that's why we destroy the references here
+            DataContext = null;
+            ViewModel = null;
         }
 
         private void SearchHistory_OnItemClick(object sender, ItemClickEventArgs e)

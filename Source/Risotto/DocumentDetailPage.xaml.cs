@@ -74,6 +74,10 @@ namespace Risotto
 
             string serializedState = SerializationHelper.SerializeToString(ViewModel.SaveState());
             pageState[Constants.DocumentDetailPageState] = serializedState;
+
+            // OnNavigatedFrom would be called *before* SaveState (unless we call base. first), that's why we destroy the references here
+            DataContext = null;
+            ViewModel = null;
         }
 
         //
