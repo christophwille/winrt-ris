@@ -505,5 +505,27 @@ namespace Risotto.ViewModels
 
             // bool launched = await Windows.System.Launcher.LaunchFileAsync(fileToSave);
         }
+
+        private RelayCommand _viewpdfCommand;
+        public RelayCommand ViewPdfCommand
+        {
+            get
+            {
+                return _viewpdfCommand
+                    ?? (_viewpdfCommand = new RelayCommand(
+                        () => Windows.System.Launcher.LaunchUriAsync(new Uri(CurrentDocument.Document.PdfUrl))));
+            }
+        }
+
+        private RelayCommand _viewonwebCommand;
+        public RelayCommand ViewOnWebCommand
+        {
+            get
+            {
+                return _viewonwebCommand
+                    ?? (_viewonwebCommand = new RelayCommand(
+                        () => Windows.System.Launcher.LaunchUriAsync(new Uri(CurrentDocument.Document.HtmlUrl))));
+            }
+        }
     }
 }

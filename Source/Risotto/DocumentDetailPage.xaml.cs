@@ -78,6 +78,11 @@ namespace Risotto
             // OnNavigatedFrom would be called *before* SaveState (unless we call base. first), that's why we destroy the references here
             DataContext = null;
             ViewModel = null;
+
+            // Click event handler for the AppBar have to be manually deregistered, otherwise the Page object will stick around
+            RefreshAppBarButton.Click -= AppBarButton_WithDismissBehavior_OnClick;
+            ViewAttachments.Click -= ViewAttachments_OnClick;
+            SaveHtmlAppBarButton.Click -= AppBarButton_WithDismissBehavior_OnClick;
         }
 
         //
@@ -169,16 +174,6 @@ namespace Risotto
             var attachment = mi.Tag as DocumentContent;
 
             await ViewModel.SaveAttachmentAsync(attachment);
-        }
-
-        private void ViewOnWeb_OnClick(object sender, RoutedEventArgs e)
-        {
-            Windows.System.Launcher.LaunchUriAsync(new Uri(ViewModel.CurrentDocument.Document.HtmlUrl));
-        }
-
-        private void ViewPdf_OnClick(object sender, RoutedEventArgs e)
-        {
-            Windows.System.Launcher.LaunchUriAsync(new Uri(ViewModel.CurrentDocument.Document.PdfUrl));
         }
 
         private void AppBarButton_WithDismissBehavior_OnClick(object sender, RoutedEventArgs e)
