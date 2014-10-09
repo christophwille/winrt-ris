@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Risotto", "Risotto\Risotto.csproj", "{17C8DFA9-694B-405B-B446-1FD1A04BB01B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ris.Client", "Ris.Client\Ris.Client.csproj", "{EC998FDE-EECA-4D13-82BE-E4919870463C}"

@@ -192,7 +192,7 @@ namespace Risotto
                 "Über",
                 (handler) =>
                 {
-                    var aboutFlyout = new SettingsFlyout();
+                    var aboutFlyout = new Callisto.Controls.SettingsFlyout();
                     aboutFlyout.Content = new AboutControl();
 
                     aboutFlyout.ContentBackgroundBrush = new SolidColorBrush(c);
@@ -206,7 +206,7 @@ namespace Risotto
             // Add a Preferences command
             var preferences = new SettingsCommand("preferences", "Einstellungen", (handler) =>
             {
-                var settings = new SettingsFlyout();
+                var settings = new Callisto.Controls.SettingsFlyout();
                 settings.Content = new PreferencesUserControl();
 
                 settings.ContentBackgroundBrush = new SolidColorBrush(c);

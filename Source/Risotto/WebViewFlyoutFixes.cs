@@ -24,7 +24,7 @@ namespace Risotto
 
     public static class WebViewFlyoutFixes
     {
-        public static void ShowSettingsFlyout(SettingsFlyout flyout)
+        public static void ShowSettingsFlyout(Callisto.Controls.SettingsFlyout flyout)
         {
             var detailPage = GetCurrentContentPage();
             if (null != detailPage)
@@ -35,7 +35,7 @@ namespace Risotto
             flyout.IsOpen = true;
         }
 
-        public async static void ShowFlyout(Flyout flyout, DocumentDetailPage page)
+        public async static void ShowFlyout(Callisto.Controls.Flyout flyout, DocumentDetailPage page)
         {
             flyout.Closed += (s, e) => page.OnFlyoutClose();
             await page.OnFlyoutOpen();
@@ -54,7 +54,7 @@ namespace Risotto
             return ((Frame)currentWindow.Content).Content as IWebViewFlyoutFixes;
         }
 
-        private static void FixWebViewZOrderProblem(SettingsFlyout flyout, IWebViewFlyoutFixes page)
+        private static void FixWebViewZOrderProblem(Callisto.Controls.SettingsFlyout flyout, IWebViewFlyoutFixes page)
         {
             flyout.Closed += (s, e) => page.OnFlyoutClose();
             page.OnFlyoutOpen();

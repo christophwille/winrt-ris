@@ -143,7 +143,7 @@ namespace Risotto
 
         private void ViewAttachments_OnClick(object sender, RoutedEventArgs e)
         {
-            var f = new Flyout()
+            var f = new Callisto.Controls.Flyout()
                            {
                                Placement = PlacementMode.Top,
                                PlacementTarget = (UIElement)sender
